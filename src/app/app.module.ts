@@ -5,7 +5,7 @@ import { HttpModule } from '@angular/http';
 
 import { AppComponent } from './app.component';
 import { ROUTES } from './app.routes';
-import { RouterModule, NoPreloading, PreloadAllModules } from '@angular/router';
+import { RouterModule, NoPreloading } from '@angular/router';
 
 @NgModule({
   declarations: [
@@ -16,7 +16,7 @@ import { RouterModule, NoPreloading, PreloadAllModules } from '@angular/router';
     FormsModule,
     ReactiveFormsModule,
     HttpModule,
-    RouterModule.forRoot(ROUTES, { useHash: false, preloadingStrategy: PreloadAllModules }),
+    RouterModule.forRoot(ROUTES, { useHash: false, preloadingStrategy: NoPreloading }),
   ],
   providers: [],
   bootstrap: [AppComponent]

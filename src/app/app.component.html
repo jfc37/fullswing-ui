@@ -1,3 +1,13 @@
+<nav>
+  <a [routerLink]=" ['./dashboard'] "
+    routerLinkActive="active" [routerLinkActiveOptions]= "{exact: true}">
+    Dashboard
+  </a>
+  <a [routerLink]=" ['./blocks'] "
+    routerLinkActive="active" [routerLinkActiveOptions]= "{exact: true}">
+    Blocks
+  </a>
+</nav>
 <main>
   <router-outlet></router-outlet>
 </main>
