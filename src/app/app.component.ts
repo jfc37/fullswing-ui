@@ -1,5 +1,7 @@
 import { AuthService } from './services/common/auth/auth.service';
 import { Component, OnInit } from '@angular/core';
+import { Http } from '@angular/http';
+import { AuthHttp } from "angular2-jwt/angular2-jwt";
 
 @Component({
   selector: 'fs-root',
@@ -11,7 +13,8 @@ export class AppComponent implements OnInit {
   profile: any;
 
   constructor(
-    public auth: AuthService
+    public auth: AuthService,
+    public http: AuthHttp
   ) {}
 
   public ngOnInit() {
@@ -24,5 +27,9 @@ export class AppComponent implements OnInit {
         this.profile = profile;
       });
     }
+
+    this.http.get('https://api-speedydonkey.azurewebsites.net/api/blocks')
+    .map(response => response.json())
+    .subscribe();
   }
 }

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import 'rxjs/add/operator/filter';
 import * as auth0 from 'auth0-js';
+import { Http } from '@angular/http';
 
 @Injectable()
 export class AuthService {
@@ -17,7 +17,7 @@ export class AuthService {
     scope: 'openid profile'
   });
 
-  constructor(public router: Router) {}
+  constructor(public router: Router, private http: Http) {}
 
   public login(): void {
     this.auth0.authorize();
@@ -28,6 +28,9 @@ export class AuthService {
       if (authResult && authResult.accessToken && authResult.idToken) {
         window.location.hash = '';
         this.setSession(authResult);
+        this.http.get('https://api-speedydonkey.azurewebsites.net/api/blocks')
+        .map(response => response.json())
+        .subscribe();
         this.router.navigate(['/dashboard']);
       } else if (err) {
         this.router.navigate(['/dashboard']);
@@ -65,7 +68,7 @@ export class AuthService {
     if (!accessToken) {
       throw new Error('Access token must exist to fetch profile');
     }
-  
+
     this.auth0.client.userInfo(accessToken, (err, profile) => {
       if (profile) {
         this.userProfile = profile;
