@@ -7,6 +7,17 @@
     routerLinkActive="active" [routerLinkActiveOptions]= "{exact: true}">
     Blocks
   </a>
+  <a
+  *ngIf="!auth.isAuthenticated()"
+  (click)="auth.login()">
+    Log In
+</a>
+
+<a
+  *ngIf="auth.isAuthenticated()"
+  (click)="auth.logout()">
+    Log Out
+</a>
 </nav>
 <main>
   <router-outlet></router-outlet>
