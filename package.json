@@ -9,7 +9,9 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "check-all": "ng lint && ng test --no-watch && ng e2e"
+    "check-all": "ng lint && ng test --no-watch && ng e2e",
+    "precommit": "ng lint",
+    "prepush": "npm check-all"
   },
   "private": true,
   "dependencies": {
@@ -34,6 +36,7 @@
     "@types/jasminewd2": "2.0.3",
     "@types/node": "8.0.29",
     "codelyzer": "3.2.0",
+    "husky": "^0.14.3",
     "jasmine-core": "2.8.0",
     "jasmine-spec-reporter": "4.2.1",
     "karma": "1.7.1",
