@@ -1,25 +1,16 @@
 <nav>
   <a [routerLink]=" ['./dashboard'] "
-    routerLinkActive="active" [routerLinkActiveOptions]= "{exact: true}">
+    routerLinkActive="active"
+    [routerLinkActiveOptions]="{exact: true}">
     Dashboard
   </a>
   <a [routerLink]=" ['./blocks'] "
-    routerLinkActive="active" [routerLinkActiveOptions]= "{exact: true}">
+    routerLinkActive="active"
+    [routerLinkActiveOptions]="{exact: true}">
     Blocks
   </a>
-  <a
-  *ngIf="!auth.isAuthenticated()"
-  (click)="auth.login()">
-    Log In
-</a>
-
-<a
-  *ngIf="auth.isAuthenticated()"
-  (click)="auth.logout()">
-    Log Out
-</a>
 </nav>
-<pre>{{profile|json}}</pre>
+
 <main>
   <router-outlet></router-outlet>
 </main>
