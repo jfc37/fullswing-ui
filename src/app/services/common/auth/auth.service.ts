@@ -2,13 +2,14 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import * as auth0 from 'auth0-js';
 import { Http } from '@angular/http';
+import { Observable, ReplaySubject } from 'rxjs';
 
 @Injectable()
 export class AuthService {
 
-  public userProfile: any;
+  private _userProfile: any;
 
-  public auth0 = new auth0.WebAuth({
+  private _auth0 = new auth0.WebAuth({
     clientID: 'jaLVtw90tXt8tCCBIHIUJLIcP2p2MMdE',
     domain: 'jfc-dev.au.auth0.com',
     responseType: 'token id_token',
@@ -17,26 +18,28 @@ export class AuthService {
     scope: 'openid profile'
   });
 
-  constructor(public router: Router, private http: Http) {}
+  constructor(public router: Router, private http: Http) { }
 
   public login(): void {
-    this.auth0.authorize();
+    this._auth0.authorize();
   }
 
-  public handleAuthentication(): void {
-    this.auth0.parseHash((err, authResult) => {
+  public handleAuthentication(): Observable<null> {
+    const completed = new ReplaySubject<null>();
+
+    this._auth0.parseHash((err, authResult) => {
       if (authResult && authResult.accessToken && authResult.idToken) {
         window.location.hash = '';
         this.setSession(authResult);
-        this.http.get('https://api-speedydonkey.azurewebsites.net/api/blocks')
-        .map(response => response.json())
-        .subscribe();
-        this.router.navigate(['/dashboard']);
       } else if (err) {
-        this.router.navigate(['/dashboard']);
-        console.log(err);
+        console.error(err);
       }
+
+      completed.next(null);
+      completed.complete();
     });
+
+    return completed.asObservable();
   }
 
   private setSession(authResult): void {
@@ -69,9 +72,9 @@ export class AuthService {
       throw new Error('Access token must exist to fetch profile');
     }
 
-    this.auth0.client.userInfo(accessToken, (err, profile) => {
+    this._auth0.client.userInfo(accessToken, (err, profile) => {
       if (profile) {
-        this.userProfile = profile;
+        this._userProfile = profile;
       }
       cb(err, profile);
     });
