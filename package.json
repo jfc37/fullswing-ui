@@ -50,6 +50,7 @@
     "prettier": "1.7.0",
     "protractor": "5.1.2",
     "protractor-jasmine2-screenshot-reporter": "0.4.1",
+    "rxjs-marbles": "^2.0.0",
     "ts-node": "3.3.0",
     "tslint": "5.7.0",
     "typescript": "2.5.2"

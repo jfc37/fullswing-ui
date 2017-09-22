@@ -24,7 +24,7 @@ export class AuthService {
     this._auth0.authorize();
   }
 
-  public handleAuthentication(): Observable<null> {
+  public setupAuthentication(): Observable<null> {
     const completed = new ReplaySubject<null>();
 
     this._auth0.parseHash((err, authResult) => {

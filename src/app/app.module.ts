@@ -1,14 +1,14 @@
-import { AuthService } from './services/common/auth/auth.service';
-import { BrowserModule } from '@angular/platform-browser';
+import { AuthenticatedGuard } from './services/guards/authenticated.guard';
 import { NgModule } from '@angular/core';
-import { ReactiveFormsModule, FormsModule } from '@angular/forms';
-import { HttpModule, Http, RequestOptions } from '@angular/http';
-import { AuthHttp, AuthConfig } from 'angular2-jwt';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { Http, HttpModule, RequestOptions } from '@angular/http';
+import { BrowserModule } from '@angular/platform-browser';
+import { NoPreloading, RouterModule } from '@angular/router';
+import { AuthConfig, AuthHttp } from 'angular2-jwt';
 
 import { AppComponent } from './app.component';
 import { ROUTES } from './app.routes';
-import { RouterModule, NoPreloading } from '@angular/router';
-import { HttpDecorator } from './service/common/http/http-decorator';
+import { AuthService } from './services/common/auth/auth.service';
 
 export function authHttpServiceFactory(http: Http, options: RequestOptions) {
   console.error('xxx', localStorage.getItem('id_token'));
@@ -30,6 +30,7 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
   ],
   providers: [
     AuthService,
+    AuthenticatedGuard,
     {
       provide: AuthHttp,
       useFactory: authHttpServiceFactory,
