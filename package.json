@@ -9,7 +9,7 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "test-all": "ng lint && ng test --no-watch && ng e2e"
+    "check-all": "ng lint && ng test --no-watch && ng e2e"
   },
   "private": true,
   "dependencies": {

@@ -43,7 +43,7 @@ before_script:
 
 script:
   - ng build --prod
-  - npm run test-all
+  - npm run check-all
 
 after_success:
   - firebase deploy --token $FIREBASE_TOKEN
