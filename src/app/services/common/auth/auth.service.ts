@@ -34,7 +34,6 @@ export class AuthService {
       } else if (err) {
         console.error(err);
       }
-
       completed.next(null);
       completed.complete();
     });

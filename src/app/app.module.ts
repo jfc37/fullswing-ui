@@ -1,4 +1,3 @@
-import { AuthenticatedGuard } from './services/guards/authenticated.guard';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Http, HttpModule, RequestOptions } from '@angular/http';
@@ -9,6 +8,7 @@ import { AuthConfig, AuthHttp } from 'angular2-jwt';
 import { AppComponent } from './app.component';
 import { ROUTES } from './app.routes';
 import { AuthService } from './services/common/auth/auth.service';
+import { AuthenticatedGuard } from './services/guards/authenticated.guard';
 
 export function authHttpServiceFactory(http: Http, options: RequestOptions) {
   console.error('xxx', localStorage.getItem('id_token'));

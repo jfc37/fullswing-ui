@@ -12,11 +12,11 @@ export class AuthenticatedGuard implements CanActivate {
 
   public canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
     return this._authService.setupAuthentication()
-      .takeLast(1)
+      .last()
       .map(() => this._authService.isAuthenticated())
       .do(isAuthenticated => {
         if (!isAuthenticated) {
-          this._router.navigate(['/login']);
+          this._router.navigateByUrl('/login');
         }
       });
   }

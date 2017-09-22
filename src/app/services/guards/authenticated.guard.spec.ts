@@ -39,7 +39,7 @@ describe('AuthenticatedGuard', () => {
       authService.setupAuthentication = jasmine.createSpy('setup')
         .and.returnValue(setupReplay);
 
-      router.navigate = jasmine.createSpy('navigate');
+      router.navigateByUrl = jasmine.createSpy('navigate');
     });
 
     function flushAll() {
@@ -83,7 +83,7 @@ describe('AuthenticatedGuard', () => {
 
       sut.canActivate(null, null)
         .finally(done)
-        .subscribe(() => expect(router.navigate).toHaveBeenCalledWith(['/login']));
+        .subscribe(() => expect(router.navigateByUrl).toHaveBeenCalledWith('/login'));
     });
 
     it(`should not redirect when authenticated`, (done) => {
@@ -95,7 +95,7 @@ describe('AuthenticatedGuard', () => {
 
       sut.canActivate(null, null)
         .finally(done)
-        .subscribe(() => expect(router.navigate).not.toHaveBeenCalled());
+        .subscribe(() => expect(router.navigateByUrl).not.toHaveBeenCalled());
     });
   });
 });
