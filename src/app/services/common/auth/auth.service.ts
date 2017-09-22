@@ -6,9 +6,9 @@ import { Http } from '@angular/http';
 @Injectable()
 export class AuthService {
 
-  userProfile: any;
+  public userProfile: any;
 
-  auth0 = new auth0.WebAuth({
+  public auth0 = new auth0.WebAuth({
     clientID: 'jaLVtw90tXt8tCCBIHIUJLIcP2p2MMdE',
     domain: 'jfc-dev.au.auth0.com',
     responseType: 'token id_token',

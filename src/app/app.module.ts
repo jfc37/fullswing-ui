@@ -8,6 +8,7 @@ import { AuthHttp, AuthConfig } from 'angular2-jwt';
 import { AppComponent } from './app.component';
 import { ROUTES } from './app.routes';
 import { RouterModule, NoPreloading } from '@angular/router';
+import { HttpDecorator } from './service/common/http/http-decorator';
 
 export function authHttpServiceFactory(http: Http, options: RequestOptions) {
   console.error('xxx', localStorage.getItem('id_token'));

@@ -25,10 +25,9 @@
     "interface-over-type-literal": true,
     "label-position": true,
     "max-line-length": [
-      true,
-      140
+      false
     ],
-    "member-access": false,
+    "member-access": true,
     "member-ordering": [
       true,
       {
@@ -53,7 +52,7 @@
     "no-construct": true,
     "no-debugger": true,
     "no-duplicate-super": true,
-    "no-empty": false,
+    "no-empty": true,
     "no-empty-interface": true,
     "no-eval": true,
     "no-inferrable-types": [

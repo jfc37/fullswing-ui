@@ -6,6 +6,7 @@ import 'zone.js/dist/sync-test';
 import 'zone.js/dist/jasmine-patch';
 import 'zone.js/dist/async-test';
 import 'zone.js/dist/fake-async-test';
+import 'rxjs/Rx';
 import { getTestBed } from '@angular/core/testing';
 import {
   BrowserDynamicTestingModule,
@@ -17,6 +18,7 @@ declare const __karma__: any;
 declare const require: any;
 
 // Prevent Karma from running prematurely.
+// tslint:disable-next-line:no-empty
 __karma__.loaded = function () {};
 
 // First, initialize the Angular testing environment.

@@ -5,11 +5,6 @@ import { Component, OnInit } from '@angular/core';
   templateUrl: './block-list.container.html',
   styleUrls: ['./block-list.container.scss']
 })
-export class BlockListContainer implements OnInit {
-
-  constructor() { }
-
-  ngOnInit() {
-  }
+export class BlockListContainer {
 
 }
