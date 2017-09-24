@@ -5,6 +5,11 @@ import { browser } from 'protractor';
 
 describe(`given user is unauthenticated`, () => {
 
+  afterEach(async() => {
+    await browser.executeScript('window.sessionStorage.clear();');
+    await browser.executeScript('window.localStorage.clear();');
+  });
+
   const loginPage = new LoginPage();
   const dashboardPage = new DashboardPage();
   const blocksPage = new BlockListPage();

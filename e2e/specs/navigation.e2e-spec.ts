@@ -1,3 +1,4 @@
+import { LoginPage } from '../poms/login.po';
 import { login } from '../helpers/authentication.helpers';
 import { BlockListPage } from '../poms/block-list.po';
 import { DashboardPage } from '../poms/dashboard.po';
@@ -7,18 +8,24 @@ describe('Application navigation', () => {
   let dashboardPage: DashboardPage;
   let blocksPage: BlockListPage;
 
-  beforeEach(() => {
+  beforeEach(async() => {
     dashboardPage = new DashboardPage();
     blocksPage = new BlockListPage();
 
-    dashboardPage.navigateTo();
+    await dashboardPage.navigateTo();
+    await new LoginPage().login();
   });
 
+    afterEach(async() => {
+      await browser.executeScript('window.sessionStorage.clear();');
+      await browser.executeScript('window.localStorage.clear();');
+    });
+
   [
-    // {
-    //   navTitle: 'Dashboard',
-    //   getPageObject: () => dashboardPage,
-    // },
+    {
+      navTitle: 'Dashboard',
+      getPageObject: () => dashboardPage,
+    },
     {
       navTitle: 'Blocks',
       getPageObject: () => blocksPage,

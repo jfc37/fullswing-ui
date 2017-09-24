@@ -6,21 +6,26 @@ export class LoginPage extends AppShell {
   protected pageIdentifer = 'login-container';
 
   public async login() {
-    // await browser.wait(() => element.all(by.css(`input[type="email"]`)).isPresent())
-    //   .then(() => promise.all([
-    //     element.all(by.css('input[type="password"]')).first().sendKeys('password'),
-    //     element.all(by.css('input[type="email"]')).first().sendKeys('placid.joe@gmail.com'),
-    //   ]))
-    //   .then(() => browser.sleep(5000))
-    //   .then(() => element.all(by.css('button[type="submit"]')).first().click());
+    await browser.wait(() => element.all(by.className('auth0-lock-widget')).isPresent());
+    const isLoggedInPreviously = await element.all(by.className('auth0-lock-last-login-pane')).isPresent();
 
-    await browser.wait(() => element.all(by.css(`input[type="email"]`)).isPresent());
+    if (isLoggedInPreviously) {
+      const lastLoggedIn = element.all(by.css('a.auth0-lock-alternative-link')).first();
+      await lastLoggedIn.click();
+    }
+
+    const emailSelector = by.css(`input[type="email"]`);
+    const passwordSelector = by.css(`input[type="password"]`);
+    const submitSelector = by.css(`button[type="submit"]`);
+
+    await browser.wait(() => element.all(emailSelector).first().isPresent(), 5000, 'Timeout out waiting for login box to appear');
     await promise.all([
-      element.all(by.css('input[type="password"]')).first().sendKeys('password'),
-      element.all(by.css('input[type="email"]')).first().sendKeys('placid.joe@gmail.com'),
+      element.all(passwordSelector).first().sendKeys('password'),
+      element.all(emailSelector).first().sendKeys('placid.joe@gmail.com'),
     ]);
     await browser.sleep(5000);
-    await element.all(by.css('button[type="submit"]')).first().click();
+    await browser.wait(() => element.all(submitSelector).first().isPresent(), 5000, 'Timeout out waiting for submit button');
+    await element.all(submitSelector).first().click();
     await browser.sleep(5000);
   }
 }
