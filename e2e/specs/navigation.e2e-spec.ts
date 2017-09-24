@@ -36,7 +36,7 @@ describe('Application navigation', () => {
       const navElement = pageObject.getNavigationFor(data.navTitle);
 
       expect(navElement.isPresent()).toBe(true, `Failed to find '${data.navTitle}' item in the navigation`);
-      expect(navElement.getAttribute('href')).toBe(`${browser.baseUrl}${pageObject.route}`, `Navigation '${data.navTitle}' had the wrong link`);
+      expect(navElement.getAttribute('href')).toBe(`${browser.baseUrl}/${pageObject.route}`, `Navigation '${data.navTitle}' had the wrong link`);
 
       navElement.click();
       expect(pageObject.isOnPage()).toBe(true, `Clicking on '${data.navTitle}' navigation didn't redirect to ${data.navTitle} page`);
