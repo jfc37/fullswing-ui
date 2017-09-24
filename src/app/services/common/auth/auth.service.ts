@@ -27,19 +27,15 @@ export class AuthService {
     lock.show();
   }
 
-  public setupAuthentication(): Observable<null> {
-    return Observable.of(null).delay(1000);
-  }
+  public isAuthenticated(): Observable<boolean> {
+    return Observable.of(null)
+      .delay(1000)
+      .first()
+      .map(() => {
+        const accessToken = localStorage.getItem('access_token');
+        const idToken = localStorage.getItem('id_token');
 
-  public isAuthenticated(): boolean {
-    const accessToken = localStorage.getItem('access_token');
-    const idToken = localStorage.getItem('id_token');
-    console.error('yyy checking', accessToken, idToken);
-
-    if (!accessToken || !idToken) {
-      return false;
-    }
-
-    return tokenNotExpired(accessToken, idToken);
+        return !!accessToken && !!idToken && tokenNotExpired(accessToken, idToken);
+      });
   }
 }

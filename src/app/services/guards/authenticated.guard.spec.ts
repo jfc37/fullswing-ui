@@ -29,56 +29,40 @@ describe('AuthenticatedGuard', () => {
   });
 
   describe('canActivate', () => {
-    let setupReplay: ReplaySubject<null>;
+    let isAuthenticatedReplay: ReplaySubject<boolean>;
 
     beforeEach(() => {
+      isAuthenticatedReplay = new ReplaySubject();
       authService.isAuthenticated = jasmine.createSpy('isAuthenticated')
-        .and.returnValue(true);
-
-      setupReplay = new ReplaySubject();
-      authService.setupAuthentication = jasmine.createSpy('setup')
-        .and.returnValue(setupReplay);
+        .and.returnValue(isAuthenticatedReplay);
 
       router.navigateByUrl = jasmine.createSpy('navigate');
     });
 
     function flushAll() {
-      setupReplay.complete();
+      isAuthenticatedReplay.complete();
     }
 
-    it(`should kick off authentication setup`, () => {
-      sut.canActivate(null, null);
-
-      expect(authService.setupAuthentication).toHaveBeenCalled();
-    });
-
-    it(`should not check authenticated status when setup hasn't completed`, (done) => {
-      sut.canActivate(null, null).subscribe();
-
-      setupReplay.next(null);
-
-      setupReplay.asObservable()
-        .first()
-        .finally(done)
-        .subscribe(() => expect(authService.isAuthenticated).not.toHaveBeenCalled());
-    });
-
-    it(`should check authenticated status when setup completes`, (done) => {
-
-      setupReplay.next(null);
-      setupReplay.complete();
+    it(`should be true when user is authenticated`, done => {
+      isAuthenticatedReplay.next(true);
+      flushAll();
 
       sut.canActivate(null, null)
-        .last()
         .finally(done)
-        .subscribe(() => expect(authService.isAuthenticated).toHaveBeenCalled());
+        .subscribe(canActivate => expect(canActivate).toBe(true));
+    });
+
+    it(`should be false when user is not authenticated`, done => {
+      isAuthenticatedReplay.next(false);
+      flushAll();
+
+      sut.canActivate(null, null)
+        .finally(done)
+        .subscribe(canActivate => expect(canActivate).toBe(false));
     });
 
     it(`should redirect to login when not authenticated`, (done) => {
-      authService.isAuthenticated = jasmine.createSpy('isAuthenticated')
-        .and.returnValue(false);
-
-        setupReplay.next(null);
+      isAuthenticatedReplay.next(false);
       flushAll();
 
       sut.canActivate(null, null)
@@ -87,10 +71,7 @@ describe('AuthenticatedGuard', () => {
     });
 
     it(`should not redirect when authenticated`, (done) => {
-      authService.isAuthenticated = jasmine.createSpy('isAuthenticated')
-        .and.returnValue(true);
-
-        setupReplay.next(null);
+      isAuthenticatedReplay.next(true);
       flushAll();
 
       sut.canActivate(null, null)
