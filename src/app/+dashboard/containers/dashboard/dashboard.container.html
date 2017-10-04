@@ -2,6 +2,7 @@
   <h1>
     Welcome to your dashboard!
   </h1>
-  <fs-current-passes></fs-current-passes>
+  <fs-current-passes [model]="currentPasses$ | async"></fs-current-passes>
+  <fs-upcoming-schedule [model]="upcomingSchedule$ | async"></fs-upcoming-schedule>
 </div>
 

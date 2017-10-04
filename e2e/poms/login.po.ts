@@ -1,31 +1,61 @@
 import { AppShell } from './app-shell.po';
-import { browser, by, element, promise } from 'protractor';
+import { browser, by, element, promise, ExpectedConditions, $ } from 'protractor';
+
+const WIDGET_SELECTOR = '.auth0-lock-widget';
+const WIDGET_ALTERNATIVE_LINK_SELECTOR = 'a.auth0-lock-alternative-link';
+const PASSWORD_SELECTOR = '[name="password"]';
+const EMAIL_SELECTOR = '[name="email"]';
+const LOG_IN_BUTTON_SELECTOR = 'button[type="submit"]';
 
 export class LoginPage extends AppShell {
   public route = 'login';
   protected pageIdentifer = 'login-container';
 
   public async login() {
-    await browser.wait(() => element.all(by.className('auth0-lock-widget')).isPresent());
-    const isLoggedInPreviously = await element.all(by.className('auth0-lock-last-login-pane')).isPresent();
+    this.waitForWidgetToAppear();
+    this.clearLoggedInPreviously();
+    browser.waitForAngular();
+    this.enterValue(EMAIL_SELECTOR, 'placid.joe@gmail.com');
+    browser.waitForAngular();
+    this.enterValue(PASSWORD_SELECTOR, 'password');
+    this.clickButton(LOG_IN_BUTTON_SELECTOR);
+  }
 
-    if (isLoggedInPreviously) {
-      const lastLoggedIn = element.all(by.css('a.auth0-lock-alternative-link')).first();
-      await lastLoggedIn.click();
+  private waitForWidgetToAppear() {
+    const el = element(by.css(WIDGET_SELECTOR));
+    return browser.wait(ExpectedConditions.visibilityOf(el), 10000, 'Login widget never appeared');
+  }
+
+  private async clearLoggedInPreviously() {
+    const link = element(by.css(WIDGET_ALTERNATIVE_LINK_SELECTOR));
+    const linkText = await link.getText();
+    const isPreviousLoginSelected = linkText === 'Not your account?';
+
+    if (isPreviousLoginSelected) {
+      link.click();
     }
+    return promise.fulfilled(true);
+  }
 
-    const emailSelector = by.css(`input[type="email"]`);
-    const passwordSelector = by.css(`input[type="password"]`);
-    const submitSelector = by.css(`button[type="submit"]`);
+  private waitForEmailBoxToAppear() {
+    const emailElement = element(by.css(EMAIL_SELECTOR));
+    return browser.wait(ExpectedConditions.presenceOf(emailElement), 10000, `waiting for email box, never appeared`);
+  }
 
-    await browser.wait(() => element.all(emailSelector).first().isPresent(), 5000, 'Timeout out waiting for login box to appear');
-    await promise.all([
-      element.all(passwordSelector).first().sendKeys('password'),
-      element.all(emailSelector).first().sendKeys('placid.joe@gmail.com'),
-    ]);
-    await browser.sleep(5000);
-    await browser.wait(() => element.all(submitSelector).first().isPresent(), 5000, 'Timeout out waiting for submit button');
-    await element.all(submitSelector).first().click();
-    await browser.sleep(5000);
+  private async enterValue(selector: string, value: string) {
+    browser.wait(ExpectedConditions.visibilityOf($(selector)), 5000, `waiting for ${selector}, never appeared`);
+    const el = element(by.css(selector));
+    browser.wait(ExpectedConditions.visibilityOf(el), 5000, `waiting for ${selector}, never appeared`);
+    expect(el.isDisplayed()).toBe(true, `${selector} not displayed...`);
+
+    return el.sendKeys(value);
+  }
+
+  private async clickButton(selector: string) {
+    const el = element(by.css(selector));
+    browser.wait(ExpectedConditions.visibilityOf(el), 10000, `waiting for ${selector}, never appeared`);
+    expect(el.isDisplayed()).toBe(true, `${selector} not displayed...`);
+
+    return el.click();
   }
 }

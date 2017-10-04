@@ -1,3 +1,18 @@
-<p>
-  current-passes works!
-</p>
+<div *ngIf="model">
+  <h3>Current passes</h3>
+
+  <fs-loadable [model]="model">
+    <p *ngIf="!hasPasses();else passes"
+      data-test-id="no-current-passes">
+      No current passes
+    </p>
+    <ng-template #passes>
+      <ul data-test-id="current-passes">
+        <li *ngFor="let pass of model.passes; let i=index"
+          [attr.data-test-id]="'current-pass-' + i">
+          {{pass.type}} <span *ngIf="pass.additionalInfo">({{pass.additionalInfo}})</span> - expires {{pass.expiry.toDateString()}}
+        </li>
+      </ul>
+    </ng-template>
+  </fs-loadable>
+</div>

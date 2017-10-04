@@ -1,0 +1,17 @@
+<ng-container *ngIf="model.isLoading; else finishedLoading">
+  <div data-test-id="loader">
+    Loading...
+  </div>
+</ng-container>
+<ng-template #finishedLoading>
+  <ng-container *ngIf="model.hasError; else content">
+    <div data-test-id="error">
+      Oops, problem loading
+    </div>
+  </ng-container>
+  <ng-template #content>
+    <div data-test-id="content">
+      <ng-content></ng-content>
+    </div>
+  </ng-template>
+</ng-template>

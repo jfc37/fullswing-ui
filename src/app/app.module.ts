@@ -1,41 +1,44 @@
+import { SharedModule } from './shared/shared.module';
+import { LoadableComponent } from './shared/components/loadable/loadable.component';
+import { ClassRepository } from './shared/repositories/class.repository';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { Http, HttpModule, RequestOptions } from '@angular/http';
+import { HttpModule } from '@angular/http';
 import { BrowserModule } from '@angular/platform-browser';
 import { NoPreloading, RouterModule } from '@angular/router';
-import { AuthConfig, AuthHttp } from 'angular2-jwt';
+import { EffectsModule } from '@ngrx/effects';
+import { RouterStateSerializer, StoreRouterConnectingModule } from '@ngrx/router-store';
+import { StoreModule } from '@ngrx/store';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
-import { AppComponent } from './app.component';
+import { environment } from '../environments/environment';
 import { ROUTES } from './app.routes';
-import { AuthService } from './services/common/auth/auth.service';
-import { AuthenticatedGuard } from './services/guards/authenticated.guard';
+import { AppComponent } from './core/components/app/app.component';
+import { CoreModule } from './core/core.module';
+import { UserEffects } from './core/redux/user/user.effects';
+import { metaReducers, reducers } from './reducers';
+import { CustomRouterStateSerializer } from './reducers/custom-router.state';
+import { PassRepository } from './shared/repositories/pass.repository';
 
-export function authHttpServiceFactory(http: Http, options: RequestOptions) {
-  console.error('xxx', localStorage.getItem('id_token'));
-  return new AuthHttp(new AuthConfig({
-    tokenGetter: (() => localStorage.getItem('id_token'))
-  }), http, options);
-}
+console.log('`App` bundle loaded synchronously');
 
 @NgModule({
-  declarations: [
-    AppComponent
-  ],
   imports: [
+    SharedModule,
     BrowserModule,
     FormsModule,
     ReactiveFormsModule,
     HttpModule,
     RouterModule.forRoot(ROUTES, { useHash: false, preloadingStrategy: NoPreloading }),
+    CoreModule,
+
+    StoreModule.forRoot(reducers, { metaReducers }),
+    StoreRouterConnectingModule,
+
+    !environment.production ? StoreDevtoolsModule.instrument() : [],
   ],
   providers: [
-    AuthService,
-    AuthenticatedGuard,
-    {
-      provide: AuthHttp,
-      useFactory: authHttpServiceFactory,
-      deps: [Http, RequestOptions]
-    }
+    { provide: RouterStateSerializer, useClass: CustomRouterStateSerializer },
   ],
   bootstrap: [AppComponent]
 })

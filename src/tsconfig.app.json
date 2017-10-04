@@ -8,6 +8,7 @@
   },
   "exclude": [
     "test.ts",
+    "wallaby-test.ts",
     "**/*.spec.ts"
   ]
 }

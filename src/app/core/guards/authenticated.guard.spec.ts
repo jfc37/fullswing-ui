@@ -2,8 +2,8 @@ import { TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
 import { ReplaySubject } from 'rxjs';
 
-import { AuthService } from '../common/auth/auth.service';
 import { AuthenticatedGuard } from './authenticated.guard';
+import { AuthService } from '../service/auth.service';
 
 describe('AuthenticatedGuard', () => {
   let authService: AuthService;

@@ -8,21 +8,21 @@ describe(`given unauthenticated user browses to dashboard`, () => {
   const dashboardPage = new DashboardPage();
 
   beforeEach(async () => {
-    await dashboardPage.navigateTo();
+    dashboardPage.navigateTo();
   });
 
   afterEach(async() => {
-    await browser.executeScript('window.sessionStorage.clear();');
-    await browser.executeScript('window.localStorage.clear();');
+    browser.executeScript('window.sessionStorage.clear();');
+    browser.executeScript('window.localStorage.clear();');
   });
 
   describe(`when they login`, () => {
     beforeEach(async () => {
-      await loginPage.login();
+      loginPage.login();
     });
 
     it(`should redirect to dashboard`, async () => {
-      await dashboardPage.isOnPage();
+      dashboardPage.isOnPage();
     });
   });
 });

@@ -12,13 +12,13 @@ describe('Application navigation', () => {
     dashboardPage = new DashboardPage();
     blocksPage = new BlockListPage();
 
-    await dashboardPage.navigateTo();
-    await new LoginPage().login();
+    dashboardPage.navigateTo();
+    new LoginPage().login();
   });
 
     afterEach(async() => {
-      await browser.executeScript('window.sessionStorage.clear();');
-      await browser.executeScript('window.localStorage.clear();');
+      browser.executeScript('window.sessionStorage.clear();');
+      browser.executeScript('window.localStorage.clear();');
     });
 
   [

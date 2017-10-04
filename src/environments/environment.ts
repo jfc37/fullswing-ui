@@ -4,5 +4,8 @@
 // The list of which env maps to which file can be found in `.angular-cli.json`.
 
 export const environment = {
-  production: false
+  name: 'LOCAL',
+  production: false,
+  baseUrl: 'http://localhost:4200',
+  apiUrl: 'https://api-speedydonkey.azurewebsites.net',
 };

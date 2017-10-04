@@ -1,0 +1,18 @@
+<div *ngIf="model">
+    <h3>Upcoming schedule</h3>
+
+    <fs-loadable [model]="model">
+      <p *ngIf="!hasScheduled();else scheduled"
+        data-test-id="nothing-scheduled">
+        Nothing upcoming
+      </p>
+      <ng-template #scheduled>
+        <ul data-test-id="scheduled-classes">
+          <li *ngFor="let scheduledClass of model.scheduledClasses; let i=index"
+            [attr.data-test-id]="'scheduled-class-' + i">
+            {{scheduledClass.name}} - {{scheduledClass.startTime.toTimeString()}}
+          </li>
+        </ul>
+      </ng-template>
+    </fs-loadable>
+  </div>

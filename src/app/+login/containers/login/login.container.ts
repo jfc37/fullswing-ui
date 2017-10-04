@@ -1,5 +1,5 @@
-import { AuthService } from '../../../services/common/auth/auth.service';
 import { Component, OnInit } from '@angular/core';
+import { AuthSetup } from '../../services/auth-setup.service';
 
 @Component({
   selector: 'fs-login',
@@ -7,9 +7,9 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./login.container.scss']
 })
 export class LoginContainer implements OnInit {
-  constructor(private _authService: AuthService) {}
+  constructor(private _lock: AuthSetup) {}
 
   public ngOnInit() {
-    this._authService.login();
+    this._lock.showLogin();
   }
 }

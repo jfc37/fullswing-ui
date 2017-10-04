@@ -1,5 +1,5 @@
-import { AuthenticatedGuard } from './services/guards/authenticated.guard';
 import { Routes } from '@angular/router';
+import { AuthenticatedGuard } from './core/guards/authenticated.guard';
 
 export const ROUTES: Routes = [
   { path: '', redirectTo: '/dashboard', pathMatch: 'full' },

@@ -1,25 +1,25 @@
-import { AuthService } from '../../../services/common/auth/auth.service';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { LoginContainer } from './login.container';
+import { AuthSetup } from '../../services/auth-setup.service';
 
 describe('LoginContainer', () => {
   let component: LoginContainer;
   let fixture: ComponentFixture<LoginContainer>;
 
-  let authService: AuthService;
+  let authSetup: AuthSetup;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [LoginContainer],
       providers: [
-        { provide: AuthService, useValue: {} }
+        { provide: AuthSetup, useValue: {} }
       ]
     })
       .compileComponents();
 
-    authService = TestBed.get(AuthService);
+    authSetup = TestBed.get(AuthSetup);
 
-    authService.login = jasmine.createSpy('login');
+    authSetup.showLogin = jasmine.createSpy('login');
   }));
 
   beforeEach(() => {
@@ -33,8 +33,8 @@ describe('LoginContainer', () => {
   });
 
   describe('ngOnInit', () => {
-    it(`should kick off auth service login`, () => {
-      expect(authService.login).toHaveBeenCalled();
+    it(`should show login`, () => {
+      expect(authSetup.showLogin).toHaveBeenCalled();
     });
   });
 });
