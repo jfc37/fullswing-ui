@@ -4,6 +4,7 @@ import { NgModule } from '@angular/core';
 import { LoadableComponent } from './components/loadable/loadable.component';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { BlockRepository } from './repositories/block.repository';
 
 console.log('`Shared` bundle loaded synchronously');
 
@@ -14,7 +15,8 @@ console.log('`Shared` bundle loaded synchronously');
   ],
   providers: [
     PassRepository,
-    ClassRepository
+    ClassRepository,
+    BlockRepository,
   ],
   exports: [
     LoadableComponent,

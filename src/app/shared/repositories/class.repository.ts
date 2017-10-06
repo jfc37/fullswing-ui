@@ -1,7 +1,5 @@
 import { ClassDto, dtoToClass } from './class.dto';
 import { Class } from '../state-models/class';
-import { dtoToPass, PassDto, validateDtoPass } from './pass.dto';
-import { Pass } from '../state-models/pass';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { AuthHttp } from 'angular2-jwt';

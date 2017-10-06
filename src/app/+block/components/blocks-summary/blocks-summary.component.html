@@ -1,0 +1,30 @@
+<div *ngIf="model">
+  <fs-loadable [model]="model">
+    <p *ngIf="!hasBlocks();else blocks"
+      data-test-id="no-blocks">
+      No blocks
+    </p>
+    <ng-template #blocks>
+      <table data-test-id="blocks-table">
+        <thead>
+          <th>Name</th>
+          <th>Between</th>
+          <th>Day</th>
+          <th>Time</th>
+        </thead>
+        <tbody>
+          <tr *ngFor="let block of model.blocks; let i=index"
+            [attr.data-test-id]="'block-row-' + i">
+            <td>
+              <a [attr.data-test-id]="'block-details-link-' + i"
+                [routerLink]="block.detailsRoute">{{block.name}}</a>
+            </td>
+            <td>{{block.firstClassDate}} - {{block.lastClassDate}}</td>
+            <td>{{block.day}}</td>
+            <td>{{block.time}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </ng-template>
+  </fs-loadable>
+</div>
