@@ -4,6 +4,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { LoadableComponent } from './loadable.component';
 import { ineeda } from 'ineeda';
 import { getElement } from '../../../../unit-test-helpers/html-queries';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('LoadableComponent', () => {
   let component: LoadableComponent;
@@ -11,7 +12,8 @@ describe('LoadableComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [LoadableComponent]
+      declarations: [LoadableComponent],
+      schemas: [NO_ERRORS_SCHEMA]
     })
       .compileComponents();
   }));

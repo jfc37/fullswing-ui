@@ -5,11 +5,25 @@ import { LoadableComponent } from './components/loadable/loadable.component';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { BlockRepository } from './repositories/block.repository';
+import {
+  MatToolbarModule,
+  MatGridListModule,
+  MatButtonModule,
+  MatSidenavModule,
+  MatCardModule,
+  MatTableModule,
+  MatPaginatorModule,
+  MatSortModule,
+  MatProgressSpinnerModule,
+} from '@angular/material';
 
 console.log('`Shared` bundle loaded synchronously');
 
 @NgModule({
-  imports: [CommonModule],
+  imports: [
+    CommonModule,
+    MatProgressSpinnerModule,
+  ],
   declarations: [
     LoadableComponent
   ],
@@ -21,7 +35,17 @@ console.log('`Shared` bundle loaded synchronously');
   exports: [
     LoadableComponent,
     CommonModule,
-    FormsModule
+    FormsModule,
+
+    MatToolbarModule,
+    MatGridListModule,
+    MatButtonModule,
+    MatSidenavModule,
+    MatCardModule,
+    MatTableModule,
+    MatPaginatorModule,
+    MatSortModule,
+    MatProgressSpinnerModule,
   ],
 })
 export class SharedModule { }

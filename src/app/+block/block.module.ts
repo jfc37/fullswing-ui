@@ -9,6 +9,7 @@ import { SharedModule } from '../shared/shared.module';
 import { blockReducer } from './redux/block.reducer';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
+import { BlockSummaryTableComponent } from './components/block-summary-table/block-summary-table.component';
 
 console.log('`Block` bundle loaded asynchronously');
 
@@ -22,6 +23,6 @@ console.log('`Block` bundle loaded asynchronously');
       BlockSummariesEffects,
     ]),
   ],
-  declarations: [BlockListContainer, BlocksSummaryComponent]
+  declarations: [BlockListContainer, BlocksSummaryComponent, BlockSummaryTableComponent]
 })
 export class BlockModule { }

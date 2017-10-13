@@ -1,3 +1,4 @@
+import { SharedModule } from '../shared/shared.module';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AppComponent } from './components/app/app.component';
@@ -11,6 +12,8 @@ import { AuthenticatedGuard } from './guards/authenticated.guard';
 import { AuthHttp, AuthConfig } from 'angular2-jwt';
 import { EffectsModule } from '@ngrx/effects';
 import { UserEffects } from './redux/user/user.effects';
+import { TopNavComponent } from './components/top-nav/top-nav.component';
+import { SideNavComponent } from './components/side-nav/side-nav.component';
 
 console.log('`Core` bundle loaded synchronously');
 
@@ -24,10 +27,13 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
   imports: [
     CommonModule,
     RouterModule,
+    SharedModule,
     EffectsModule.forRoot([UserEffects]),
   ],
   declarations: [
     AppComponent,
+    TopNavComponent,
+    SideNavComponent,
   ],
   providers: [
     AuthService,

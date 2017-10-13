@@ -1,4 +1,4 @@
-import { InitialiseProfile, SetAuthorisation, SetProfile } from './user.actions';
+import { InitialiseProfile, Logout, SetAuthorisation, SetProfile } from './user.actions';
 import { LocalStorageService } from '../../service/local-storage.service';
 import { UserEffects } from './user.effects';
 import { TestBed } from '@angular/core/testing';
@@ -10,6 +10,7 @@ import { Action } from '@ngrx/store';
 import { marbles } from 'rxjs-marbles';
 import { ineeda } from 'ineeda';
 import { Profile } from './user.state';
+import { Router } from '@angular/router';
 
 export class TestActions extends Actions {
   constructor() {
@@ -30,6 +31,7 @@ describe('UserEffects', () => {
 
   let actions$: TestActions;
   let localStorageService: LocalStorageService;
+  let router: Router;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -37,11 +39,13 @@ describe('UserEffects', () => {
         UserEffects,
         { provide: Actions, useFactory: getActions },
         { provide: LocalStorageService, useValue: {} },
+        { provide: Router, useValue: {} },
       ],
     });
 
     sut = TestBed.get(UserEffects);
     localStorageService = TestBed.get(LocalStorageService);
+    router = TestBed.get(Router);
     actions$ = TestBed.get(Actions);
 
     localStorageService.getIdToken = jasmine.createSpy('get')
@@ -109,5 +113,59 @@ describe('UserEffects', () => {
 
       m.expect(sut.initialiseProfile$).toBeObservable(expected);
     }));
+  });
+
+  describe('logout', () => {
+    beforeEach(() => {
+      localStorageService.removeIdToken = jasmine.createSpy('remove');
+      localStorageService.removeAccessToken = jasmine.createSpy('remove');
+      localStorageService.removeProfile = jasmine.createSpy('remove');
+      router.navigate = jasmine.createSpy('navigate');
+
+      actions$.stream = Observable.of(new Logout());
+    });
+
+    it(`should remove id token`, done => {
+      sut.logout$
+        .first()
+        .finally(done)
+        .subscribe(() => expect(localStorageService.removeIdToken).toHaveBeenCalled());
+    });
+
+    it(`should remove access token`, done => {
+      sut.logout$
+        .first()
+        .finally(done)
+        .subscribe(() => expect(localStorageService.removeAccessToken).toHaveBeenCalled());
+    });
+
+    it(`should remove profile token`, done => {
+      sut.logout$
+        .first()
+        .finally(done)
+        .subscribe(() => expect(localStorageService.removeProfile).toHaveBeenCalled());
+    });
+
+    it(`should redirect to login`, done => {
+      sut.logout$
+        .first()
+        .finally(done)
+        .subscribe(() => expect(router.navigate).toHaveBeenCalledWith(['/login']));
+    });
+
+    it(`should remove authorisation`, done => {
+      sut.logout$
+        .first()
+        .finally(done)
+        .subscribe(next => expect(next).toEqual(new SetAuthorisation(null, null)));
+    });
+
+    it(`should remove id token`, done => {
+      sut.logout$
+        .skip(1)
+        .first()
+        .finally(done)
+        .subscribe(next => expect(next).toEqual(new SetProfile(null)));
+    });
   });
 });

@@ -1,0 +1,11 @@
+mat-sidenav {
+  max-width: 200px;
+}
+
+mat-sidenav-container {
+  height: 100%;
+}
+
+main {
+  padding: 20px 30px;
+}

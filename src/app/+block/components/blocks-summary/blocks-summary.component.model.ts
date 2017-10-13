@@ -5,6 +5,7 @@ export interface BlocksSummaryModel extends LoadableModel {
 
 export interface BlockSummaryModel {
   name: string;
+  startDate: Date;
   firstClassDate: string;
   lastClassDate: string;
   day: string;

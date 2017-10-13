@@ -3,7 +3,7 @@ import { UpcomingScheduleModel } from '../../components/upcoming-schedule/upcomi
 import { getCurrentPassesModelSelector, getUpcomingScheduleModelSelector } from '../../redux/dashboard.reducer';
 import { DashboardState } from '../../redux/dashboard.state';
 import { CurrentPassesModel } from '../../components/current-passes/current-passes.component.model';
-import { Component, OnInit, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectionStrategy, ViewEncapsulation } from '@angular/core';
 import { Observable, ReplaySubject } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { LoadCurrentPassesRequest } from '../../redux/current-passes/current-passes.actions';
@@ -12,7 +12,8 @@ import { LoadCurrentPassesRequest } from '../../redux/current-passes/current-pas
   selector: 'fs-dashboard',
   templateUrl: './dashboard.container.html',
   styleUrls: ['./dashboard.container.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None,
 })
 export class DashboardContainer implements OnInit {
   public currentPasses$: Observable<CurrentPassesModel>;

@@ -5,6 +5,7 @@ export const INITIALISE_AUTHORISATION = '[User] Initialise Authorisation';
 export const INITIALISE_PROFILE = '[User] Initialise Profile';
 export const SET_AUTHORISATION = '[User] Set Authorisation';
 export const SET_PROFILE = '[User] Set Profile';
+export const LOG_OUT = '[User] Log out';
 
 export class InitialiseAuthorisation implements Action {
   public readonly type = INITIALISE_AUTHORISATION;
@@ -26,8 +27,13 @@ export class SetProfile implements Action {
   constructor(public profile: Profile) {}
 }
 
+export class Logout implements Action {
+  public readonly type = LOG_OUT;
+}
+
 export type Actions
   = InitialiseAuthorisation
   | InitialiseProfile
   | SetAuthorisation
-  | SetProfile;
+  | SetProfile
+  | Logout;

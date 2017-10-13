@@ -4,8 +4,9 @@ import { storeFreeze } from 'ngrx-store-freeze';
 
 import { environment } from '../../environments/environment';
 import * as fromUser from '../core/redux/user/user.reducer';
-import { getIsAuthenticated, UserState } from '../core/redux/user/user.state';
+import { UserState } from '../core/redux/user/user.state';
 import { RouterStateUrl } from './custom-router.state';
+import { getIsAuthenticated, getTopNavModel } from '../core/redux/user/user.selectors';
 
 /**
  * storeFreeze prevents state from being mutated. When mutation occurs, an
@@ -66,4 +67,9 @@ export const getUserState = createFeatureSelector<UserState>('user');
 export const getIsUserAuthenticated = createSelector(
   getUserState,
   getIsAuthenticated
+);
+
+export const getTopNavModelSelector = createSelector(
+  getUserState,
+  getTopNavModel
 );

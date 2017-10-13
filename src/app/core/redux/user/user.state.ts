@@ -17,11 +17,3 @@ export interface Profile {
   nickname?: string;
   claims: string[];
 }
-
-export const getIsAuthenticated = (state: UserState) => isAuthenticated(state.authorisation);
-
-function isAuthenticated(authorisation: Authorisation) {
-  return !!authorisation.accessToken
-    && !!authorisation.idToken
-    && tokenNotExpired(authorisation.accessToken, authorisation.idToken);
-}

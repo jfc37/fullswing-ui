@@ -1,0 +1,42 @@
+<mat-paginator #paginator
+  [length]="model.length"
+  [pageIndex]="0"
+  [pageSize]="25"
+  [pageSizeOptions]="[5, 10, 25, 100]">
+</mat-paginator>
+
+<mat-table #table
+  data-test-id="blocks-table"
+  matSort
+  [dataSource]="dataSource">
+
+  <ng-container matColumnDef="name">
+    <mat-header-cell *matHeaderCellDef
+      mat-sort-header> Name </mat-header-cell>
+    <mat-cell *matCellDef="let block; let i=index;">
+      <a [attr.data-test-id]="'block-details-link-' + i"
+        [routerLink]="block.detailsRoute">{{block.name}}</a>
+    </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="between">
+    <mat-header-cell *matHeaderCellDef
+      mat-sort-header> Between </mat-header-cell>
+    <mat-cell *matCellDef="let block"> {{block.firstClassDate}} - {{block.lastClassDate}} </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="day">
+    <mat-header-cell *matHeaderCellDef> Day </mat-header-cell>
+    <mat-cell *matCellDef="let block"> {{block.day}} </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="time">
+    <mat-header-cell *matHeaderCellDef> Time </mat-header-cell>
+    <mat-cell *matCellDef="let block"> {{block.time}} </mat-cell>
+  </ng-container>
+
+  <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+
+  <mat-row *matRowDef="let row; columns: displayedColumns; let i=index;"
+    [attr.data-test-id]="'block-row-' + i"></mat-row>
+</mat-table>

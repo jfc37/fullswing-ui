@@ -11,6 +11,7 @@ export const getBlockSummariesModel = (state: BlockSummariesState) => {
     hasError: !!state.loadError,
     blocks: state.blocks.map(block => ({
       name: block.name,
+      startDate: block.startDate,
       firstClassDate: moment(block.startDate).format('DD MMM'),
       lastClassDate: moment(block.endDate).format('DD MMM'),
       day: moment(block.startDate).format('dddd'),

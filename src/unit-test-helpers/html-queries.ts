@@ -9,6 +9,13 @@ export function getElement(debugElement: DebugElement, testDataId: string) {
 }
 
 /**
+ * Gets all elements with data-test-id selector containing
+ */
+export function getElements(debugElement: DebugElement, testDataId: string) {
+  return debugElement.queryAll(By.css(`[data-test-id*="${testDataId}"]`));
+}
+
+/**
  * Gets the inner html of the element with matching data-test-id selector
  * If not matching element, returns null
  */

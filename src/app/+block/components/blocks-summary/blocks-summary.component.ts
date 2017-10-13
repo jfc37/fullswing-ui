@@ -1,5 +1,8 @@
-import { BlocksSummaryModel } from './blocks-summary.component.model';
-import { Component, Input } from '@angular/core';
+import { BlocksSummaryModel, BlockSummaryModel } from './blocks-summary.component.model';
+import { Component, Input, OnInit, OnChanges, ViewChild, SimpleChanges, AfterViewChecked } from '@angular/core';
+import { DataSource } from '@angular/cdk/collections';
+import { ReplaySubject, Observable } from 'rxjs';
+import { MatPaginator } from '@angular/material';
 
 @Component({
   selector: 'fs-blocks-summary',

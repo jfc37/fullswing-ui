@@ -25,6 +25,13 @@ export class LocalStorageService {
   }
 
   /**
+   * Remove authorisation id token
+   */
+  public removeIdToken(): void {
+    this.removeItem(ID_TOKEN_KEY);
+  }
+
+  /**
    * Get authorisation access token
    */
   public getAccessToken(): string {
@@ -39,10 +46,24 @@ export class LocalStorageService {
   }
 
   /**
+   * Remove authorisation id token
+   */
+  public removeAccessToken(): void {
+    this.removeItem(ACCESS_TOKEN_KEY);
+  }
+
+  /**
    * Get user profile
    */
   public getProfile(): Profile {
     return JSON.parse(this.getItem(PROFILE_KEY));
+  }
+
+  /**
+   * Remove profile
+   */
+  public removeProfile(): void {
+    this.removeItem(PROFILE_KEY);
   }
 
   /**
@@ -54,6 +75,10 @@ export class LocalStorageService {
 
   private getItem(name: string): string {
     return localStorage.getItem(name);
+  }
+
+  private removeItem(name: string): void {
+    localStorage.removeItem(name);
   }
 
   private setItem(name: string, value: string): void {

@@ -1,3 +1,4 @@
+import { SetAuthorisation, SetProfile } from './user.actions';
 import { Injectable } from '@angular/core';
 import { Actions, Effect } from '@ngrx/effects';
 import { Action } from '@ngrx/store';
@@ -5,6 +6,8 @@ import { Observable } from 'rxjs/Observable';
 
 import { LocalStorageService } from '../../service/local-storage.service';
 import * as user from './user.actions';
+import { Router } from '@angular/router';
+import { ROUTER_NAVIGATION } from '@ngrx/router-store';
 
 @Injectable()
 export class UserEffects {
@@ -16,7 +19,7 @@ export class UserEffects {
       accessToken: this.localStorageService.getAccessToken(),
       idToken: this.localStorageService.getIdToken(),
     }))
-    .map(({accessToken, idToken}) => new user.SetAuthorisation(idToken, accessToken));
+    .map(({ accessToken, idToken }) => new user.SetAuthorisation(idToken, accessToken));
 
   @Effect()
   public initialiseProfile$: Observable<Action> = this.actions$
@@ -26,8 +29,24 @@ export class UserEffects {
     .filter(profile => !!profile)
     .map(profile => new user.SetProfile(profile));
 
+  @Effect()
+  public logout$: Observable<Action> = this.actions$
+    .ofType<user.Logout>(user.LOG_OUT)
+    .do(() => {
+      this.localStorageService.removeIdToken();
+      this.localStorageService.removeAccessToken();
+      this.localStorageService.removeProfile();
+
+      this.router.navigate(['/login']);
+    })
+    .mergeMap(() => [
+      new SetAuthorisation(null, null),
+      new SetProfile(null)
+    ]);
+
   constructor(
     private actions$: Actions,
-    private localStorageService: LocalStorageService
-  ) {}
+    private localStorageService: LocalStorageService,
+    private router: Router,
+  ) { }
 }

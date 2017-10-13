@@ -1,4 +1,6 @@
-import { browser, by, element } from 'protractor';
+import { browser, by, element, ExpectedConditions, $ } from 'protractor';
+
+const LOG_OUT_SELECTOR = '[data-test-id="log-out"]';
 
 export abstract class AppShell {
 
@@ -17,5 +19,26 @@ export abstract class AppShell {
 
   public navigateTo() {
     return browser.get(`/${this.route}`);
+  }
+
+  public async logout() {
+    await this.clickButton(LOG_OUT_SELECTOR);
+  }
+
+  protected async enterValue(selector: string, value: string) {
+    browser.wait(ExpectedConditions.visibilityOf($(selector)), 5000, `waiting for ${selector}, never appeared`);
+    const el = element(by.css(selector));
+    browser.wait(ExpectedConditions.visibilityOf(el), 5000, `waiting for ${selector}, never appeared`);
+    expect(el.isDisplayed()).toBe(true, `${selector} not displayed...`);
+
+    return el.sendKeys(value);
+  }
+
+  protected async clickButton(selector: string) {
+    const el = element(by.css(selector));
+    browser.wait(ExpectedConditions.visibilityOf(el), 10000, `waiting for ${selector}, never appeared`);
+    expect(el.isDisplayed()).toBe(true, `${selector} not displayed...`);
+
+    return el.click();
   }
 }

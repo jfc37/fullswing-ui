@@ -1,6 +1,7 @@
-<div *ngIf="model">
-    <h3>Upcoming schedule</h3>
+<mat-card *ngIf="model">
+  <mat-card-header>Upcoming schedule</mat-card-header>
 
+  <mat-card-content>
     <fs-loadable [model]="model">
       <p *ngIf="!hasScheduled();else scheduled"
         data-test-id="nothing-scheduled">
@@ -15,4 +16,5 @@
         </ul>
       </ng-template>
     </fs-loadable>
-  </div>
+  </mat-card-content>
+</mat-card>

@@ -1,0 +1,14 @@
+<mat-toolbar *ngIf="model"
+  color="primary">
+  <span>&nbsp;</span>
+  <span class="spacer"></span>
+  <span *ngIf="model.name"
+    data-test-id="user-name"
+    class="body-1">Welcome, {{model.name}}</span>
+  <button *ngIf="model.canLogout"
+    data-test-id="log-out"
+    type="button"
+    mat-button
+    color="warn"
+    (click)="logOut()">Log out</button>
+</mat-toolbar>

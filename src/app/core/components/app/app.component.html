@@ -1,16 +1,15 @@
-<nav>
-  <a [routerLink]=" ['./dashboard'] "
-    routerLinkActive="active"
-    [routerLinkActiveOptions]="{exact: true}">
-    Dashboard
-  </a>
-  <a [routerLink]=" ['./blocks'] "
-    routerLinkActive="active"
-    [routerLinkActiveOptions]="{exact: true}">
-    Blocks
-  </a>
-</nav>
+<fs-top-nav [model]="topNavModel$ | async"
+  (loggedOut)="logout()">
+</fs-top-nav>
 
-<main>
-  <router-outlet></router-outlet>
-</main>
+<mat-sidenav-container>
+  <mat-sidenav #sidenav
+    mode="side"
+    opened="true">
+    <fs-side-nav [model]="sideNavModel$ | async"></fs-side-nav>
+  </mat-sidenav>
+
+  <main>
+    <router-outlet></router-outlet>
+  </main>
+</mat-sidenav-container>

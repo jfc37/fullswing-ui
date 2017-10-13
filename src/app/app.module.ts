@@ -19,18 +19,20 @@ import { UserEffects } from './core/redux/user/user.effects';
 import { metaReducers, reducers } from './reducers';
 import { CustomRouterStateSerializer } from './reducers/custom-router.state';
 import { PassRepository } from './shared/repositories/pass.repository';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 console.log('`App` bundle loaded synchronously');
 
 @NgModule({
   imports: [
-    SharedModule,
+    BrowserAnimationsModule,
     BrowserModule,
     FormsModule,
     ReactiveFormsModule,
     HttpModule,
     RouterModule.forRoot(ROUTES, { useHash: false, preloadingStrategy: NoPreloading }),
     CoreModule,
+    SharedModule,
 
     StoreModule.forRoot(reducers, { metaReducers }),
     StoreRouterConnectingModule,

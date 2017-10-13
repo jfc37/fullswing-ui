@@ -1,0 +1,10 @@
+<nav *ngIf="hasMenuItems()">
+  <a *ngFor="let item of model.items; let i=index"
+    mat-button
+    routerLinkActive="active"
+    [attr.data-test-id]="'menu-item-' + i"
+    [routerLink]="item.routerLink"
+    [routerLinkActiveOptions]="{exact: true}">
+        {{item.name}}
+  </a>
+</nav>

@@ -41,21 +41,4 @@ export class LoginPage extends AppShell {
     const emailElement = element(by.css(EMAIL_SELECTOR));
     return browser.wait(ExpectedConditions.presenceOf(emailElement), 10000, `waiting for email box, never appeared`);
   }
-
-  private async enterValue(selector: string, value: string) {
-    browser.wait(ExpectedConditions.visibilityOf($(selector)), 5000, `waiting for ${selector}, never appeared`);
-    const el = element(by.css(selector));
-    browser.wait(ExpectedConditions.visibilityOf(el), 5000, `waiting for ${selector}, never appeared`);
-    expect(el.isDisplayed()).toBe(true, `${selector} not displayed...`);
-
-    return el.sendKeys(value);
-  }
-
-  private async clickButton(selector: string) {
-    const el = element(by.css(selector));
-    browser.wait(ExpectedConditions.visibilityOf(el), 10000, `waiting for ${selector}, never appeared`);
-    expect(el.isDisplayed()).toBe(true, `${selector} not displayed...`);
-
-    return el.click();
-  }
 }

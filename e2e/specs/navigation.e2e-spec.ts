@@ -8,7 +8,7 @@ describe('Application navigation', () => {
   let dashboardPage: DashboardPage;
   let blocksPage: BlockListPage;
 
-  beforeEach(async() => {
+  beforeEach(async () => {
     dashboardPage = new DashboardPage();
     blocksPage = new BlockListPage();
 
@@ -16,10 +16,10 @@ describe('Application navigation', () => {
     new LoginPage().login();
   });
 
-    afterEach(async() => {
-      browser.executeScript('window.sessionStorage.clear();');
-      browser.executeScript('window.localStorage.clear();');
-    });
+  afterEach(async () => {
+    browser.executeScript('window.sessionStorage.clear();');
+    browser.executeScript('window.localStorage.clear();');
+  });
 
   [
     {

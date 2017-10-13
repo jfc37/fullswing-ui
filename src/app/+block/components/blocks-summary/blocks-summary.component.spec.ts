@@ -1,11 +1,14 @@
+import { BlockSummaryTableComponent } from '../block-summary-table/block-summary-table.component';
 import { BlocksSummaryModel, BlockSummaryModel } from './blocks-summary.component.model';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { BlocksSummaryComponent } from './blocks-summary.component';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { getElement } from '../../../../unit-test-helpers/html-queries';
+import { getElement, getElementInnerHtml, getElements } from '../../../../unit-test-helpers/html-queries';
 import { ineeda } from 'ineeda';
 import { By } from '@angular/platform-browser';
+import { MatTableModule, MatPaginatorModule, MatTable, MatSortModule } from '@angular/material';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('BlocksSummaryComponent', () => {
   let component: BlocksSummaryComponent;
@@ -13,7 +16,16 @@ describe('BlocksSummaryComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [BlocksSummaryComponent],
+      declarations: [
+        BlocksSummaryComponent,
+        BlockSummaryTableComponent
+      ],
+      imports: [
+        MatTableModule,
+        MatPaginatorModule,
+        MatSortModule,
+        NoopAnimationsModule,
+      ],
       schemas: [NO_ERRORS_SCHEMA]
     })
       .compileComponents();
@@ -74,7 +86,8 @@ describe('BlocksSummaryComponent', () => {
 
     it(`should display a row for each block`, () => {
       const expectedRows = component.model.blocks.length;
-      const rows = getElement(fixture.debugElement, 'blocks-table').queryAll(By.css('tr'));
+
+      const rows = fixture.debugElement.queryAll(By.css('mat-row'));
 
       expect(rows.length).toBe(expectedRows);
     });
