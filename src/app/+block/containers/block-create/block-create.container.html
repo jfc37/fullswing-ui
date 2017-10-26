@@ -1,0 +1,16 @@
+<div data-test-id="block-update-container">
+  <h1 class="mat-display-1">Create block</h1>
+  <fs-block-form [model]="blockFormModel$ | async"
+    (modelChanged)="modelChanged($event)"
+    (statusChanged)="statusChanged($event)"></fs-block-form>
+
+  <a data-test-id="back-button"
+    mat-raised-button
+    routerLink="/blocks">Back</a>
+
+  <button data-test-id="create-button"
+    mat-raised-button
+    color="primary"
+    [disabled]="!isFormValid"
+    (click)="create()">Create</button>
+</div>

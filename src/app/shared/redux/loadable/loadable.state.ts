@@ -4,6 +4,3 @@ export interface LoadableState {
   loadError: string;
 }
 
-export const getHasLoaded = (state: LoadableState) => state.hasLoaded;
-
-export const getHasLoadingError = (state: LoadableState) => Boolean(state.loadError);

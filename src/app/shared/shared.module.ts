@@ -1,9 +1,10 @@
+import { TeacherRepository } from './repositories/teacher.repository';
 import { ClassRepository } from './repositories/class.repository';
 import { PassRepository } from './repositories/pass.repository';
 import { NgModule } from '@angular/core';
 import { LoadableComponent } from './components/loadable/loadable.component';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BlockRepository } from './repositories/block.repository';
 import {
   MatToolbarModule,
@@ -15,6 +16,13 @@ import {
   MatPaginatorModule,
   MatSortModule,
   MatProgressSpinnerModule,
+  MatFormFieldModule,
+  MatInputModule,
+  MatDatepickerModule,
+  MatNativeDateModule,
+  MatCheckboxModule,
+  MatSelectModule,
+  MAT_DATE_LOCALE,
 } from '@angular/material';
 
 console.log('`Shared` bundle loaded synchronously');
@@ -31,11 +39,14 @@ console.log('`Shared` bundle loaded synchronously');
     PassRepository,
     ClassRepository,
     BlockRepository,
+    TeacherRepository,
+    {provide: MAT_DATE_LOCALE, useValue: 'en-GB'},
   ],
   exports: [
     LoadableComponent,
     CommonModule,
     FormsModule,
+    ReactiveFormsModule,
 
     MatToolbarModule,
     MatGridListModule,
@@ -46,6 +57,12 @@ console.log('`Shared` bundle loaded synchronously');
     MatPaginatorModule,
     MatSortModule,
     MatProgressSpinnerModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatCheckboxModule,
+    MatSelectModule,
   ],
 })
 export class SharedModule { }

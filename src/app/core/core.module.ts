@@ -1,3 +1,4 @@
+import { TeachersEffects } from './redux/teachers/teachers.effects';
 import { SharedModule } from '../shared/shared.module';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -28,7 +29,10 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     CommonModule,
     RouterModule,
     SharedModule,
-    EffectsModule.forRoot([UserEffects]),
+    EffectsModule.forRoot([
+      UserEffects,
+      TeachersEffects,
+    ]),
   ],
   declarations: [
     AppComponent,

@@ -7,4 +7,5 @@ export interface Block {
   minutesPerClass: number;
   classCapacity: number;
   isInviteOnly: boolean;
+  teachers: number[];
 }

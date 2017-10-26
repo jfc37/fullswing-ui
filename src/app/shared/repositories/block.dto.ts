@@ -1,4 +1,5 @@
 import { Block } from '../state-models/block';
+import * as moment from 'moment';
 
 export interface BlockDto {
   id: number;
@@ -9,6 +10,9 @@ export interface BlockDto {
   numberOfClasses: number;
   minutesPerClass: number;
   isInviteOnly: boolean;
+  teachers: {
+    id: number;
+  }[];
 }
 
 export function dtoToBlock(dto: BlockDto): Block {
@@ -21,5 +25,20 @@ export function dtoToBlock(dto: BlockDto): Block {
     isInviteOnly: dto.isInviteOnly,
     minutesPerClass: dto.minutesPerClass,
     numberOfClasses: dto.numberOfClasses,
+    teachers: (dto.teachers || []).map(teacher => teacher.id)
+  };
+}
+
+export function blockToDto(block: Block): BlockDto {
+  return {
+    id: block.id,
+    classCapacity: block.classCapacity,
+    name: block.name,
+    startDate: moment(block.startDate).toISOString(),
+    endDate: moment(block.endDate).toISOString(),
+    isInviteOnly: block.isInviteOnly,
+    minutesPerClass: block.minutesPerClass,
+    numberOfClasses: block.numberOfClasses,
+    teachers: (block.teachers || []).map(id => ({id}))
   };
 }

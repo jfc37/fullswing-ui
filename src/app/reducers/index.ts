@@ -1,9 +1,12 @@
+import { getHasLoaded } from '../shared/redux/loadable/loadable.selectors';
+import { TeachersState } from '../core/redux/teachers/teachers.state';
 import * as fromRouter from '@ngrx/router-store';
 import { ActionReducer, ActionReducerMap, createFeatureSelector, createSelector, MetaReducer } from '@ngrx/store';
 import { storeFreeze } from 'ngrx-store-freeze';
 
 import { environment } from '../../environments/environment';
 import * as fromUser from '../core/redux/user/user.reducer';
+import * as fromTeachers from '../core/redux/teachers/teachers.reducer';
 import { UserState } from '../core/redux/user/user.state';
 import { RouterStateUrl } from './custom-router.state';
 import { getIsAuthenticated, getTopNavModel } from '../core/redux/user/user.selectors';
@@ -26,6 +29,7 @@ import { getIsAuthenticated, getTopNavModel } from '../core/redux/user/user.sele
  */
 export interface State {
   user: UserState;
+  teachers: TeachersState;
   routerReducer: fromRouter.RouterReducerState<RouterStateUrl>;
 }
 
@@ -36,6 +40,7 @@ export interface State {
  */
 export const reducers: ActionReducerMap<State> = {
   user: fromUser.reducer,
+  teachers: fromTeachers.teachersReducer,
   routerReducer: fromRouter.routerReducer,
 };
 
@@ -64,6 +69,8 @@ export const metaReducers: MetaReducer<State>[] = !environment.production
  */
 export const getUserState = createFeatureSelector<UserState>('user');
 
+export const getTeachersState = createFeatureSelector<TeachersState>('teachers');
+
 export const getIsUserAuthenticated = createSelector(
   getUserState,
   getIsAuthenticated
@@ -72,4 +79,9 @@ export const getIsUserAuthenticated = createSelector(
 export const getTopNavModelSelector = createSelector(
   getUserState,
   getTopNavModel
+);
+
+export const getAreTeachersLoadedSelector = createSelector(
+  getTeachersState,
+  getHasLoaded
 );

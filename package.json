@@ -9,7 +9,7 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e --env=e2e",
-    "check-all": "ng lint && ng test --no-watch && npm run e2e",
+    "check-all": "ng lint && ng test --no-watch",
     "precommit": "ng lint",
     "prepush": "ng build --prod && ng lint && ng test --no-watch",
     "update-all": "ncu --upgrade"

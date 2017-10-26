@@ -2,7 +2,13 @@ import { Block } from '../../../shared/state-models/block';
 import { getLoadFailureState, getLoadingState, getLoadSuccessState } from '../../../shared/redux/loadable/loadable.reducer';
 import { blockSummariesReducer } from './block-summaries.reducer';
 import { BlockSummariesState } from './block-summaries.state';
-import { Actions, LoadBlockSummariesFailure, LoadBlockSummariesRequest, LoadBlockSummariesSuccess } from './block-summaries.actions';
+import {
+  Actions,
+  LoadBlockSummariesFailure,
+  LoadBlockSummariesRequest,
+  LoadBlockSummariesSuccess,
+  ResetBlockSummaries,
+} from './block-summaries.actions';
 import { ineeda } from 'ineeda';
 
 describe('blockSummariesReducer', () => {
@@ -20,7 +26,19 @@ describe('blockSummariesReducer', () => {
 
     it('should start with empty set of blocks', () => {
       const newState = blockSummariesReducer(undefined, action);
-      expect(newState.blocks).toEqual([]);
+      expect(newState.blocks).toEqual({});
+    });
+  });
+
+  describe('Reset', () => {
+    beforeEach(() => {
+      action = new ResetBlockSummaries();
+    });
+
+    it('should set as initial state', () => {
+      const newState = reduce();
+      const expectedState = blockSummariesReducer(undefined, action);
+      expect(newState).toEqual(expectedState);
     });
   });
 
@@ -37,9 +55,10 @@ describe('blockSummariesReducer', () => {
   });
 
   describe('Load Success', () => {
-    const expected = ineeda<Block[]>();
+    const expectedBlock = ineeda<Block>({id: 300});
+
     beforeEach(() => {
-      action = new LoadBlockSummariesSuccess(expected);
+      action = new LoadBlockSummariesSuccess([expectedBlock]);
     });
 
     it('should set state according to loading state', () => {
@@ -50,7 +69,7 @@ describe('blockSummariesReducer', () => {
 
     it('should set blocks', () => {
       const newState = reduce();
-      expect(newState.blocks).toBe(expected);
+      expect(newState.blocks[expectedBlock.id]).toBe(expectedBlock);
     });
   });
 

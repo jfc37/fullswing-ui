@@ -27,11 +27,6 @@ describe('getLoadingState', () => {
     expect(result.isLoading).toBe(true);
   });
 
-  it(`should return hasLoaded as false`, () => {
-    const result = getLoadingState(loadableState);
-    expect(result.hasLoaded).toBe(false);
-  });
-
   it(`should return loadError as null`, () => {
     const result = getLoadingState(loadableState);
     expect(result.loadError).toBeNull();

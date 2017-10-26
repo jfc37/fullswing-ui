@@ -11,7 +11,6 @@ export function getInitialLoadableState<T extends LoadableState>(): T {
 export function getLoadingState<T extends LoadableState>(state: T): T {
   return Object.assign({}, state, {
     isLoading: true,
-    hasLoaded: false,
     loadError: null,
   });
 }

@@ -1,3 +1,4 @@
+import { BlockState } from '../block.state';
 import { Block } from '../../../shared/state-models/block';
 import { TestBed } from '@angular/core/testing';
 import { Actions } from '@ngrx/effects';
@@ -8,6 +9,8 @@ import { empty } from 'rxjs/observable/empty';
 import { BlockRepository } from '../../../shared/repositories/block.repository';
 import { LoadBlockSummariesFailure, LoadBlockSummariesRequest, LoadBlockSummariesSuccess } from './block-summaries.actions';
 import { BlockSummariesEffects } from './block-summaries.effects';
+import { ReplaySubject } from 'rxjs';
+import { Store } from '@ngrx/store';
 
 export class TestActions extends Actions {
   constructor() {
@@ -28,6 +31,9 @@ describe('BlockSummariesEffects', () => {
 
   let actions$: TestActions;
   let repository: BlockRepository;
+  let store: Store<BlockState>;
+
+  let hasLoadedReplay: ReplaySubject<boolean>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -35,8 +41,14 @@ describe('BlockSummariesEffects', () => {
         BlockSummariesEffects,
         { provide: Actions, useFactory: getActions },
         { provide: BlockRepository, useValue: {} },
+        { provide: Store, useValue: {} },
       ],
     });
+
+    hasLoadedReplay = new ReplaySubject();
+    store = TestBed.get(Store);
+    store.select = jasmine.createSpy('select')
+      .and.returnValue(hasLoadedReplay);
 
     sut = TestBed.get(BlockSummariesEffects);
     repository = TestBed.get(BlockRepository);
@@ -57,20 +69,40 @@ describe('BlockSummariesEffects', () => {
       m.expect(sut.load$).toBeObservable(expectedObservable);
     }
 
-    it(`should emit success when block summaries are retrieved`, marbles((m) => {
-      const response = [];
-      const repositoryObservable = m.cold('---(a|)', {a: response});
-      const expected = m.hot('----a', {a: new LoadBlockSummariesSuccess(response)});
+    describe(`when block summaries have not been loaded`, () => {
+      beforeEach(() => {
+        hasLoadedReplay.next(false);
+      });
 
-      assertMables(repositoryObservable, expected, m);
-    }));
+      it(`should emit success when block summaries are retrieved`, marbles((m) => {
+        const response = [];
+        const repositoryObservable = m.cold('---(a|)', { a: response });
+        const expected = m.hot('----a', { a: new LoadBlockSummariesSuccess(response) });
 
-    it(`should emit failure when block summaries throw error`, marbles((m) => {
-      const response = [];
-      const repositoryObservable = m.cold('---(#|)');
-      const expected = m.hot('----a', {a: new LoadBlockSummariesFailure(`Failed getting blocks`)});
+        assertMables(repositoryObservable, expected, m);
+      }));
 
-      assertMables(repositoryObservable, expected, m);
-    }));
+      it(`should emit failure when block summaries throw error`, marbles((m) => {
+        const response = [];
+        const repositoryObservable = m.cold('---(#|)');
+        const expected = m.hot('----a', { a: new LoadBlockSummariesFailure(`Failed getting blocks`) });
+
+        assertMables(repositoryObservable, expected, m);
+      }));
+    });
+
+    describe(`when block summaries have been loaded`, () => {
+      beforeEach(() => {
+        hasLoadedReplay.next(true);
+      });
+
+      it(`should not emit any action`, marbles((m) => {
+        const response = [];
+        const repositoryObservable = m.cold('---(a|)', { a: response });
+        const expected = m.hot('-----');
+
+        assertMables(repositoryObservable, expected, m);
+      }));
+    });
   });
 });

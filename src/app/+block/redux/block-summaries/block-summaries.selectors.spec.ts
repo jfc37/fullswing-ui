@@ -9,7 +9,7 @@ describe('Block Summaries Selectors', () => {
     let state: BlockSummariesState;
 
     beforeEach(() => {
-      state = ineeda<BlockSummariesState>({blocks: []});
+      state = ineeda<BlockSummariesState>();
     });
 
     it(`should return null when state is null`, () => {
@@ -46,53 +46,56 @@ describe('Block Summaries Selectors', () => {
     });
 
     describe(`blocks`, () => {
+      const id = 324;
+
       beforeEach(() => {
         const block = ineeda<Block>({
           startDate: new Date(),
-          endDate: new Date()
+          endDate: new Date(),
+          id
         });
-        state.blocks = [block, block];
+        state.blocks = {[block.id]: block};
       });
 
       it(`should have same number of blocks`, () => {
         const model = getBlockSummariesModel(state);
-        expect(model.blocks.length).toBe(state.blocks.length);
+        expect(model.blocks.length).toBe(Object.keys(state.blocks).length);
       });
 
       it(`should map name`, () => {
-        state.blocks[0].name = 'name';
+        state.blocks[id].name = 'name';
         const model = getBlockSummariesModel(state);
-        expect(model.blocks[0].name).toBe(state.blocks[0].name);
+        expect(model.blocks[0].name).toBe(state.blocks[id].name);
       });
 
       it(`should map first class date from start date`, () => {
-        state.blocks[0].startDate = new Date('2017-3-20');
+        state.blocks[id].startDate = new Date('2017-3-20');
         const model = getBlockSummariesModel(state);
         expect(model.blocks[0].firstClassDate).toBe('20 Mar');
       });
 
       it(`should map last class date from end date`, () => {
-        state.blocks[0].endDate = new Date('2017-3-20');
+        state.blocks[id].endDate = new Date('2017-3-20');
         const model = getBlockSummariesModel(state);
         expect(model.blocks[0].lastClassDate).toBe('20 Mar');
       });
 
       it(`should map day from start date`, () => {
-        state.blocks[0].startDate = new Date('2017-3-20');
+        state.blocks[id].startDate = new Date('2017-3-20');
         const model = getBlockSummariesModel(state);
         expect(model.blocks[0].day).toBe('Monday');
       });
 
       it(`should map time from start date`, () => {
-        state.blocks[0].startDate = new Date('2017-03-20T19:15:00');
+        state.blocks[id].startDate = new Date('2017-03-20T19:15:00');
         const model = getBlockSummariesModel(state);
         expect(model.blocks[0].time).toBe('7:15 pm');
       });
 
       it(`should map details route from id`, () => {
-        state.blocks[0].id = 542;
+        state.blocks[id].id = 542;
         const model = getBlockSummariesModel(state);
-        expect(model.blocks[0].detailsRoute).toBe(`details/542`);
+        expect(model.blocks[0].detailsRoute).toBe(`update/542`);
       });
     });
   });

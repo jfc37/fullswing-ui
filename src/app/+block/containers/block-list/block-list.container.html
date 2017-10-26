@@ -1,4 +1,10 @@
 <div data-test-id="blocks-container">
   <h1 class="mat-display-1">Blocks</h1>
+
+  <a data-test-id="new-block-button"
+    mat-raised-button
+    color="primary"
+    routerLink="/blocks/create">Create new block</a>
+
   <fs-blocks-summary [model]="blocksSummaryModel$ | async"></fs-blocks-summary>
 </div>

@@ -15,10 +15,8 @@ import { environment } from '../environments/environment';
 import { ROUTES } from './app.routes';
 import { AppComponent } from './core/components/app/app.component';
 import { CoreModule } from './core/core.module';
-import { UserEffects } from './core/redux/user/user.effects';
 import { metaReducers, reducers } from './reducers';
 import { CustomRouterStateSerializer } from './reducers/custom-router.state';
-import { PassRepository } from './shared/repositories/pass.repository';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 console.log('`App` bundle loaded synchronously');

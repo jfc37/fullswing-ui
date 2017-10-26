@@ -1,0 +1,103 @@
+<fs-loadable *ngIf="model"
+  [model]="model">
+  <form *ngIf="!model.isLoading"
+    [formGroup]="form">
+    <div>
+      <mat-form-field data-test-id="name-group">
+        <input matInput
+          data-test-id="name"
+          placeholder="Name"
+          formControlName="name"
+          name="name">
+        <mat-error *ngIf="form.get('name').hasError('required')">
+          Required field
+        </mat-error>
+      </mat-form-field>
+    </div>
+    <div>
+      <mat-form-field data-test-id="startDate-group">
+        <input matInput
+          [matDatepicker]="picker"
+          placeholder="Start date"
+          data-test-id="startDate"
+          formControlName="startDate"
+          name="startDate">
+        <mat-datepicker-toggle matSuffix
+          [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+        <mat-error *ngIf="form.get('startDate').hasError('required')">
+          Required field
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field data-test-id="startTime-group">
+        <input matInput
+          data-test-id="startTime"
+          placeholder="Start time"
+          formControlName="startTime"
+          name="startTime"
+          type="time">
+        <mat-error *ngIf="form.get('startTime').hasError('required')">
+          Required field
+        </mat-error>
+      </mat-form-field>
+    </div>
+    <div>
+      <mat-form-field data-test-id="minutesPerClass-group">
+        <input matInput
+          data-test-id="minutesPerClass"
+          placeholder="Minutes per class"
+          formControlName="minutesPerClass"
+          name="minutesPerClass"
+          type="number">
+        <mat-error *ngIf="form.get('minutesPerClass').hasError('required')">
+          Required field
+        </mat-error>
+      </mat-form-field>
+    </div>
+    <div>
+      <mat-form-field data-test-id="numberOfClasses-group">
+        <input matInput
+          data-test-id="numberOfClasses"
+          placeholder="Number of classes"
+          formControlName="numberOfClasses"
+          name="numberOfClasses"
+          type="number">
+        <mat-error *ngIf="form.get('numberOfClasses').hasError('required')">
+          Required field
+        </mat-error>
+      </mat-form-field>
+    </div>
+    <div>
+      <mat-form-field data-test-id="classCapacity-group">
+        <input matInput
+          data-test-id="classCapacity"
+          placeholder="Class capacity"
+          formControlName="classCapacity"
+          name="classCapacity"
+          type="number">
+        <mat-error *ngIf="form.get('classCapacity').hasError('required')">
+          Required field
+        </mat-error>
+      </mat-form-field>
+    </div>
+    <div>
+      <mat-form-field data-test-id="teacher-group">
+        <mat-select placeholder="Teacher"
+          formControlName="teacher">
+          <mat-option *ngFor="let teacher of model.teachers"
+            [value]="teacher.value">{{ teacher.name }}</mat-option>
+        </mat-select>
+        <mat-error *ngIf="form.get('teacher').hasError('required')">
+          Required field
+        </mat-error>
+      </mat-form-field>
+    </div>
+    <div>
+      <mat-checkbox name="inviteOnly"
+        formControlName="inviteOnly">
+        Is invite only
+      </mat-checkbox>
+    </div>
+  </form>
+</fs-loadable>
