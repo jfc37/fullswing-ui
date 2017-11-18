@@ -1,5 +1,4 @@
 import { LoginPage } from '../poms/login.po';
-import { login } from '../helpers/authentication.helpers';
 import { BlockListPage } from '../poms/block-list.po';
 import { DashboardPage } from '../poms/dashboard.po';
 import { browser, promise, element, by } from 'protractor';
@@ -8,7 +7,7 @@ describe('Application navigation', () => {
   let dashboardPage: DashboardPage;
   let blocksPage: BlockListPage;
 
-  beforeEach(async () => {
+  beforeEach(() => {
     dashboardPage = new DashboardPage();
     blocksPage = new BlockListPage();
 
@@ -16,7 +15,7 @@ describe('Application navigation', () => {
     new LoginPage().login();
   });
 
-  afterEach(async () => {
+  afterEach(() => {
     browser.executeScript('window.sessionStorage.clear();');
     browser.executeScript('window.localStorage.clear();');
   });

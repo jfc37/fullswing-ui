@@ -21,11 +21,11 @@ export abstract class AppShell {
     return browser.get(`/${this.route}`);
   }
 
-  public async logout() {
-    await this.clickButton(LOG_OUT_SELECTOR);
+  public logout() {
+    return this.clickButton(LOG_OUT_SELECTOR);
   }
 
-  protected async enterValue(selector: string, value: string) {
+  protected enterValue(selector: string, value: string) {
     browser.wait(ExpectedConditions.visibilityOf($(selector)), 5000, `waiting for ${selector}, never appeared`);
     const el = element(by.css(selector));
     browser.wait(ExpectedConditions.visibilityOf(el), 5000, `waiting for ${selector}, never appeared`);
@@ -34,7 +34,7 @@ export abstract class AppShell {
     return el.sendKeys(value);
   }
 
-  protected async clickButton(selector: string) {
+  protected clickButton(selector: string) {
     const el = element(by.css(selector));
     browser.wait(ExpectedConditions.visibilityOf(el), 10000, `waiting for ${selector}, never appeared`);
     expect(el.isDisplayed()).toBe(true, `${selector} not displayed...`);

@@ -43,6 +43,7 @@ before_script:
 
 script:
   - npm run check-all
+  - npm run e2e
   - ng build --prod
 
 after_success:
