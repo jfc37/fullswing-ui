@@ -2,6 +2,16 @@ import { TopNavModel } from '../../components/top-nav/top-nav.component.model';
 import { UserState, Authorisation } from './user.state';
 import { tokenNotExpired } from 'angular2-jwt';
 
+export const authorisationChecks = {
+  tokenNotExpired: tokenNotExpired
+};
+
+function isAuthenticated(authorisation: Authorisation) {
+  return !!authorisation.accessToken
+    && !!authorisation.idToken
+    && authorisationChecks.tokenNotExpired(authorisation.accessToken, authorisation.idToken);
+}
+
 export const getTopNavModel = (state: UserState) => {
   if (!state) {
     return null;
@@ -19,14 +29,4 @@ export const getIsAuthenticated = (state: UserState) => {
   }
 
   return isAuthenticated(state.authorisation);
-};
-
-function isAuthenticated(authorisation: Authorisation) {
-  return !!authorisation.accessToken
-    && !!authorisation.idToken
-    && authorisationChecks.tokenNotExpired(authorisation.accessToken, authorisation.idToken);
-}
-
-export const authorisationChecks = {
-  tokenNotExpired: tokenNotExpired
 };

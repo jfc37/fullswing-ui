@@ -11,30 +11,24 @@ export class LoginPage extends AppShell {
   public route = 'login';
   protected pageIdentifer = 'login-container';
 
-  public async login() {
+  public isOnPage() {
+    browser.ignoreSynchronization = true;
+    return super.isOnPage()
+      .then(isOnPage => browser.ignoreSynchronization = false || isOnPage);
+  }
+
+  public login() {
+    browser.ignoreSynchronization = true;
     this.waitForWidgetToAppear();
-    this.clearLoggedInPreviously();
-    browser.waitForAngular();
     this.enterValue(EMAIL_SELECTOR, 'placid.joe@gmail.com');
-    browser.waitForAngular();
     this.enterValue(PASSWORD_SELECTOR, 'password');
-    this.clickButton(LOG_IN_BUTTON_SELECTOR);
+    return this.clickButton(LOG_IN_BUTTON_SELECTOR)
+      .then(() => browser.ignoreSynchronization = false);
   }
 
   private waitForWidgetToAppear() {
     const el = element(by.css(WIDGET_SELECTOR));
     return browser.wait(ExpectedConditions.visibilityOf(el), 10000, 'Login widget never appeared');
-  }
-
-  private async clearLoggedInPreviously() {
-    const link = element(by.css(WIDGET_ALTERNATIVE_LINK_SELECTOR));
-    const linkText = await link.getText();
-    const isPreviousLoginSelected = linkText === 'Not your account?';
-
-    if (isPreviousLoginSelected) {
-      link.click();
-    }
-    return promise.fulfilled(true);
   }
 
   private waitForEmailBoxToAppear() {

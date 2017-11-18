@@ -5,7 +5,7 @@ import { browser } from 'protractor';
 
 describe(`given user is unauthenticated`, () => {
 
-  afterEach(async () => {
+  afterEach(() => {
     browser.executeScript('window.sessionStorage.clear();');
     browser.executeScript('window.localStorage.clear();');
   });
@@ -14,36 +14,16 @@ describe(`given user is unauthenticated`, () => {
   const dashboardPage = new DashboardPage();
   const blocksPage = new BlockListPage();
 
-  describe(`when they browse to the ${dashboardPage.route}`, () => {
-    beforeEach(() => {
-      dashboardPage.navigateTo();
-    });
+  [dashboardPage, blocksPage].forEach(page => {
+    describe(`when they browse to the ${page.route}`, () => {
+      beforeEach(() => {
+        page.navigateTo();
+      });
 
-    it(`then redirects to login screen`, () => {
-      expect(loginPage.isOnPage()).toBe(true);
-    });
-  });
-
-  describe(`when they browse to the ${blocksPage.route}`, () => {
-    beforeEach(() => {
-      blocksPage.navigateTo();
-    });
-
-    it(`then redirects to login screen`, () => {
-      expect(loginPage.isOnPage()).toBe(true);
+      it(`then redirects to login screen`, () => {
+        expect(loginPage.isOnPage()).toBe(true, `didn't end up on login screen`);
+      });
     });
   });
-
-  // [dashboardPage, blocksPage].forEach(page => {
-  //   describe(`when they browse to the ${page.route}`, () => {
-  //     beforeEach(() => {
-  //       page.navigateTo();
-  //     });
-
-  //     it(`then redirects to login screen`, () => {
-  //       expect(loginPage.isOnPage()).toBe(true);
-  //     });
-  //   });
-  // });
 });
 
