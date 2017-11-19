@@ -5,7 +5,7 @@
       No blocks
     </p>
     <ng-template #blocks>
-        <fs-block-summary-table [model]="model.blocks"></fs-block-summary-table>
+        <fs-block-summary-table [model]="model.blocks" (deleteBlock)="deleteBlock.emit($event)"></fs-block-summary-table>
     </ng-template>
   </fs-loadable>
 </div>

@@ -6,5 +6,6 @@
     color="primary"
     routerLink="/blocks/create">Create new block</a>
 
-  <fs-blocks-summary [model]="blocksSummaryModel$ | async"></fs-blocks-summary>
+  <fs-blocks-summary [model]="blocksSummaryModel$ | async"
+    (deleteBlock)="deleteBlock($event)"></fs-blocks-summary>
 </div>

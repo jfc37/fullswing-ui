@@ -13,6 +13,7 @@ export const getBlockSummariesModel = (state: BlockSummariesState) => {
     blocks: Object.keys(state.blocks)
       .map(id => state.blocks[id])
       .map(block => ({
+        id: block.id,
         name: block.name,
         startDate: block.startDate,
         firstClassDate: moment(block.startDate).format('DD MMM'),
@@ -20,6 +21,7 @@ export const getBlockSummariesModel = (state: BlockSummariesState) => {
         day: moment(block.startDate).format('dddd'),
         time: moment(block.startDate).format('h:mm a'),
         detailsRoute: BLOCK_DETAILS_ROUTE.replace(':id', '' + block.id),
+        disableDelete: !!state.isDeleting[block.id] || !!state.deleteError[block.id],
       } as BlockSummaryModel))
   } as BlocksSummaryModel;
 };

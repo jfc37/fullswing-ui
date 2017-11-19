@@ -1,4 +1,4 @@
-import { LoadBlockSummariesRequest } from '../../redux/block-summaries/block-summaries.actions';
+import { LoadBlockSummariesRequest, DeleteBlockSummariesRequest } from '../../redux/block-summaries/block-summaries.actions';
 import { BlockState } from '../../redux/block.state';
 import { BlocksSummaryModel } from '../../components/blocks-summary/blocks-summary.component.model';
 import { Component, OnInit } from '@angular/core';
@@ -19,5 +19,9 @@ export class BlockListContainer implements OnInit {
   public ngOnInit() {
     this._store.dispatch(new LoadBlockSummariesRequest());
     this.blocksSummaryModel$ = this._store.select(getBlockSummariesModelSelector);
+  }
+
+  public deleteBlock(blockId: number) {
+    this._store.dispatch(new DeleteBlockSummariesRequest(blockId));
   }
 }

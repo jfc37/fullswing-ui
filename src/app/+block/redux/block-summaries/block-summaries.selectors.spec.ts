@@ -62,6 +62,12 @@ describe('Block Summaries Selectors', () => {
         expect(model.blocks.length).toBe(Object.keys(state.blocks).length);
       });
 
+      it(`should map id`, () => {
+        state.blocks[id].id = 543;
+        const model = getBlockSummariesModel(state);
+        expect(model.blocks[0].id).toBe(state.blocks[id].id);
+      });
+
       it(`should map name`, () => {
         state.blocks[id].name = 'name';
         const model = getBlockSummariesModel(state);
@@ -96,6 +102,29 @@ describe('Block Summaries Selectors', () => {
         state.blocks[id].id = 542;
         const model = getBlockSummariesModel(state);
         expect(model.blocks[0].detailsRoute).toBe(`update/542`);
+      });
+
+      describe(`disableDelete`, () => {
+        it(`should be false when not deleting or delete error`, () => {
+          state.isDeleting = {};
+          state.deleteError = {};
+          const model = getBlockSummariesModel(state);
+          expect(model.blocks[0].disableDelete).toBe(false);
+        });
+
+        it(`should be true when deleting`, () => {
+          state.isDeleting = { [id]: true };
+          state.deleteError = {};
+          const model = getBlockSummariesModel(state);
+          expect(model.blocks[0].disableDelete).toBe(true);
+        });
+
+        it(`should be true when delete error`, () => {
+          state.deleteError = { [id]: 'ERROR' };
+          state.isDeleting = {};
+          const model = getBlockSummariesModel(state);
+          expect(model.blocks[0].disableDelete).toBe(true);
+        });
       });
     });
   });

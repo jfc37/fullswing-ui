@@ -35,6 +35,18 @@
     <mat-cell *matCellDef="let block"> {{block.time}} </mat-cell>
   </ng-container>
 
+  <ng-container matColumnDef="actions">
+    <mat-header-cell *matHeaderCellDef> </mat-header-cell>
+    <mat-cell *matCellDef="let block; let i=index;">
+      <button mat-button
+        color="warn"
+        [attr.data-test-id]="'delete-block-' + i"
+        [disabled]="block.disableDelete"
+        [ngClass]="{'disabled': block.disableDelete}"
+        (click)="clickDelete(block)">Delete</button>
+    </mat-cell>
+  </ng-container>
+
   <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
 
   <mat-row *matRowDef="let row; columns: displayedColumns; let i=index;"

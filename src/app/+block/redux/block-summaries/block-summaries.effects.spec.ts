@@ -7,7 +7,7 @@ import { Observable } from 'rxjs/Observable';
 import { empty } from 'rxjs/observable/empty';
 
 import { BlockRepository } from '../../../shared/repositories/block.repository';
-import { LoadBlockSummariesFailure, LoadBlockSummariesRequest, LoadBlockSummariesSuccess } from './block-summaries.actions';
+import { LoadBlockSummariesFailure, LoadBlockSummariesRequest, LoadBlockSummariesSuccess, DeleteBlockSummariesRequest, DeleteBlockSummariesSuccess, DeleteBlockSummariesFailure } from './block-summaries.actions';
 import { BlockSummariesEffects } from './block-summaries.effects';
 import { ReplaySubject } from 'rxjs';
 import { Store } from '@ngrx/store';
@@ -104,5 +104,32 @@ describe('BlockSummariesEffects', () => {
         assertMables(repositoryObservable, expected, m);
       }));
     });
+  });
+
+  describe('delete', () => {
+    function assertMables(repositoryObservable, expectedObservable, m: Context) {
+      repository.delete = jasmine.createSpy('delete')
+        .and.returnValue(repositoryObservable);
+
+      actions$.stream = m.hot('-a---', { a: new DeleteBlockSummariesRequest(1) });
+
+      m.expect(sut.delete$).toBeObservable(expectedObservable);
+    }
+
+    it(`should emit success when block is deleted`, marbles((m) => {
+      const response = [];
+      const repositoryObservable = m.cold('---(a|)', { a: response });
+      const expected = m.hot('----a', { a: new DeleteBlockSummariesSuccess(1) });
+
+      assertMables(repositoryObservable, expected, m);
+    }));
+
+    it(`should emit failure when block summaries throw error`, marbles((m) => {
+      const response = [];
+      const repositoryObservable = m.cold('---(#|)');
+      const expected = m.hot('----a', { a: new DeleteBlockSummariesFailure(1, `Failed deleting block`) });
+
+      assertMables(repositoryObservable, expected, m);
+    }));
   });
 });

@@ -1,22 +1,23 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild, Output, EventEmitter, SimpleChanges } from '@angular/core';
 import { MatPaginator, MatSort } from '@angular/material';
 import * as moment from 'moment';
 
 import { TableDataSource } from '../../../core/service/table-data-source';
 import { BlockSummaryModel } from '../blocks-summary/blocks-summary.component.model';
+import { OnChanges } from '@angular/core/src/metadata/lifecycle_hooks';
 
 @Component({
   selector: 'fs-block-summary-table',
   templateUrl: './block-summary-table.component.html',
   styleUrls: ['./block-summary-table.component.scss']
 })
-export class BlockSummaryTableComponent implements OnInit {
-
+export class BlockSummaryTableComponent implements OnInit, OnChanges {
   @Input() public model: BlockSummaryModel[];
+  @Output() public deleteBlock = new EventEmitter<number>();
   @ViewChild(MatPaginator) public paginator;
   @ViewChild(MatSort) public sort: MatSort;
 
-  public displayedColumns = ['name', 'between', 'day', 'time'];
+  public displayedColumns = ['name', 'between', 'day', 'time', 'actions'];
   public dataSource: TableDataSource<BlockSummaryModel>;
 
   private _ordering = {
@@ -25,6 +26,20 @@ export class BlockSummaryTableComponent implements OnInit {
   };
 
   public ngOnInit() {
+    this.updateTable();
+  }
+
+  public ngOnChanges(changes: SimpleChanges): void {
+    if (!changes['model'].isFirstChange()) {
+      this.updateTable();
+    }
+  }
+
+  public clickDelete(block: BlockSummaryModel): void {
+    this.deleteBlock.emit(block.id);
+  }
+
+  private updateTable() {
     this.dataSource = new TableDataSource<BlockSummaryModel>(this.paginator, this.sort, this._ordering);
     this.dataSource.sourceChange(this.model);
   }

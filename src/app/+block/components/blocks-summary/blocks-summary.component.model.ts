@@ -4,6 +4,7 @@ export interface BlocksSummaryModel extends LoadableModel {
 }
 
 export interface BlockSummaryModel {
+  id: number;
   name: string;
   startDate: Date;
   firstClassDate: string;
@@ -11,4 +12,5 @@ export interface BlockSummaryModel {
   day: string;
   time: string;
   detailsRoute: string;
+  disableDelete: boolean;
 }

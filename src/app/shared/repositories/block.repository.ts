@@ -22,6 +22,11 @@ export class BlockRepository {
       .map(dtoToBlock);
   }
 
+  public delete(id: number): Observable<void> {
+    return this._http.delete(`${environment.apiUrl}/api/blocks/${id}`)
+    .mapTo(null);
+  }
+
   public update(block: Block): Observable<void> {
     const blockDto = blockToDto(block);
     return this._http.put(`${environment.apiUrl}/api/blocks/${blockDto.id}`, blockDto)

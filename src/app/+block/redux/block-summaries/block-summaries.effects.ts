@@ -6,7 +6,7 @@ import { Action, Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 
 import { BlockRepository } from '../../../shared/repositories/block.repository';
-import { LoadBlockSummariesFailure, LoadBlockSummariesSuccess } from './block-summaries.actions';
+import { LoadBlockSummariesFailure, LoadBlockSummariesSuccess, DeleteBlockSummariesSuccess, DeleteBlockSummariesFailure } from './block-summaries.actions';
 import * as stateActions from './block-summaries.actions';
 
 @Injectable()
@@ -20,6 +20,15 @@ export class BlockSummariesEffects {
     .switchMap(() => this._repository.getAll()
       .map(passes => new LoadBlockSummariesSuccess(passes))
       .catch(() => Observable.of(new LoadBlockSummariesFailure(`Failed getting blocks`)))
+    );
+
+  @Effect()
+  public delete$: Observable<Action> = this._actions$
+    .ofType<stateActions.DeleteBlockSummariesRequest>(stateActions.DELETE_BLOCK_SUMMARIES_REQUEST)
+    .map(action => action.id)
+    .switchMap(id => this._repository.delete(id)
+      .map(() => new DeleteBlockSummariesSuccess(id))
+      .catch(() => Observable.of(new DeleteBlockSummariesFailure(id, `Failed deleting block`)))
     );
 
   constructor(
