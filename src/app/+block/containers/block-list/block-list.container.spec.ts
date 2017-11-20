@@ -1,4 +1,9 @@
-import { LoadBlockSummariesRequest, DeleteBlockSummariesSuccess, DeleteBlockSummariesRequest } from '../../redux/block-summaries/block-summaries.actions';
+import {
+  DeleteBlockSummariesRequest,
+  DeleteBlockSummariesSuccess,
+  GenerateBlockSummariesRequest,
+  LoadBlockSummariesRequest,
+} from '../../redux/block-summaries/block-summaries.actions';
 import { BlockState } from '../../redux/block.state';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
@@ -56,6 +61,18 @@ describe('BlockListContainer', () => {
 
     it(`should raise block delete action`, () => {
       expect(store.dispatch).toHaveBeenCalledWith(new DeleteBlockSummariesRequest(deletedBlockId));
+    });
+  });
+
+  describe(`when block is generated`, () => {
+    const generateBlockId = 53;
+
+    beforeEach(() => {
+      component.generateBlock(generateBlockId);
+    });
+
+    it(`should raise block generate action`, () => {
+      expect(store.dispatch).toHaveBeenCalledWith(new GenerateBlockSummariesRequest(generateBlockId));
     });
   });
 });

@@ -11,6 +11,7 @@ import { MatPaginator } from '@angular/material';
 })
 export class BlocksSummaryComponent {
   @Input() public model: BlocksSummaryModel;
+  @Output() public generateBlock = new EventEmitter<number>();
   @Output() public deleteBlock = new EventEmitter<number>();
 
   public hasBlocks(): boolean {

@@ -70,7 +70,11 @@ describe('BlocksSummaryComponent', () => {
 
   describe(`when there are blocks`, () => {
     beforeEach(() => {
-      component.model.blocks = [ineeda<BlockSummaryModel>(), ineeda<BlockSummaryModel>(), ineeda<BlockSummaryModel>()];
+      component.model.blocks = [
+        ineeda<BlockSummaryModel>({startDate: new Date()}),
+        ineeda<BlockSummaryModel>({startDate: new Date()}),
+        ineeda<BlockSummaryModel>({startDate: new Date()})
+      ];
       fixture.detectChanges();
     });
 

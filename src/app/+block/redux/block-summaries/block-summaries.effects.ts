@@ -6,7 +6,15 @@ import { Action, Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 
 import { BlockRepository } from '../../../shared/repositories/block.repository';
-import { LoadBlockSummariesFailure, LoadBlockSummariesSuccess, DeleteBlockSummariesSuccess, DeleteBlockSummariesFailure } from './block-summaries.actions';
+import {
+  AddBlockSummaries,
+  DeleteBlockSummariesFailure,
+  DeleteBlockSummariesSuccess,
+  GenerateBlockSummariesFailure,
+  GenerateBlockSummariesSuccess,
+  LoadBlockSummariesFailure,
+  LoadBlockSummariesSuccess,
+} from './block-summaries.actions';
 import * as stateActions from './block-summaries.actions';
 
 @Injectable()
@@ -29,6 +37,18 @@ export class BlockSummariesEffects {
     .switchMap(id => this._repository.delete(id)
       .map(() => new DeleteBlockSummariesSuccess(id))
       .catch(() => Observable.of(new DeleteBlockSummariesFailure(id, `Failed deleting block`)))
+    );
+
+  @Effect()
+  public generate$: Observable<Action> = this._actions$
+    .ofType<stateActions.GenerateBlockSummariesRequest>(stateActions.GENERATE_BLOCK_SUMMARIES_REQUEST)
+    .map(action => action.id)
+    .switchMap(id => this._repository.generate(id)
+    .mergeMap(generatedBlock => Observable.merge([
+      new GenerateBlockSummariesSuccess(id),
+      new AddBlockSummaries(generatedBlock),
+    ]))
+      .catch(() => Observable.of(new GenerateBlockSummariesFailure(id, `Failed generating block`)))
     );
 
   constructor(

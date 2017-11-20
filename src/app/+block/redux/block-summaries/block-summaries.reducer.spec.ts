@@ -5,19 +5,23 @@ import { blockSummariesReducer } from './block-summaries.reducer';
 import { BlockSummariesState } from './block-summaries.state';
 import {
   Actions,
+  AddBlockSummaries,
+  DeleteBlockSummariesFailure,
+  DeleteBlockSummariesRequest,
+  DeleteBlockSummariesSuccess,
+  GenerateBlockSummariesFailure,
+  GenerateBlockSummariesRequest,
+  GenerateBlockSummariesSuccess,
   LoadBlockSummariesFailure,
   LoadBlockSummariesRequest,
   LoadBlockSummariesSuccess,
   ResetBlockSummaries,
-  DeleteBlockSummariesRequest,
-  DeleteBlockSummariesSuccess,
-  DeleteBlockSummariesFailure,
 } from './block-summaries.actions';
 import { ineeda } from 'ineeda';
 import { getDeletingState, getDeleteSuccessState, getDeleteFailureState } from '../../../shared/redux/deletable/deletable.reducer';
 
 describe('blockSummariesReducer', () => {
-  const state = ineeda<BlockSummariesState>({deleteError: {}, isDeleting: {}});
+  const state = ineeda<BlockSummariesState>({ deleteError: {}, isDeleting: {} });
   const id = 1;
   let action: Actions;
 
@@ -33,6 +37,16 @@ describe('blockSummariesReducer', () => {
     it('should start with empty set of blocks', () => {
       const newState = blockSummariesReducer(undefined, action);
       expect(newState.blocks).toEqual({});
+    });
+
+    it('should start with isGenerating as empty object', () => {
+      const newState = blockSummariesReducer(undefined, action);
+      expect(newState.isGenerating).toEqual({});
+    });
+
+    it('should start with generateError as empty object', () => {
+      const newState = blockSummariesReducer(undefined, action);
+      expect(newState.generateError).toEqual({});
     });
   });
 
@@ -113,7 +127,7 @@ describe('blockSummariesReducer', () => {
 
     it('should set state according to delete success state', () => {
       const newState = reduce();
-      const expectedState = getDeleteSuccessState({deleteError: {}, isDeleting: {}}, id);
+      const expectedState = getDeleteSuccessState({ deleteError: {}, isDeleting: {} }, id);
       Object.keys(expectedState).forEach(k => expect(newState[k]).toEqual(expectedState[k]));
     });
 
@@ -142,8 +156,70 @@ describe('blockSummariesReducer', () => {
 
     it('should set state according to delete failure state', () => {
       const newState = reduce();
-      const expectedState = getDeleteFailureState({deleteError: {}, isDeleting: {}}, id, expectedError);
+      const expectedState = getDeleteFailureState({ deleteError: {}, isDeleting: {} }, id, expectedError);
       Object.keys(expectedState).forEach(k => expect(newState[k]).toEqual(expectedState[k]));
+    });
+  });
+
+  describe('Add', () => {
+    const block = ineeda<Block>({id: 543});
+
+    beforeEach(() => {
+      action = new AddBlockSummaries(block);
+    });
+
+    it('should add block to state', () => {
+      const newState = reduce();
+      expect(newState.blocks[block.id]).toBe(block);
+    });
+  });
+
+  describe('Generate Request', () => {
+    beforeEach(() => {
+      action = new GenerateBlockSummariesRequest(id);
+    });
+
+    it('should set isGenerating for id to true', () => {
+      const newState = reduce();
+      expect(newState.isGenerating[id]).toBe(true);
+    });
+
+    it('should set generateError for id to null', () => {
+      const newState = reduce();
+      expect(newState.generateError[id]).toBeNull();
+    });
+  });
+
+  describe('Generate Success', () => {
+    beforeEach(() => {
+      action = new GenerateBlockSummariesSuccess(id);
+    });
+
+    it('should set isGenerating for id to false', () => {
+      const newState = reduce();
+      expect(newState.isGenerating[id]).toBe(false);
+    });
+
+    it('should set generateError for id to null', () => {
+      const newState = reduce();
+      expect(newState.generateError[id]).toBeNull();
+    });
+  });
+
+  describe('Generate Failure', () => {
+    const error = 'ERROR';
+    beforeEach(() => {
+      action = new GenerateBlockSummariesFailure(id, error);
+    });
+
+    it('should set isGenerating for id to false', () => {
+      const newState = reduce();
+      expect(newState.isGenerating[id]).toBe(false);
+    });
+
+    it('should set generateError for id to error', () => {
+      const newState = reduce();
+      expect(newState.generateError[id]).toBe(error);
     });
   });
 });

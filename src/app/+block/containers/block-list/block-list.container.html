@@ -7,5 +7,6 @@
     routerLink="/blocks/create">Create new block</a>
 
   <fs-blocks-summary [model]="blocksSummaryModel$ | async"
+    (generateBlock)="generateBlock($event)"
     (deleteBlock)="deleteBlock($event)"></fs-blocks-summary>
 </div>

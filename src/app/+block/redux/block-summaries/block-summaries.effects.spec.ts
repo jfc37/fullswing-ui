@@ -7,10 +7,22 @@ import { Observable } from 'rxjs/Observable';
 import { empty } from 'rxjs/observable/empty';
 
 import { BlockRepository } from '../../../shared/repositories/block.repository';
-import { LoadBlockSummariesFailure, LoadBlockSummariesRequest, LoadBlockSummariesSuccess, DeleteBlockSummariesRequest, DeleteBlockSummariesSuccess, DeleteBlockSummariesFailure } from './block-summaries.actions';
+import {
+  AddBlockSummaries,
+  DeleteBlockSummariesFailure,
+  DeleteBlockSummariesRequest,
+  DeleteBlockSummariesSuccess,
+  GenerateBlockSummariesFailure,
+  GenerateBlockSummariesRequest,
+  GenerateBlockSummariesSuccess,
+  LoadBlockSummariesFailure,
+  LoadBlockSummariesRequest,
+  LoadBlockSummariesSuccess,
+} from './block-summaries.actions';
 import { BlockSummariesEffects } from './block-summaries.effects';
 import { ReplaySubject } from 'rxjs';
 import { Store } from '@ngrx/store';
+import { ineeda } from 'ineeda';
 
 export class TestActions extends Actions {
   constructor() {
@@ -128,6 +140,33 @@ describe('BlockSummariesEffects', () => {
       const response = [];
       const repositoryObservable = m.cold('---(#|)');
       const expected = m.hot('----a', { a: new DeleteBlockSummariesFailure(1, `Failed deleting block`) });
+
+      assertMables(repositoryObservable, expected, m);
+    }));
+  });
+
+  describe('generate', () => {
+    function assertMables(repositoryObservable, expectedObservable, m: Context) {
+      repository.generate = jasmine.createSpy('generate')
+        .and.returnValue(repositoryObservable);
+
+      actions$.stream = m.hot('-a---', { a: new GenerateBlockSummariesRequest(1) });
+
+      m.expect(sut.generate$).toBeObservable(expectedObservable);
+    }
+
+    it(`should emit success and add when block is generated`, marbles((m) => {
+      const blockResponse = ineeda<Block>();
+      const repositoryObservable = m.cold('---(a|)', { a: blockResponse });
+      const expected = m.hot('----(ab)', { a: new GenerateBlockSummariesSuccess(1), b: new AddBlockSummaries(blockResponse) });
+
+      assertMables(repositoryObservable, expected, m);
+    }));
+
+    it(`should emit failure when block summaries throw error`, marbles((m) => {
+      const response = [];
+      const repositoryObservable = m.cold('---(#|)');
+      const expected = m.hot('----a', { a: new GenerateBlockSummariesFailure(1, `Failed generating block`) });
 
       assertMables(repositoryObservable, expected, m);
     }));

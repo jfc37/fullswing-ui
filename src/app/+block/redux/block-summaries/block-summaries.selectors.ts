@@ -22,6 +22,7 @@ export const getBlockSummariesModel = (state: BlockSummariesState) => {
         time: moment(block.startDate).format('h:mm a'),
         detailsRoute: BLOCK_DETAILS_ROUTE.replace(':id', '' + block.id),
         disableDelete: !!state.isDeleting[block.id] || !!state.deleteError[block.id],
+        disableGenerate: !!state.isGenerating[block.id] || !!state.generateError[block.id],
       } as BlockSummaryModel))
   } as BlocksSummaryModel;
 };

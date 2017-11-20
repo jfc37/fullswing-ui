@@ -39,6 +39,13 @@
     <mat-header-cell *matHeaderCellDef> </mat-header-cell>
     <mat-cell *matCellDef="let block; let i=index;">
       <button mat-button
+        color="primary"
+        [attr.data-test-id]="'generate-block-' + i"
+        [disabled]="block.disableGenerate"
+        [ngClass]="{'disabled': block.disableGenerate}"
+        (click)="clickGenerate(block)">Generate</button>
+
+      <button mat-button
         color="warn"
         [attr.data-test-id]="'delete-block-' + i"
         [disabled]="block.disableDelete"

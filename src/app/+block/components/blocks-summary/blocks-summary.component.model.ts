@@ -13,4 +13,5 @@ export interface BlockSummaryModel {
   time: string;
   detailsRoute: string;
   disableDelete: boolean;
+  disableGenerate: boolean;
 }

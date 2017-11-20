@@ -13,6 +13,7 @@ import { OnChanges } from '@angular/core/src/metadata/lifecycle_hooks';
 })
 export class BlockSummaryTableComponent implements OnInit, OnChanges {
   @Input() public model: BlockSummaryModel[];
+  @Output() public generateBlock = new EventEmitter<number>();
   @Output() public deleteBlock = new EventEmitter<number>();
   @ViewChild(MatPaginator) public paginator;
   @ViewChild(MatSort) public sort: MatSort;
@@ -27,12 +28,17 @@ export class BlockSummaryTableComponent implements OnInit, OnChanges {
 
   public ngOnInit() {
     this.updateTable();
+    this.sort.sort({id: 'between', start: 'desc', disableClear: false});
   }
 
   public ngOnChanges(changes: SimpleChanges): void {
     if (!changes['model'].isFirstChange()) {
       this.updateTable();
     }
+  }
+
+  public clickGenerate(block: BlockSummaryModel): void {
+    this.generateBlock.emit(block.id);
   }
 
   public clickDelete(block: BlockSummaryModel): void {

@@ -94,12 +94,65 @@ describe('BlockSummaryTableComponent', () => {
         expect(component.deleteBlock.emit).toHaveBeenCalledWith(expectedId);
       });
 
-      it(`should be disabled`, () => {
+      it(`should not be disabled`, () => {
         expect(deleteButton.nativeElement.disabled).toBe(false);
       });
 
-      it(`should have disabled class`, () => {
+      it(`should not have disabled class`, () => {
         expect(deleteButton.nativeElement.classList).not.toContain('disabled');
+      });
+    });
+  });
+
+  describe(`Generate Button`, () => {
+    describe(`when generate is disabled`, () => {
+      let generateButton: DebugElement;
+
+      beforeEach(() => {
+        component.model[0] = ineeda<BlockSummaryModel>({ disableGenerate: true });
+
+        component.ngOnInit();
+        fixture.detectChanges();
+
+        generateButton = getElement(fixture.debugElement, 'generate-block-0');
+      });
+
+      it(`should be disabled`, () => {
+        expect(generateButton.nativeElement.disabled).toBe(true);
+      });
+
+      it(`should have disabled class`, () => {
+        expect(generateButton.nativeElement.classList).toContain('disabled');
+      });
+    });
+
+    describe(`when generate is enabled`, () => {
+      const expectedId = 522;
+      let generateButton: DebugElement;
+
+      beforeEach(() => {
+        component.generateBlock.emit = jasmine.createSpy();
+        component.model = [
+          ineeda<BlockSummaryModel>({ id: expectedId, disableGenerate: false })
+        ];
+
+        component.ngOnInit();
+        fixture.detectChanges();
+
+        generateButton = getElement(fixture.debugElement, 'generate-block-0');
+      });
+
+      it(`should emit generate when clicked`, () => {
+        generateButton.nativeElement.click();
+        expect(component.generateBlock.emit).toHaveBeenCalledWith(expectedId);
+      });
+
+      it(`should be disabled`, () => {
+        expect(generateButton.nativeElement.disabled).toBe(false);
+      });
+
+      it(`should have disabled class`, () => {
+        expect(generateButton.nativeElement.classList).not.toContain('disabled');
       });
     });
   });

@@ -126,6 +126,29 @@ describe('Block Summaries Selectors', () => {
           expect(model.blocks[0].disableDelete).toBe(true);
         });
       });
+
+      describe(`disableGenerate`, () => {
+        it(`should be false when not generating or generate error`, () => {
+          state.isGenerating = {};
+          state.generateError = {};
+          const model = getBlockSummariesModel(state);
+          expect(model.blocks[0].disableGenerate).toBe(false);
+        });
+
+        it(`should be true when generating`, () => {
+          state.isGenerating = { [id]: true };
+          state.generateError = {};
+          const model = getBlockSummariesModel(state);
+          expect(model.blocks[0].disableGenerate).toBe(true);
+        });
+
+        it(`should be true when generate error`, () => {
+          state.generateError = { [id]: 'ERROR' };
+          state.isGenerating = {};
+          const model = getBlockSummariesModel(state);
+          expect(model.blocks[0].disableGenerate).toBe(true);
+        });
+      });
     });
   });
 });

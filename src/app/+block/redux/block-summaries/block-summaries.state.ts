@@ -6,4 +6,10 @@ export interface BlockSummariesState extends LoadableState, DeletableState {
   blocks: {
     [id: string]: Block
   };
+  isGenerating: {
+    [id: number]: boolean;
+  };
+  generateError: {
+    [id: number]: string;
+  };
 }
