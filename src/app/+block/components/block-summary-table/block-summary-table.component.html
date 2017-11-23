@@ -57,5 +57,6 @@
   <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
 
   <mat-row *matRowDef="let row; columns: displayedColumns; let i=index;"
-    [attr.data-test-id]="'block-row-' + i"></mat-row>
+    [attr.data-test-id]="'block-row-' + i"
+    [attr.data-block-name]="row.name"></mat-row>
 </mat-table>

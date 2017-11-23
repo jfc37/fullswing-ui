@@ -30,8 +30,17 @@ export abstract class AppShell {
     const el = element(by.css(selector));
     browser.wait(ExpectedConditions.visibilityOf(el), 5000, `waiting for ${selector}, never appeared`);
     expect(el.isDisplayed()).toBe(true, `${selector} not displayed...`);
-
+    el.clear();
     return el.sendKeys(value);
+  }
+
+  protected chooseFromSelect(selector: string) {
+    browser.wait(ExpectedConditions.visibilityOf($(selector)), 5000, `waiting for ${selector}, never appeared`);
+    const el = element(by.css(selector));
+    browser.wait(ExpectedConditions.visibilityOf(el), 5000, `waiting for ${selector}, never appeared`);
+    expect(el.isDisplayed()).toBe(true, `${selector} not displayed...`);
+    el.click();
+    return element(by.css('mat-option')).click();
   }
 
   protected clickButton(selector: string) {

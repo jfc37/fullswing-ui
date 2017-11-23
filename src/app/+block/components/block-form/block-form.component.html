@@ -83,7 +83,8 @@
     </div>
     <div>
       <mat-form-field data-test-id="teacher-group">
-        <mat-select placeholder="Teacher"
+        <mat-select data-test-id="teacher"
+          placeholder="Teacher"
           formControlName="teacher">
           <mat-option *ngFor="let teacher of model.teachers"
             [value]="teacher.value">{{ teacher.name }}</mat-option>

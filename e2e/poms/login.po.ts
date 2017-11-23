@@ -22,7 +22,8 @@ export class LoginPage extends AppShell {
     this.waitForWidgetToAppear();
     this.enterValue(EMAIL_SELECTOR, 'placid.joe@gmail.com');
     this.enterValue(PASSWORD_SELECTOR, 'password');
-    return this.clickButton(LOG_IN_BUTTON_SELECTOR)
+    this.clickButton(LOG_IN_BUTTON_SELECTOR);
+    return browser.wait(ExpectedConditions.urlContains('dashboard'), 10000, 'never redirected to dashboard after login')
       .then(() => browser.ignoreSynchronization = false);
   }
 

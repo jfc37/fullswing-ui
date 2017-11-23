@@ -4,10 +4,13 @@ import { NewBlockState } from './new-block.state';
 import { Actions, RESET_NEW_BLOCK, UPDATE_NEW_BLOCK, CREATE_BLOCK_REQUEST, CREATE_BLOCK_SUCCESS, CREATE_BLOCK_FAILURE } from './new-block.actions';
 
 function getInitialState(): NewBlockState {
+  const startDate = new Date();
+  startDate.setHours(18, 0);
   return {
     ...getInitialSavableState(),
     block: {
-      teachers: []
+      teachers: [],
+      startDate
     } as Block
   };
 }

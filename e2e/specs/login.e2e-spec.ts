@@ -2,8 +2,9 @@ import { LoginPage } from '../poms/login.po';
 import { BlockListPage } from '../poms/block-list.po';
 import { DashboardPage } from '../poms/dashboard.po';
 import { browser } from 'protractor';
+import { teardown } from '../common/common';
 
-describe(`given authenticated user`, () => {
+describe('Login', () => {
   let dashboardPage: DashboardPage;
   let loginPage: LoginPage;
 
@@ -12,42 +13,18 @@ describe(`given authenticated user`, () => {
     loginPage = new LoginPage();
 
     dashboardPage.navigateTo();
+  });
+
+  afterEach(teardown);
+
+  it(`authenticated user is redirected to login after logging out`, () => {
     loginPage.login();
+    dashboardPage.logout();
+    expect(loginPage.isOnPage()).toBe(true, `not on login page after logging out`);
   });
 
-  afterEach(() => {
-    browser.executeScript('window.sessionStorage.clear();');
-    browser.executeScript('window.localStorage.clear();');
-  });
-
-  describe(`when they log out`, () => {
-    it(`should redirect to login`, () => {
-      dashboardPage.logout();
-      expect(loginPage.isOnPage()).toBe(true, `not on login page after logging out`);
-    });
-  });
-});
-
-describe(`given unauthenticated user browses to dashboard`, () => {
-  const loginPage = new LoginPage();
-  const dashboardPage = new DashboardPage();
-
-  beforeEach(() => {
-    dashboardPage.navigateTo();
-  });
-
-  afterEach(() => {
-    browser.executeScript('window.sessionStorage.clear();');
-    browser.executeScript('window.localStorage.clear();');
-  });
-
-  describe(`when they login`, () => {
-    beforeEach(() => {
-      loginPage.login();
-    });
-
-    it(`should redirect to dashboard`, () => {
-      expect(dashboardPage.isOnPage()).toBe(true, `not on dashboard page after logging in`);
-    });
+  it(`user is redirected to dashboard after logging in`, () => {
+    loginPage.login();
+    expect(dashboardPage.isOnPage()).toBe(true, `not on dashboard page after logging in`);
   });
 });

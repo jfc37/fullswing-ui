@@ -10,7 +10,7 @@ const reporter = new HtmlScreenshotReporter({
 });
 
 exports.config = {
-  allScriptsTimeout: 5000,
+  allScriptsTimeout: 10000,
   restartBrowserBetweenTests: true,
   specs: [
     './e2e/**/*.e2e-spec.ts'
