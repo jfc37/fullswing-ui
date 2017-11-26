@@ -1,5 +1,5 @@
 import { Action } from '@ngrx/store';
-import { Teacher } from '../../../shared/state-models/teacher';
+import { User } from '../../../shared/state-models/teacher';
 
 export const LOAD_TEACHERS_REQUEST = '[Teacher] Load Request';
 export const LOAD_TEACHERS_SUCCESS = '[Teacher] Load Success';
@@ -12,7 +12,7 @@ export class LoadTeachersRequest implements Action {
 export class LoadTeachersSuccess implements Action {
   public readonly type = LOAD_TEACHERS_SUCCESS;
 
-  constructor(public teachers: Teacher[]) { }
+  constructor(public teachers: User[]) { }
 }
 
 export class LoadTeachersFailure implements Action {

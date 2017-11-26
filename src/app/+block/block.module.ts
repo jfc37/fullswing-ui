@@ -1,3 +1,5 @@
+import { BlockClassesEffects } from './redux/block-classes/block-classes.effects';
+import { ClassListContainer } from './containers/class-list/class-list.container';
 import { NewBlockEffects } from './redux/new-block/new-block.effects';
 import { DraftBlocksEffects } from './redux/draft-blocks/draft-blocks.effects';
 import { BlockUpdateContainer } from './containers/block-update/block-update.container';
@@ -15,6 +17,8 @@ import { EffectsModule } from '@ngrx/effects';
 import { BlockSummaryTableComponent } from './components/block-summary-table/block-summary-table.component';
 import { BlockFormComponent } from './components/block-form/block-form.component';
 import { BlockCreateContainer } from './containers/block-create/block-create.container';
+import { ClassesSummaryComponent } from './components/classes-summary/classes-summary.component';
+import { ClassesSummaryTableComponent } from './components/classes-summary-table/classes-summary-table.component';
 
 console.log('`Block` bundle loaded asynchronously');
 
@@ -28,6 +32,7 @@ console.log('`Block` bundle loaded asynchronously');
       BlockSummariesEffects,
       DraftBlocksEffects,
       NewBlockEffects,
+      BlockClassesEffects,
     ]),
   ],
   declarations: [
@@ -36,7 +41,10 @@ console.log('`Block` bundle loaded asynchronously');
     BlockSummaryTableComponent,
     BlockUpdateContainer,
     BlockFormComponent,
-    BlockCreateContainer
+    BlockCreateContainer,
+    ClassListContainer,
+    ClassesSummaryComponent,
+    ClassesSummaryTableComponent
   ]
 })
 export class BlockModule { }

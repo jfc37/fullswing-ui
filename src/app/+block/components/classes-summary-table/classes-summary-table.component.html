@@ -1,0 +1,31 @@
+<mat-table #table
+  data-test-id="classes-table"
+  [dataSource]="dataSource">
+  <ng-container matColumnDef="name">
+    <mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
+    <mat-cell *matCellDef="let c; let i=index;">
+      <a data-test-id="class-details-link"
+        [routerLink]="c.detailsRoute">{{c.name}}</a>
+    </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="attendenceNumber">
+    <mat-header-cell *matHeaderCellDef> Attendence </mat-header-cell>
+    <mat-cell *matCellDef="let c">
+      <span data-test-id="class-attendence-number">{{c.attendenceNumber}}</span>
+    </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="date">
+    <mat-header-cell *matHeaderCellDef> Date </mat-header-cell>
+    <mat-cell *matCellDef="let c">
+      <span data-test-id="class-date">{{c.date}}</span>
+    </mat-cell>
+  </ng-container>
+
+  <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+
+  <mat-row *matRowDef="let row; columns: displayedColumns; let i=index;"
+    [attr.data-test-id]="'class-row-' + i"
+    [attr.data-class-name]="row.name"></mat-row>
+</mat-table>

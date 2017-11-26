@@ -1,4 +1,4 @@
-import { Teacher } from '../../../shared/state-models/teacher';
+import { User } from '../../../shared/state-models/teacher';
 import { SelectionOption } from '../../../shared/state-models/selection-option';
 import { TeachersState } from '../../../core/redux/teachers/teachers.state';
 import { BlockFormModel } from '../../components/block-form/block-form.component.model';
@@ -28,7 +28,7 @@ export const getDraftBlockFormModel = (state: DraftBlocksState, teacherState: Te
 
 export function getBlockFormModel(
   block: Block,
-  teachers: { [id: number]: Teacher },
+  teachers: { [id: number]: User },
   hasError: boolean,
   showLoader: boolean): BlockFormModel {
   return {

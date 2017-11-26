@@ -4,4 +4,5 @@ export interface Class {
   classCapacity: number;
   startTime: Date;
   endTime: Date;
+  actualStudentIds: number[];
 }

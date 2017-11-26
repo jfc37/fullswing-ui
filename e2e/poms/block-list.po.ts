@@ -4,6 +4,7 @@ import { browser, by, element, ExpectedConditions } from 'protractor';
 const CREATE_BLOCK_BUTTON = '[data-test-id="new-block-button"]';
 const DELETE_BLOCK_BUTTONS = '[data-test-id*="delete-block-"]';
 const GENERATE_BLOCK_BUTTONS = '[data-test-id*="generate-block-"]';
+const CLASS_LIST_BUTTONS = '[data-test-id="class-list-button"]';
 const ROW_SELECTOR = (name) => `[data-block-name="${name}"]`;
 
 export class BlockListPage extends AppShell {
@@ -20,6 +21,10 @@ export class BlockListPage extends AppShell {
 
   public clickOnBlock(name: string) {
     return element(by.linkText(name)).click();
+  }
+
+  public clickFirstClassListButton() {
+    return element(by.css(CLASS_LIST_BUTTONS)).click();
   }
 
   public clickGenerateButton(name: string) {

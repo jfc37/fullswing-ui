@@ -96,6 +96,4 @@ describe('BlocksSummaryComponent', () => {
       expect(rows.length).toBe(expectedRows);
     });
   });
-
-
 });

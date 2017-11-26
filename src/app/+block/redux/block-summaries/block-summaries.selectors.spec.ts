@@ -104,6 +104,12 @@ describe('Block Summaries Selectors', () => {
         expect(model.blocks[0].detailsRoute).toBe(`update/542`);
       });
 
+      it(`should map class list route from id`, () => {
+        state.blocks[id].id = 542;
+        const model = getBlockSummariesModel(state);
+        expect(model.blocks[0].classListRoute).toBe(`542/classes`);
+      });
+
       describe(`disableDelete`, () => {
         it(`should be false when not deleting or delete error`, () => {
           state.isDeleting = {};

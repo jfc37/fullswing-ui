@@ -1,3 +1,4 @@
+import { UserDto } from './user.dto';
 import { ClassDto, dtoToClass } from './class.dto';
 import { ineeda } from 'ineeda';
 
@@ -33,13 +34,28 @@ describe('ClassDto', () => {
     ].forEach(data => {
       it(`should map ${data.name}`, () => {
         const dto = ineeda<ClassDto>({
+          actualStudents: [],
           [data.name]: data.dtoValue
-         });
+        });
 
         const theClass = dtoToClass(dto);
 
         expect(theClass[data.name]).toEqual(data.expectedValue);
       });
+    });
+
+    it(`should map actual student ids`, () => {
+      const dto = ineeda<ClassDto>({
+        actualStudents: [
+          ineeda<UserDto>({ id: 1 }),
+          ineeda<UserDto>({ id: 2 }),
+          ineeda<UserDto>({ id: 3 }),
+        ]
+      });
+
+      const theClass = dtoToClass(dto);
+
+      expect(theClass.actualStudentIds).toEqual([1, 2, 3]);
     });
   });
 });

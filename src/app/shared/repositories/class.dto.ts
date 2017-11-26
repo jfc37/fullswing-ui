@@ -1,3 +1,4 @@
+import { UserDto } from './user.dto';
 import { Class } from '../state-models/class';
 export interface ClassDto {
   id: number;
@@ -5,6 +6,7 @@ export interface ClassDto {
   classCapacity: number;
   startTime: string;
   endTime: string;
+  actualStudents: UserDto[];
 }
 
 export function dtoToClass(dto: ClassDto): Class {
@@ -14,5 +16,6 @@ export function dtoToClass(dto: ClassDto): Class {
     name: dto.name,
     startTime: new Date(dto.startTime),
     endTime: new Date(dto.endTime),
+    actualStudentIds: (dto.actualStudents || []).map(s => s.id)
   } as Class;
 }

@@ -1,0 +1,12 @@
+<div *ngIf="model">
+  <fs-loadable [model]="model">
+    <p *ngIf="!hasClasses();else classes"
+      data-test-id="no-classes">
+      No classes
+    </p>
+    <ng-template #classes>
+      <fs-classes-summary-table *ngIf="model.classes"
+        [model]="model.classes"></fs-classes-summary-table>
+    </ng-template>
+  </fs-loadable>
+</div>

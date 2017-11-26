@@ -1,4 +1,4 @@
-import { Teacher } from '../../../shared/state-models/teacher';
+import { User } from '../../../shared/state-models/teacher';
 import { TeachersState } from '../../../core/redux/teachers/teachers.state';
 import { BlockModel } from '../../components/block-form/block-form.component.model';
 import { DraftBlocksState } from './draft-blocks.state';
@@ -142,7 +142,7 @@ describe('Draft Blocks Selectors', () => {
       });
 
       it(`should map teachers`, () => {
-        teacherState.teachers[111] = ineeda<Teacher>({id: 111, fullName: 'name'});
+        teacherState.teachers[111] = ineeda<User>({id: 111, fullName: 'name'});
 
         const model = getDraftBlockFormModel(state, teacherState);
         expect(model.teachers[0].value).toBe(111);

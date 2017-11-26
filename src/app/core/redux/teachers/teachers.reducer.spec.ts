@@ -1,4 +1,4 @@
-import { Teacher } from '../../../shared/state-models/teacher';
+import { User } from '../../../shared/state-models/teacher';
 import { getLoadFailureState, getLoadingState, getLoadSuccessState } from '../../../shared/redux/loadable/loadable.reducer';
 import { teachersReducer } from './teachers.reducer';
 import { TeachersState } from './teachers.state';
@@ -49,7 +49,7 @@ describe('teachersReducer', () => {
     });
 
     it('should set teachers', () => {
-      expected[0] = ineeda<Teacher>({id: 111});
+      expected[0] = ineeda<User>({id: 111});
       const newState = reduce();
       expect(newState.teachers[111]).toBe(expected[0]);
     });

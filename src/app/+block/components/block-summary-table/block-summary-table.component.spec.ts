@@ -156,4 +156,14 @@ describe('BlockSummaryTableComponent', () => {
       });
     });
   });
+
+  it(`should have link for class list`, () => {
+    component.model[0] = ineeda<BlockSummaryModel>({ classListRoute: 'url' });
+
+    component.ngOnInit();
+    fixture.detectChanges();
+
+    const classListElement = getElement(fixture.debugElement, 'class-list-button');
+    expect(classListElement).toBeTruthy();
+  });
 });

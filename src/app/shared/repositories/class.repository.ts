@@ -16,6 +16,16 @@ export class ClassRepository {
   public getUpcomingSchedule(): Observable<Class[]> {
     return this._http.get(`${environment.apiUrl}/api/users/current/schedules`)
       .map(response => response.json() as ClassDto[])
+      .map(dtos => dtos.map(dtoToClass))
+      .catch(response => response.status === 404
+        ? Observable.of([])
+        : Observable.throw(response)
+      );
+  }
+
+  public getForBlock(blockId: number): Observable<Class[]> {
+    return this._http.get(`${environment.apiUrl}/api/blocks/${blockId}/classes`)
+      .map(response => response.json() as ClassDto[])
       .map(dtos => dtos.map(dtoToClass));
   }
 }

@@ -1,3 +1,4 @@
+import { blockClassesReducer } from './block-classes/block-classes.reducer';
 import { getHasLoaded } from '../../shared/redux/loadable/loadable.selectors';
 import { newBlockReducer } from './new-block/new-block.reducer';
 import { getTeachersState } from '../../reducers';
@@ -10,11 +11,15 @@ import { BlockState } from './block.state';
 import { getDraftBlockFormModel, getSelectedDraftBlock } from './draft-blocks/draft-blocks.selectors';
 import { getHasSaved } from '../../shared/redux/savable/savable.selectors';
 import { getNewBlockFormModel } from './new-block/new-block.selectors';
+import { getSelectedBlockClassIds, getSelectedBlockClasses, getClassSummariesModel } from './block-classes/block-classes.selectors';
+import { classesReducer } from './classes/classes.reducer';
 
 export const blockReducer = {
   blockSummaries: blockSummariesReducer,
   draftBlocks: draftBlocksReducer,
   newBlock: newBlockReducer,
+  blockClasses: blockClassesReducer,
+  classes: classesReducer
 };
 
 export const getBlockState = createFeatureSelector<BlockState>('block');
@@ -32,6 +37,16 @@ export const getDraftBlocksState = createSelector(
 export const getNewBlockState = createSelector(
   getBlockState,
   state => state.newBlock
+);
+
+export const getBlockClassesState = createSelector(
+  getBlockState,
+  state => state.blockClasses
+);
+
+export const getClassesState = createSelector(
+  getBlockState,
+  state => state.classes
 );
 
 export const getBlockSummariesModelSelector = createSelector(
@@ -74,4 +89,21 @@ export const getNewBlockFormModelSelector = createSelector(
 export const getHasNewBlockSavedSelector = createSelector(
   getNewBlockState,
   getHasSaved
+);
+
+export const getSelectedBlockClassIdsSelector = createSelector(
+  getBlockClassesState,
+  getSelectedBlockClassIds
+);
+
+export const getSelectedBlockClassesSelector = createSelector(
+  getBlockClassesState,
+  getClassesState,
+  getSelectedBlockClasses
+);
+
+export const getClassSummariesModelSelector = createSelector(
+  getBlockClassesState,
+  getClassesState,
+  getClassSummariesModel
 );

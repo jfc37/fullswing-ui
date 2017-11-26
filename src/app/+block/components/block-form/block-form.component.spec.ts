@@ -68,18 +68,6 @@ describe('BlockFormComponent', () => {
 
           expect(formControl.valid).toBe(false);
         });
-
-        xit(`should show message when ${name} is missing`, () => {
-          const formControl = component.form.get(name);
-          formControl.setValue('');
-          formControl.updateValueAndValidity();
-
-          fixture.detectChanges();
-          const innerHtml = getElementInnerHtml(fixture.debugElement, `${name}-group`);
-
-          expect(innerHtml).toContain('mat-error');
-
-        });
       });
   });
 

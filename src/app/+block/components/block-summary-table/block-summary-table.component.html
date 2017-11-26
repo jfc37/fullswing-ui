@@ -38,6 +38,10 @@
   <ng-container matColumnDef="actions">
     <mat-header-cell *matHeaderCellDef> </mat-header-cell>
     <mat-cell *matCellDef="let block; let i=index;">
+      <a mat-button
+      data-test-id="class-list-button"
+      [routerLink]="block.classListRoute">Class list</a>
+
       <button mat-button
         color="primary"
         [attr.data-test-id]="'generate-block-' + i"

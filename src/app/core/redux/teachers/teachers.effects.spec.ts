@@ -1,5 +1,5 @@
 import { TeachersState } from './teachers.state';
-import { Teacher } from '../../../shared/state-models/teacher';
+import { User } from '../../../shared/state-models/teacher';
 import { TestBed } from '@angular/core/testing';
 import { Actions } from '@ngrx/effects';
 import { marbles, Context } from 'rxjs-marbles';

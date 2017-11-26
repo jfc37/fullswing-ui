@@ -1,5 +1,5 @@
-import { dtoToTeacher, TeacherDto } from './teacher.dto';
-import { Teacher } from '../state-models/teacher';
+import { dtoToUser, UserDto } from './user.dto';
+import { User } from '../state-models/teacher';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { AuthHttp } from 'angular2-jwt';
@@ -10,9 +10,9 @@ export class TeacherRepository {
 
   constructor(private _http: AuthHttp) { }
 
-  public getAll(): Observable<Teacher[]> {
+  public getAll(): Observable<User[]> {
     return this._http.get(`${environment.apiUrl}/api/teachers`)
-      .map(response => response.json() as TeacherDto[])
-      .map(dtos => dtos.map(dtoToTeacher));
+      .map(response => response.json() as UserDto[])
+      .map(dtos => dtos.map(dtoToUser));
   }
 }
