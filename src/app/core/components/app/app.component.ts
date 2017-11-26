@@ -30,6 +30,10 @@ export class AppComponent implements OnInit {
           name: 'Blocks',
           routerLink: ['./blocks']
         },
+        {
+          name: 'Block Enrolment',
+          routerLink: ['./enrol/blocks']
+        },
       ]
     } as SideNavModel);
   }

@@ -17,4 +17,9 @@ export const ROUTES: Routes = [
     canActivate: [AuthenticatedGuard],
     loadChildren: './+block/block.module#BlockModule',
   },
+  {
+    path: 'enrol',
+    canActivate: [AuthenticatedGuard],
+    loadChildren: './+enrol/enrol.module#EnrolModule',
+  },
 ];
