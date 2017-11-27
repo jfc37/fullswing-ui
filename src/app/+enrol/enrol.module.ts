@@ -4,6 +4,12 @@ import { CommonModule } from '@angular/common';
 import { BlockEnrolmentContainer } from './containers/block-enrolment/block-enrolment.container';
 import { RouterModule } from '@angular/router';
 import { routes } from './enrol.routes';
+import { StoreModule } from '@ngrx/store';
+import { enrolmentReducer } from './redux/enrolment.reducer';
+import { EnrolableBlocksEffects } from './redux/enrolable-blocks/enrolable-blocks.effects';
+import { EffectsModule } from '@ngrx/effects';
+import { EnrolableBlockRepository } from './repositories/enrolable-block.repository';
+import { BlockEnrolmentComponent } from './components/block-enrolment/block-enrolment.component';
 
 console.log('`Enrol` bundle loaded asynchronously');
 
@@ -12,7 +18,14 @@ console.log('`Enrol` bundle loaded asynchronously');
     CommonModule,
     SharedModule,
     RouterModule.forChild(routes),
+    StoreModule.forFeature('enrolment', enrolmentReducer),
+    EffectsModule.forFeature([
+      EnrolableBlocksEffects
+    ]),
   ],
-  declarations: [BlockEnrolmentContainer]
+  providers: [
+    EnrolableBlockRepository
+  ],
+  declarations: [BlockEnrolmentContainer, BlockEnrolmentComponent]
 })
 export class EnrolModule { }
