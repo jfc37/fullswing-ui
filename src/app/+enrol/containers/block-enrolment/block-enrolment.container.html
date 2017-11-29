@@ -1,5 +1,6 @@
 <div data-test-id="block-enrolment-container">
   <h1 class="mat-display-1">Block enrolment</h1>
 
-  <fs-blocks-for-enrolment [model]="model$ | async"></fs-blocks-for-enrolment>
+  <fs-blocks-for-enrolment [model]="model$ | async"
+    (blockClicked)="blockClicked($event)"></fs-blocks-for-enrolment>
 </div>

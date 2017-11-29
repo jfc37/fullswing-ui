@@ -1,3 +1,4 @@
+import { InitialiseSelectedBlocks, ToggleBlockSelection } from '../../redux/selected-blocks/selected-blocks.actions';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { BlockEnrolmentContainer } from './block-enrolment.container';
 import { Store } from '@ngrx/store';
@@ -39,5 +40,20 @@ describe('BlockEnrolmentContainer', () => {
 
   it(`should initialise block enrolment`, () => {
     expect(store.dispatch).toHaveBeenCalledWith(new InitialiseBlockEnrolment());
+  });
+
+  it(`should initialise selected block`, () => {
+    expect(store.dispatch).toHaveBeenCalledWith(new InitialiseSelectedBlocks());
+  });
+
+  describe(`when block is clicked`, () => {
+    const id = 531;
+    beforeEach(() => {
+      component.blockClicked(id);
+    });
+
+    it(`should dispatch toggle action`, () => {
+      expect(store.dispatch).toHaveBeenCalledWith(new ToggleBlockSelection(id));
+    });
   });
 });

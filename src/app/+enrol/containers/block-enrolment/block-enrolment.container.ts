@@ -5,6 +5,7 @@ import { EnrolmentState } from '../../redux/enrolment.state';
 import { InitialiseBlockEnrolment } from '../../redux/enrolable-blocks/enrolable-blocks.actions';
 import { Observable } from 'rxjs/Observable';
 import { getBlockEnrolmentModelSelector } from '../../redux/enrolment.reducer';
+import { InitialiseSelectedBlocks, ToggleBlockSelection } from '../../redux/selected-blocks/selected-blocks.actions';
 
 @Component({
   selector: 'fs-block-enrolment',
@@ -17,11 +18,16 @@ export class BlockEnrolmentContainer implements OnInit {
 
   constructor(
     private _store: Store<EnrolmentState>
-  ) {}
+  ) { }
 
   public ngOnInit(): void {
     this._store.dispatch(new InitialiseBlockEnrolment());
+    this._store.dispatch(new InitialiseSelectedBlocks());
 
     this.model$ = this._store.select(getBlockEnrolmentModelSelector);
+  }
+
+  public blockClicked(id: number): void {
+    this._store.dispatch(new ToggleBlockSelection(id));
   }
 }
