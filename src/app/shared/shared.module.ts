@@ -22,6 +22,7 @@ import {
   MatNativeDateModule,
   MatCheckboxModule,
   MatSelectModule,
+  MatChipsModule,
   MAT_DATE_LOCALE,
 } from '@angular/material';
 
@@ -63,6 +64,7 @@ console.log('`Shared` bundle loaded synchronously');
     MatNativeDateModule,
     MatCheckboxModule,
     MatSelectModule,
+    MatChipsModule,
   ],
 })
 export class SharedModule { }
