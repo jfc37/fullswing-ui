@@ -6,7 +6,7 @@ import { EnrolmentState } from '../../redux/enrolment.state';
 import { InitialiseBlockEnrolment } from '../../redux/enrolable-blocks/enrolable-blocks.actions';
 import { Observable } from 'rxjs/Observable';
 import { getBlockEnrolmentModelSelector, getHasAnySelectedBlocksSelector } from '../../redux/enrolment.reducer';
-import { InitialiseSelectedBlocks, ToggleBlockSelection } from '../../redux/selected-blocks/selected-blocks.actions';
+import { InitialiseSelectedBlocks, ToggleBlockSelection, EnrolInSelectedBlocksRequest } from '../../redux/selected-blocks/selected-blocks.actions';
 import { map } from 'rxjs/operators';
 
 @Component({
@@ -34,5 +34,9 @@ export class BlockEnrolmentContainer implements OnInit {
 
   public blockClicked(id: number): void {
     this._store.dispatch(new ToggleBlockSelection(id));
+  }
+
+  public enrolClicked(): void {
+    this._store.dispatch(new EnrolInSelectedBlocksRequest());
   }
 }

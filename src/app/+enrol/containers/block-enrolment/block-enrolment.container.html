@@ -4,7 +4,8 @@
   <button data-test-id="enrol-button"
     mat-raised-button
     color="primary"
-    [disabled]="disableEnrol$ | async">Enrol</button>
+    [disabled]="disableEnrol$ | async"
+    (click)="enrolClicked()">Enrol</button>
 
   <fs-blocks-for-enrolment [model]="model$ | async"
     (blockClicked)="blockClicked($event)"></fs-blocks-for-enrolment>

@@ -1,5 +1,9 @@
 import { getElement } from '../../../../unit-test-helpers/html-queries';
-import { InitialiseSelectedBlocks, ToggleBlockSelection } from '../../redux/selected-blocks/selected-blocks.actions';
+import {
+  EnrolInSelectedBlocksRequest,
+  InitialiseSelectedBlocks,
+  ToggleBlockSelection,
+} from '../../redux/selected-blocks/selected-blocks.actions';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { BlockEnrolmentContainer } from './block-enrolment.container';
 import { Store } from '@ngrx/store';
@@ -89,5 +93,15 @@ describe('BlockEnrolmentContainer', () => {
       expect(enrolButton.nativeElement.disabled).toBe(false);
     });
   });
+
+    describe(`when enrol button is clicked`, () => {
+      beforeEach(() => {
+        component.enrolClicked();
+      });
+
+      it(`should dispatch enrol action`, () => {
+        expect(store.dispatch).toHaveBeenCalledWith(new EnrolInSelectedBlocksRequest());
+      });
+    });
 });
 
