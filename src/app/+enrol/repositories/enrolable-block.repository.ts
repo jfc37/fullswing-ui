@@ -15,4 +15,11 @@ export class EnrolableBlockRepository {
       .map(response => response.json() as EnrolableBlockDto[])
       .map(dtos => dtos.map(dtoToEnrolableBlock));
   }
+
+  public enrol(ids: number[]): Observable<void> {
+    const dto = {blockIds: ids};
+
+    return this._http.post(`${environment.apiUrl}/api/users/current/enrolment`, dto)
+      .mapTo(null);
+  }
 }
