@@ -1,3 +1,4 @@
+import { getHasSaved } from '../../shared/redux/savable/savable.selectors';
 import { enrolableBlocksReducer } from './enrolable-blocks/enrolable-blocks.reducer';
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 import { EnrolableBlocksState } from './enrolable-blocks/enrolable-blocks.state';
@@ -37,4 +38,9 @@ export const getBlockEnrolmentModelSelector = createSelector(
 export const getEnrolEnabledSelector = createSelector(
   getSelectedBlockState,
   getEnrolEnabled
+);
+
+export const getHasEnrolledSuccessfullySelector = createSelector(
+  getSelectedBlockState,
+  getHasSaved
 );

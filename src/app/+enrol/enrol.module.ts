@@ -1,3 +1,4 @@
+import { SelectedBlocksEffects } from './redux/selected-blocks/selected-blocks.effects';
 import { SharedModule } from '../shared/shared.module';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -20,7 +21,8 @@ console.log('`Enrol` bundle loaded asynchronously');
     RouterModule.forChild(routes),
     StoreModule.forFeature('enrolment', enrolmentReducer),
     EffectsModule.forFeature([
-      EnrolableBlocksEffects
+      EnrolableBlocksEffects,
+      SelectedBlocksEffects,
     ]),
   ],
   providers: [

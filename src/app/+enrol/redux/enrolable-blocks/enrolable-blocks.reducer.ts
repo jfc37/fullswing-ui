@@ -9,6 +9,7 @@ import {
   LOAD_ENROLABLE_BLOCKS_FAILURE,
   LOAD_ENROLABLE_BLOCKS_REQUEST,
   LOAD_ENROLABLE_BLOCKS_SUCCESS,
+  RESET_ENROLABLE_BLOCKS,
 } from './enrolable-blocks.actions';
 import { EnrolableBlocksState } from './enrolable-blocks.state';
 
@@ -21,6 +22,9 @@ function getInitialState(): EnrolableBlocksState {
 
 export function enrolableBlocksReducer(state = getInitialState(), action: Actions): EnrolableBlocksState {
   switch (action.type) {
+    case RESET_ENROLABLE_BLOCKS:
+      return getInitialState();
+
     case LOAD_ENROLABLE_BLOCKS_REQUEST:
       return getLoadingState(state);
 

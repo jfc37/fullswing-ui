@@ -11,18 +11,21 @@ import { EnrolmentState } from '../../redux/enrolment.state';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { InitialiseBlockEnrolment } from '../../redux/enrolable-blocks/enrolable-blocks.actions';
 import { Observable } from 'rxjs/Observable';
+import { Router } from '@angular/router';
 
 describe('BlockEnrolmentContainer', () => {
   let component: BlockEnrolmentContainer;
   let fixture: ComponentFixture<BlockEnrolmentContainer>;
 
   let store: Store<EnrolmentState>;
+  let router: Router;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [BlockEnrolmentContainer],
       providers: [
-        { provide: Store, useValue: {}, }
+        { provide: Store, useValue: {}, },
+        { provide: Router, useValue: {} },
       ],
       schemas: [NO_ERRORS_SCHEMA],
     })
@@ -37,6 +40,9 @@ describe('BlockEnrolmentContainer', () => {
     store.dispatch = jasmine.createSpy('dispatch');
     store.select = jasmine.createSpy('select')
       .and.returnValue(Observable.of(true));
+
+    router = TestBed.get(Router);
+    router.navigate = jasmine.createSpy('navigate');
 
     fixture.detectChanges();
   });
@@ -94,14 +100,14 @@ describe('BlockEnrolmentContainer', () => {
     });
   });
 
-    describe(`when enrol button is clicked`, () => {
-      beforeEach(() => {
-        component.enrolClicked();
-      });
-
-      it(`should dispatch enrol action`, () => {
-        expect(store.dispatch).toHaveBeenCalledWith(new EnrolInSelectedBlocksRequest());
-      });
+  describe(`when enrol button is clicked`, () => {
+    beforeEach(() => {
+      component.enrolClicked();
     });
+
+    it(`should dispatch enrol action`, () => {
+      expect(store.dispatch).toHaveBeenCalledWith(new EnrolInSelectedBlocksRequest());
+    });
+  });
 });
 

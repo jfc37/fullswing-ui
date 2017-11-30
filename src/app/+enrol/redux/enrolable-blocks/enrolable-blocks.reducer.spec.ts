@@ -1,7 +1,7 @@
 import { getLoadFailureState, getLoadingState, getLoadSuccessState } from '../../../shared/redux/loadable/loadable.reducer';
 import { enrolableBlocksReducer } from './enrolable-blocks.reducer';
 import { EnrolableBlocksState, EnrolableBlock } from './enrolable-blocks.state';
-import { Actions, LoadEnrolableBlocksFailure, LoadEnrolableBlocksRequest, LoadEnrolableBlocksSuccess } from './enrolable-blocks.actions';
+import { Actions, LoadEnrolableBlocksFailure, LoadEnrolableBlocksRequest, LoadEnrolableBlocksSuccess, ResetEnrolableBlocks } from './enrolable-blocks.actions';
 import { ineeda } from 'ineeda';
 
 describe('enrolableBlocksReducer', () => {
@@ -19,6 +19,20 @@ describe('enrolableBlocksReducer', () => {
 
     it('should start with empty set of blocks', () => {
       const newState = enrolableBlocksReducer(undefined, action);
+      expect(newState.blocks).toEqual({});
+    });
+  });
+
+  describe('Reset', () => {
+    beforeEach(() => {
+      action = new ResetEnrolableBlocks();
+    });
+
+    it('should clear out enrolable blocks', () => {
+      state.blocks = {[1]: ineeda<EnrolableBlock>()};
+
+      const newState = reduce();
+
       expect(newState.blocks).toEqual({});
     });
   });

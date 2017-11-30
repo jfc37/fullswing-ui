@@ -27,7 +27,7 @@ export function getSaveSuccessState<T extends SavableState>(state: T): T {
 export function getSaveFailureState<T extends SavableState>(state: T, error: string): T {
   return Object.assign({}, state, {
     isSaving: false,
-    hasSaved: true,
+    hasSaved: false,
     saveError: error,
   });
 }
