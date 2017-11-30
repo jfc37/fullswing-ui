@@ -5,7 +5,7 @@ import { EnrolmentState } from './enrolment.state';
 import { getHasLoaded } from '../../shared/redux/loadable/loadable.selectors';
 import { getBlockEnrolmentModel } from './enrolable-blocks/enrolable-blocks.selectors';
 import { selectedBlocksReducer } from './selected-blocks/selected-blocks.reducer';
-import { getHasAnySelectedBlocks } from './selected-blocks/selected-blocks.selectors';
+import { getEnrolEnabled } from './selected-blocks/selected-blocks.selectors';
 
 export const enrolmentReducer = {
   enrolableBlocks: enrolableBlocksReducer,
@@ -34,7 +34,7 @@ export const getBlockEnrolmentModelSelector = createSelector(
   getBlockEnrolmentModel
 );
 
-export const getHasAnySelectedBlocksSelector = createSelector(
+export const getEnrolEnabledSelector = createSelector(
   getSelectedBlockState,
-  getHasAnySelectedBlocks
+  getEnrolEnabled
 );

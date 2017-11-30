@@ -5,7 +5,7 @@ import { Store } from '@ngrx/store';
 import { EnrolmentState } from '../../redux/enrolment.state';
 import { InitialiseBlockEnrolment } from '../../redux/enrolable-blocks/enrolable-blocks.actions';
 import { Observable } from 'rxjs/Observable';
-import { getBlockEnrolmentModelSelector, getHasAnySelectedBlocksSelector } from '../../redux/enrolment.reducer';
+import { getBlockEnrolmentModelSelector, getEnrolEnabledSelector } from '../../redux/enrolment.reducer';
 import { InitialiseSelectedBlocks, ToggleBlockSelection, EnrolInSelectedBlocksRequest } from '../../redux/selected-blocks/selected-blocks.actions';
 import { map } from 'rxjs/operators';
 
@@ -28,7 +28,7 @@ export class BlockEnrolmentContainer implements OnInit {
     this._store.dispatch(new InitialiseSelectedBlocks());
 
     this.model$ = this._store.select(getBlockEnrolmentModelSelector);
-    this.disableEnrol$ = this._store.select(getHasAnySelectedBlocksSelector)
+    this.disableEnrol$ = this._store.select(getEnrolEnabledSelector)
       .map(hasSelected => !hasSelected);
   }
 

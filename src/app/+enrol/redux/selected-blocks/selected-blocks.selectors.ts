@@ -1,3 +1,7 @@
 import { SelectedBlocksState } from './selected-blocks.state';
-export const getHasAnySelectedBlocks
-  = (state: SelectedBlocksState) => !!state && Object.values(state.blocks).some(Boolean);
+
+export const getEnrolEnabled
+  = (state: SelectedBlocksState) =>
+    !!state
+    && !state.isSaving
+    && Object.values(state.blocks).some(Boolean);

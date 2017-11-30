@@ -1,7 +1,15 @@
 import { selectedBlocksReducer } from './selected-blocks.reducer';
 import { ineeda } from 'ineeda';
 import { SelectedBlocksState } from './selected-blocks.state';
-import { Actions, InitialiseSelectedBlocks, ToggleBlockSelection } from './selected-blocks.actions';
+import {
+  Actions,
+  EnrolInSelectedBlocksFailure,
+  EnrolInSelectedBlocksRequest,
+  EnrolInSelectedBlocksSuccess,
+  InitialiseSelectedBlocks,
+  ToggleBlockSelection,
+} from './selected-blocks.actions';
+import { getSavingState, getSaveSuccessState, getSaveFailureState } from '../../../shared/redux/savable/savable.reducer';
 
 describe('selectedBlocksReducer', () => {
   const state = ineeda<SelectedBlocksState>();
@@ -49,6 +57,52 @@ describe('selectedBlocksReducer', () => {
 
       const newState = reduce();
       expect(newState.blocks[id]).toBe(true);
+    });
+  });
+
+  describe('Enrol Request', () => {
+    beforeEach(() => {
+      action = new EnrolInSelectedBlocksRequest();
+    });
+
+    it('should set state according to saving state', () => {
+      const newState = reduce();
+      const expectedState = getSavingState(null);
+      Object.keys(expectedState).forEach(k => expect(newState[k]).toBe(expectedState[k]));
+    });
+  });
+
+  describe('Enrol Success', () => {
+    beforeEach(() => {
+      action = new EnrolInSelectedBlocksSuccess();
+    });
+
+    it('should set state according to saving success state', () => {
+      const newState = reduce();
+      const expectedState = getSaveSuccessState(null);
+      Object.keys(expectedState).forEach(k => expect(newState[k]).toBe(expectedState[k]));
+    });
+
+    it('should set reset selected blocks', () => {
+      state.blocks = {[1]: true};
+
+      const newState = reduce();
+
+      expect(newState.blocks).toEqual({});
+    });
+  });
+
+  describe('Enrol Failure', () => {
+    const error = 'ERROR';
+
+    beforeEach(() => {
+      action = new EnrolInSelectedBlocksFailure(error);
+    });
+
+    it('should set state according to saving failure state', () => {
+      const newState = reduce();
+      const expectedState = getSaveFailureState(null, error);
+      Object.keys(expectedState).forEach(k => expect(newState[k]).toBe(expectedState[k]));
     });
   });
 });
