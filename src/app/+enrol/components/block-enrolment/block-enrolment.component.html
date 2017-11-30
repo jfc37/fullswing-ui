@@ -11,7 +11,8 @@
           {{groupBlock.startingOn}}
         </mat-card-title>
         <div *ngFor="let block of groupBlock.blocks"
-          data-test-id="block-card">
+          data-test-id="block-card"
+          [attr.data-block-name]="block.name">
           <div data-test-id="block-title">{{block.name}}</div>
           <div data-test-id="block-times">{{block.startTime}} - {{block.endTime}}</div>
           <div *ngIf="block.isRegistered;else notYetEnroled"

@@ -1,4 +1,5 @@
 import { AppShell } from './app-shell.po';
+import { browser } from 'protractor';
 
 const NAME_INPUT = '[data-test-id="name"]';
 const START_DATE_INPUT = '[data-test-id="startDate"]';
@@ -27,5 +28,16 @@ export class CreateBlockPage extends AppShell {
 
   public clickCreateButton() {
     this.clickButton(CREATE_BUTTON);
+  }
+
+  public createFromScratch(name: string) {
+    this.navigateTo();
+    expect(this.isOnPage()).toBe(true, `Clicking the create button didn't move to the create page`);
+
+    this.fillFormInCorrectly();
+    this.setName(name);
+    this.clickCreateButton();
+
+    return browser.wait(this.isOnPage().then(isOnPage => !isOnPage), null, `Create block page didn't redirect off after creating`);
   }
 }
