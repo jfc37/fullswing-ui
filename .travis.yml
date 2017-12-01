@@ -42,8 +42,8 @@ before_script:
   - npm install -g @angular/cli
 
 script:
-  - npm run check-all
   - npm run e2e
+  - npm run check-all
   - ng build --prod
 
 after_success:
@@ -51,5 +51,5 @@ after_success:
 
 notifications:
   email:
-    on_failure: always
+    on_failure: change
     on_success: change

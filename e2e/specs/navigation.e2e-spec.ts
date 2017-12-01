@@ -4,14 +4,17 @@ import { LoginPage } from '../poms/login.po';
 import { BlockListPage } from '../poms/block-list.po';
 import { DashboardPage } from '../poms/dashboard.po';
 import { browser, promise, element, by } from 'protractor';
+import { BlockEnrolmentPage } from '../poms/block-enrolment.po';
 
 describe('Side navigation', () => {
   let dashboardPage: DashboardPage;
   let blocksPage: BlockListPage;
+  let blockEnrolmentPage: BlockEnrolmentPage;
 
   beforeEach(() => {
     dashboardPage = new DashboardPage();
     blocksPage = new BlockListPage();
+    blockEnrolmentPage = new BlockEnrolmentPage();
 
     dashboardPage.navigateTo();
     new LoginPage().login();
@@ -22,6 +25,7 @@ describe('Side navigation', () => {
   it(`user can use side nav to browse around`, () => {
     useNavigation(blocksPage, 'Blocks');
     useNavigation(dashboardPage, 'Dashboard');
+    useNavigation(blockEnrolmentPage, 'Block Enrolment');
   });
 
   function useNavigation(pom: AppShell, navTitle: string) {

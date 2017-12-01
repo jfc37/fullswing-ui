@@ -66,9 +66,9 @@ describe('getSaveFailureState', () => {
     expect(result.isSaving).toBe(false);
   });
 
-  it(`should return hasSaved as true`, () => {
+  it(`should return hasSaved as false`, () => {
     const result = getSaveFailureState(savableState, error);
-    expect(result.hasSaved).toBe(true);
+    expect(result.hasSaved).toBe(false);
   });
 
   it(`should return saveError as error`, () => {

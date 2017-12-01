@@ -13,6 +13,10 @@ export abstract class AppShell {
     }).first();
   }
 
+  public clickOnNavigation(title: string) {
+    return this.getNavigationFor(title).click();
+  }
+
   public isOnPage() {
     return element.all(by.css(`[data-test-id="${this.pageIdentifer}"]`)).isPresent();
   }
