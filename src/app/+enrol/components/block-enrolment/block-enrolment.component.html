@@ -1,0 +1,39 @@
+<div *ngIf="model">
+  <fs-loadable [model]="model">
+    <p *ngIf="!hasBlocks();else blocks"
+      data-test-id="no-blocks">
+      No blocks
+    </p>
+    <ng-template #blocks>
+      <mat-card *ngFor="let groupBlock of model.groupedBlocks"
+        data-test-id="blocks-starting-on-group">
+        <mat-card-title data-test-id="starting-on">
+          {{groupBlock.startingOn}}
+        </mat-card-title>
+        <div *ngFor="let block of groupBlock.blocks"
+          data-test-id="block-card"
+          [attr.data-block-name]="block.name">
+          <div data-test-id="block-title">{{block.name}}</div>
+          <div data-test-id="block-times">{{block.startTime}} - {{block.endTime}}</div>
+          <div *ngIf="block.isRegistered;else notYetEnroled"
+            data-test-id="already-enrolled">Already enrolled</div>
+          <ng-template #notYetEnroled>
+            <mat-checkbox *ngIf="!isOutOfSpace(block)"
+              data-test-id="enrol-checkbox"
+              (click)="blockClicked.emit(block.id)"></mat-checkbox>
+          </ng-template>
+          <mat-chip-list *ngIf="showLackOfSpaceWarning(block)">
+            <ng-container *ngIf="isOutOfSpace(block); else lowSpaceWarning">
+              <mat-chip color="accent"
+                data-test-id="block-out-of-space">Sorry, sold out</mat-chip>
+            </ng-container>
+            <ng-template #lowSpaceWarning>
+              <mat-chip color="accent"
+                data-test-id="block-low-on-space">{{block.spacesLeft}} spaces left</mat-chip>
+            </ng-template>
+          </mat-chip-list>
+        </div>
+      </mat-card>
+    </ng-template>
+  </fs-loadable>
+</div>

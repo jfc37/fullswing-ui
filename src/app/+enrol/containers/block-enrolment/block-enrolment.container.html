@@ -1,0 +1,12 @@
+<div data-test-id="block-enrolment-container">
+  <h1 class="mat-display-1">Block enrolment</h1>
+
+  <button data-test-id="enrol-button"
+    mat-raised-button
+    color="primary"
+    [disabled]="disableEnrol$ | async"
+    (click)="enrolClicked()">Enrol</button>
+
+  <fs-blocks-for-enrolment [model]="model$ | async"
+    (blockClicked)="blockClicked($event)"></fs-blocks-for-enrolment>
+</div>

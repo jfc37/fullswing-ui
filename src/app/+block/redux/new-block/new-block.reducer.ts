@@ -2,10 +2,17 @@ import { Block } from '../../../shared/state-models/block';
 import { getInitialSavableState, getSaveSuccessState, getSavingState, getSaveFailureState } from '../../../shared/redux/savable/savable.reducer';
 import { NewBlockState } from './new-block.state';
 import { Actions, RESET_NEW_BLOCK, UPDATE_NEW_BLOCK, CREATE_BLOCK_REQUEST, CREATE_BLOCK_SUCCESS, CREATE_BLOCK_FAILURE } from './new-block.actions';
+import * as moment from 'moment';
 
 function getInitialState(): NewBlockState {
-  const startDate = new Date();
-  startDate.setHours(18, 0);
+  const startDate = moment()
+    .add(7, 'days')
+    .set('hours', 18)
+    .set('minutes', 0)
+    .set('seconds', 0)
+    .set('millisecond', 0)
+    .toDate();
+
   return {
     ...getInitialSavableState(),
     block: {
