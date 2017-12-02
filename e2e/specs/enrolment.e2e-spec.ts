@@ -7,7 +7,7 @@ import { BlockEnrolmentPage } from '../poms/block-enrolment.po';
 import { DashboardPage } from '../poms/dashboard.po';
 import { browser } from 'protractor';
 
-fdescribe(`Enrolment`, () => {
+describe(`Enrolment`, () => {
   const blockName = `BLOCK ENROLMENT E2E TEST`;
 
   beforeEach(() => {
