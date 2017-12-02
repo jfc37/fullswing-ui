@@ -28,4 +28,10 @@ export class ClassRepository {
       .map(response => response.json() as ClassDto[])
       .map(dtos => dtos.map(dtoToClass));
   }
+
+  public getById(id: number): Observable<Class> {
+    return this._http.get(`${environment.apiUrl}/api/classes/${id}`)
+      .map(response => response.json() as ClassDto)
+      .map(dtoToClass);
+  }
 }

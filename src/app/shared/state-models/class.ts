@@ -5,4 +5,5 @@ export interface Class {
   startTime: Date;
   endTime: Date;
   actualStudentIds: number[];
+  registeredStudentIds: number[];
 }
