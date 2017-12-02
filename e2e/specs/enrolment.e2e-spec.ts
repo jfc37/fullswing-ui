@@ -7,7 +7,7 @@ import { BlockEnrolmentPage } from '../poms/block-enrolment.po';
 import { DashboardPage } from '../poms/dashboard.po';
 import { browser } from 'protractor';
 
-describe(`Enrolment`, () => {
+fdescribe(`Enrolment`, () => {
   const blockName = `BLOCK ENROLMENT E2E TEST`;
 
   beforeEach(() => {
@@ -26,6 +26,7 @@ describe(`Enrolment`, () => {
   function createBlock() {
     const createBlockPage = new CreateBlockPage();
     createBlockPage.navigateTo();
+    browser.wait(createBlockPage.isOnPage(), null, `Did not navigate to create block page`);
     createBlockPage.createFromScratch(blockName);
   }
 
