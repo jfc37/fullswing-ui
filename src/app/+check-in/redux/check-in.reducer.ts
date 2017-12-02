@@ -2,9 +2,11 @@ import { classesReducer } from './classes/classes.reducer';
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 import { CheckInState } from './check-in.state';
 import { getSelectedClass } from './classes/classes.selectors';
+import { studentsReducer } from './students/students.reducer';
 
 export const checkInReducer = {
   classes: classesReducer,
+  students: studentsReducer,
 };
 
 export const getCheckInState = createFeatureSelector<CheckInState>('checkIn');

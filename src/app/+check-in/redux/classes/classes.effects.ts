@@ -1,3 +1,4 @@
+import { SetStudents } from '../students/students.actions';
 import { Injectable } from '@angular/core';
 import { Actions, Effect } from '@ngrx/effects';
 import { Action, Store } from '@ngrx/store';
@@ -24,8 +25,9 @@ export class ClassesEffects {
     .ofType<stateActions.LoadClassRequest>(stateActions.LOAD_CLASS_REQUEST)
     .map(action => action.id)
     .switchMap(id => this.repository.getById(id)
-      .mergeMap(selectedClass => Observable.merge([
-        new stateActions.LoadClassSuccess(selectedClass),
+      .mergeMap(response => Observable.merge([
+        new SetStudents(response.students),
+        new stateActions.LoadClassSuccess(response.class),
       ]))
       .catch(() => Observable.of(new stateActions.LoadClassFailure(`Failed getting class`)))
     );

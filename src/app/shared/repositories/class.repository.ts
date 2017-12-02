@@ -4,6 +4,8 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { AuthHttp } from 'angular2-jwt';
 import { environment } from '../../../environments/environment';
+import { dtoToUser } from './user.dto';
+import { User } from '../state-models/teacher';
 
 @Injectable()
 export class ClassRepository {
@@ -29,9 +31,15 @@ export class ClassRepository {
       .map(dtos => dtos.map(dtoToClass));
   }
 
-  public getById(id: number): Observable<Class> {
+  public getById(id: number): Observable<{ class: Class, students: User[] }> {
     return this._http.get(`${environment.apiUrl}/api/classes/${id}`)
       .map(response => response.json() as ClassDto)
-      .map(dtoToClass);
+      .map(dto => ({
+        class: dtoToClass(dto),
+        students: [
+          ...dto.actualStudents,
+          ...dto.registeredStudents
+        ].map(dtoToUser)
+      }));
   }
 }
