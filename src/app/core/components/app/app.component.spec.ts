@@ -7,6 +7,7 @@ import { AppComponent } from './app.component';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { State } from '../../../reducers/index';
+import { Observable } from 'rxjs/Observable';
 
 describe('AppComponent', () => {
   let fixture: ComponentFixture<AppComponent>;
@@ -28,7 +29,8 @@ describe('AppComponent', () => {
     }).compileComponents();
 
     store = TestBed.get(Store);
-    store.select = jasmine.createSpy('select');
+    store.select = jasmine.createSpy('select')
+      .and.returnValue(Observable.never());
     store.dispatch = jasmine.createSpy('dispatch');
 
     fixture = TestBed.createComponent(AppComponent);

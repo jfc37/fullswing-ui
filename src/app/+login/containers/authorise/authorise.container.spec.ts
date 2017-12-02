@@ -1,22 +1,23 @@
-import { AuthoriseContainerDispatcher } from './authorise.container.dispatcher';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { AuthoriseContainer } from './authorise.container';
 import { Router } from '@angular/router';
 import { Observable, ReplaySubject } from 'rxjs';
+import { Store } from '@ngrx/store';
+import { State } from '../../../reducers/index';
 
 describe('AuthoriseContainer', () => {
   let component: AuthoriseContainer;
   let fixture: ComponentFixture<AuthoriseContainer>;
 
-  let dispatcher: AuthoriseContainerDispatcher;
+  let store: Store<State>;
   let router: Router;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [AuthoriseContainer],
       providers: [
-        { provide: AuthoriseContainerDispatcher, useValue: {} },
+        { provide: Store, useValue: {} },
         { provide: Router, useValue: {} }
       ]
     })
@@ -24,8 +25,8 @@ describe('AuthoriseContainer', () => {
   }));
 
   beforeEach(() => {
-    dispatcher = TestBed.get(AuthoriseContainerDispatcher);
-    dispatcher.completeAuthorisation = jasmine.createSpy('complete')
+    store = TestBed.get(Store);
+    store.select = jasmine.createSpy('complete')
       .and.returnValue(Observable.never());
     router = TestBed.get(Router);
     router.navigateByUrl = jasmine.createSpy('navigate');
@@ -40,12 +41,12 @@ describe('AuthoriseContainer', () => {
   });
 
   describe('ngOnInit', () => {
-    let completeReplay: ReplaySubject<null>;
+    let isAuthorisedReplay: ReplaySubject<boolean>;
 
     beforeEach(() => {
-      completeReplay = new ReplaySubject();
-      dispatcher.completeAuthorisation = jasmine.createSpy('complete')
-        .and.returnValue(completeReplay);
+      isAuthorisedReplay = new ReplaySubject();
+      store.select = jasmine.createSpy('complete')
+        .and.returnValue(isAuthorisedReplay);
 
       component.ngOnInit();
     });
@@ -55,8 +56,8 @@ describe('AuthoriseContainer', () => {
     });
 
     it(`should redirect to dashboard when authorisation completes`, () => {
-      completeReplay.next(null);
-      completeReplay.complete();
+      isAuthorisedReplay.next(true);
+      isAuthorisedReplay.complete();
 
       expect(router.navigateByUrl).toHaveBeenCalledWith('/dashboard');
     });

@@ -54,6 +54,9 @@ describe('UserEffects', () => {
       .and.returnValue(null);
     localStorageService.getProfile = jasmine.createSpy('getProfile')
       .and.returnValue(null);
+
+    Observable.timer = jasmine.createSpy('timer')
+      .and.returnValue(Observable.of(1));
   });
 
   it('should exist', () => {
@@ -61,30 +64,15 @@ describe('UserEffects', () => {
   });
 
   describe('initialiseAuthorisation', () => {
-    it(`should emit 'SetAuthorisation' when id token exists in local storage`, marbles((m) => {
+    it(`should emit 'SetAuthorisation' when id and access token exists in local storage`, marbles((m) => {
       const expectedIdToken = 'aaa';
+      const expectedAccessToken = 'aaa';
       localStorageService.getIdToken = jasmine.createSpy('get')
         .and.returnValue(expectedIdToken);
-
-      const completion = new SetAuthorisation(expectedIdToken, null);
-      const expected = m.cold('(b|)', { b: completion });
-
-      m.expect(sut.initialiseAuthorisation$).toBeObservable(expected);
-    }));
-
-    it(`should emit 'SetAuthorisation' when access token exists in local storage`, marbles((m) => {
-      const expectedAccessToken = 'aaa';
-      localStorageService.getAccessToken = jasmine.createSpy('get')
+        localStorageService.getAccessToken = jasmine.createSpy('get')
         .and.returnValue(expectedAccessToken);
 
-      const completion = new SetAuthorisation(null, expectedAccessToken);
-      const expected = m.cold('(b|)', { b: completion });
-
-      m.expect(sut.initialiseAuthorisation$).toBeObservable(expected);
-    }));
-
-    it(`should emit empty 'SetAuthorisation' when no tokens exists in local storage`, marbles((m) => {
-      const completion = new SetAuthorisation(null, null);
+      const completion = new SetAuthorisation(expectedIdToken, expectedAccessToken);
       const expected = m.cold('(b|)', { b: completion });
 
       m.expect(sut.initialiseAuthorisation$).toBeObservable(expected);
@@ -165,7 +153,7 @@ describe('UserEffects', () => {
         .skip(1)
         .first()
         .finally(done)
-        .subscribe(next => expect(next).toEqual(new SetProfile(null)));
+        .subscribe(next => expect(next).toEqual(new SetProfile({})));
     });
   });
 });

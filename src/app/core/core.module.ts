@@ -1,3 +1,4 @@
+import { UserClaimsEffects } from './redux/user-claims/user-claims.effects';
 import { TeachersEffects } from './redux/teachers/teachers.effects';
 import { SharedModule } from '../shared/shared.module';
 import { NgModule } from '@angular/core';
@@ -15,6 +16,8 @@ import { EffectsModule } from '@ngrx/effects';
 import { UserEffects } from './redux/user/user.effects';
 import { TopNavComponent } from './components/top-nav/top-nav.component';
 import { SideNavComponent } from './components/side-nav/side-nav.component';
+import { UserRepository } from './repositories/user.repository';
+import { TeacherGuard } from './guards/teacher.guard';
 
 console.log('`Core` bundle loaded synchronously');
 
@@ -32,6 +35,7 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     EffectsModule.forRoot([
       UserEffects,
       TeachersEffects,
+      UserClaimsEffects,
     ]),
   ],
   declarations: [
@@ -43,6 +47,8 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
     AuthService,
     LocalStorageService,
     AuthenticatedGuard,
+    TeacherGuard,
+    UserRepository,
     {
       provide: AuthHttp,
       useFactory: authHttpServiceFactory,

@@ -1,3 +1,4 @@
+import { TeacherGuard } from './core/guards/teacher.guard';
 import { Routes } from '@angular/router';
 import { AuthenticatedGuard } from './core/guards/authenticated.guard';
 
@@ -14,7 +15,7 @@ export const ROUTES: Routes = [
   },
   {
     path: 'blocks',
-    canActivate: [AuthenticatedGuard],
+    canActivate: [AuthenticatedGuard, TeacherGuard],
     loadChildren: './+block/block.module#BlockModule',
   },
   {
