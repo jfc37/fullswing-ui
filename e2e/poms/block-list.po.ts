@@ -32,7 +32,7 @@ export class BlockListPage extends AppShell {
     row.element(by.css(GENERATE_BLOCK_BUTTONS)).click();
     return browser.wait(element.all(by.css(ROW_SELECTOR(name)))
       .count()
-      .then(numberOfRows => numberOfRows === 2), 5000, `Genearted block didn't appear in list`);
+      .then(numberOfRows => numberOfRows === 2), null, `Genearted block didn't appear in list`);
   }
 
   public deleteBlock(name: string) {
@@ -40,7 +40,7 @@ export class BlockListPage extends AppShell {
     const rows = this.getRows(name);
     rows.count().then(count => rowCount = count);
     rows.first().element(by.css(DELETE_BLOCK_BUTTONS)).click();
-    return browser.wait(rows.count().then(currentCount => currentCount < rowCount), 5000, `Block wasn't removed after deleting`);
+    return browser.wait(rows.count().then(currentCount => currentCount < rowCount), null, `Block wasn't removed after deleting`);
   }
 
   private getRows(name: string) {
