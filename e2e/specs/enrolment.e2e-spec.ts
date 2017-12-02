@@ -26,6 +26,7 @@ describe(`Enrolment`, () => {
   function createBlock() {
     const createBlockPage = new CreateBlockPage();
     createBlockPage.navigateTo();
+    browser.wait(createBlockPage.isOnPage(), null, `Did not navigate to create block page`);
     createBlockPage.createFromScratch(blockName);
   }
 

@@ -10,13 +10,16 @@ const reporter = new HtmlScreenshotReporter({
 });
 
 exports.config = {
-  allScriptsTimeout: 10000,
+  allScriptsTimeout: 20000,
   restartBrowserBetweenTests: true,
   specs: [
     './e2e/**/*.e2e-spec.ts'
   ],
   capabilities: {
-    'browserName': 'chrome'
+    browserName: 'chrome',
+    chromeOptions: {
+       args: [ "--headless", "--disable-gpu", "--window-size=800,600" ]
+     }
   },
   directConnect: true,
   baseUrl: 'http://localhost:4200/',

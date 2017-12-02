@@ -23,17 +23,17 @@ export class LoginPage extends AppShell {
     this.enterValue(EMAIL_SELECTOR, 'placid.joe@gmail.com');
     this.enterValue(PASSWORD_SELECTOR, 'password');
     this.clickButton(LOG_IN_BUTTON_SELECTOR);
-    return browser.wait(ExpectedConditions.urlContains('dashboard'), 10000, 'never redirected to dashboard after login')
+    return browser.wait(ExpectedConditions.urlContains('dashboard'), null, 'never redirected to dashboard after login')
       .then(() => browser.ignoreSynchronization = false);
   }
 
   private waitForWidgetToAppear() {
     const el = element(by.css(WIDGET_SELECTOR));
-    return browser.wait(ExpectedConditions.visibilityOf(el), 10000, 'Login widget never appeared');
+    return browser.wait(ExpectedConditions.visibilityOf(el), null, 'Login widget never appeared');
   }
 
   private waitForEmailBoxToAppear() {
     const emailElement = element(by.css(EMAIL_SELECTOR));
-    return browser.wait(ExpectedConditions.presenceOf(emailElement), 10000, `waiting for email box, never appeared`);
+    return browser.wait(ExpectedConditions.presenceOf(emailElement), null, `waiting for email box, never appeared`);
   }
 }
