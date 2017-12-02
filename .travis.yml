@@ -43,6 +43,8 @@ before_script:
 
 script:
   - npm run e2e
+  - npm run check-all
+  - ng build --prod
 
 after_success:
   - firebase deploy --token $FIREBASE_TOKEN
