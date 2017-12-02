@@ -5,7 +5,7 @@ import { teardown } from '../common/common';
 import { UpdateBlockPage } from '../poms/update-block.po';
 import { browser } from 'protractor';
 
-fdescribe('Blocks', () => {
+describe('Blocks', () => {
   let blockListPage: BlockListPage;
   let createBlockPage: CreateBlockPage;
   let updateBlockPage: UpdateBlockPage;
