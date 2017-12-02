@@ -4,9 +4,7 @@ import { Actions, SET_AUTHORISATION, SET_PROFILE, SetAuthorisation } from './use
 
 const initialState: UserState = {
   authorisation: {},
-  profile: {
-    claims: [],
-  }
+  profile: {},
 };
 
 export function reducer(state = initialState, action: Actions): UserState {

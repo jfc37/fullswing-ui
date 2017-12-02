@@ -11,10 +11,14 @@ import { ROUTER_NAVIGATION } from '@ngrx/router-store';
 
 @Injectable()
 export class UserEffects {
+
   @Effect()
   public initialiseAuthorisation$: Observable<Action> = this.actions$
     .ofType<user.InitialiseAuthorisation>(user.INITIALISE_AUTHORISATION)
     .startWith(new user.InitialiseAuthorisation())
+    .switchMap(() => Observable.timer(0, 100))
+    .filter(() => !!this.localStorageService.getIdToken() && !!this.localStorageService.getAccessToken())
+    .take(1)
     .map(() => ({
       accessToken: this.localStorageService.getAccessToken(),
       idToken: this.localStorageService.getIdToken(),
@@ -25,8 +29,10 @@ export class UserEffects {
   public initialiseProfile$: Observable<Action> = this.actions$
     .ofType<user.InitialiseProfile>(user.INITIALISE_PROFILE)
     .startWith(new user.InitialiseProfile())
+    .switchMap(() => Observable.timer(0, 100))
+    .filter(() => !!this.localStorageService.getProfile())
+    .take(1)
     .map(() => this.localStorageService.getProfile())
-    .filter(profile => !!profile)
     .map(profile => new user.SetProfile(profile));
 
   @Effect()
@@ -41,7 +47,7 @@ export class UserEffects {
     })
     .mergeMap(() => [
       new SetAuthorisation(null, null),
-      new SetProfile(null)
+      new SetProfile({})
     ]);
 
   constructor(

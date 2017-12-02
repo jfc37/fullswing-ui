@@ -1,6 +1,6 @@
-import { SideNavModel } from '../side-nav/side-nav.component.model';
+import { SideNavItemModel, SideNavModel } from '../side-nav/side-nav.component.model';
 import { Logout } from '../../redux/user/user.actions';
-import { getTopNavModelSelector } from '../../../reducers';
+import { getIsAdminSelector, getTopNavModelSelector, getIsTeacherSelector } from '../../../reducers';
 import { TopNavModel } from '../top-nav/top-nav.component.model';
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
@@ -16,26 +16,33 @@ export class AppComponent implements OnInit {
   public topNavModel$: Observable<TopNavModel>;
   public sideNavModel$: Observable<SideNavModel>;
 
+  private _studentMenuItems = [{
+    name: 'Dashboard',
+    routerLink: ['./dashboard']
+  },
+  {
+    name: 'Block Enrolment',
+    routerLink: ['./enrol/blocks']
+  }];
+
+  private _teacherMenuItems = [{
+    name: 'Blocks',
+    routerLink: ['./blocks']
+  }];
+
   constructor(private _store: Store<State>) { }
 
   public ngOnInit(): void {
     this.topNavModel$ = this._store.select(getTopNavModelSelector);
-    this.sideNavModel$ = Observable.of({
+
+    this.sideNavModel$ = Observable.combineLatest(
+      this._store.select(getIsTeacherSelector),
+    ).map(([isTeacher]) => ({
       items: [
-        {
-          name: 'Dashboard',
-          routerLink: ['./dashboard']
-        },
-        {
-          name: 'Blocks',
-          routerLink: ['./blocks']
-        },
-        {
-          name: 'Block Enrolment',
-          routerLink: ['./enrol/blocks']
-        },
+        ...this._studentMenuItems,
+        ...Array.from(isTeacher ? this._teacherMenuItems : [])
       ]
-    } as SideNavModel);
+    }));
   }
 
   public logout(): void {

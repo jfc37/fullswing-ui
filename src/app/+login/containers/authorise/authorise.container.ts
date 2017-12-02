@@ -1,4 +1,4 @@
-import { AuthoriseContainerDispatcher } from './authorise.container.dispatcher';
+import { State, getIsAuthenticationCompleteSelector } from '../../../reducers';
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { UserState } from '../../../core/redux/user/user.state';
@@ -11,11 +11,12 @@ import { Router } from '@angular/router';
 })
 export class AuthoriseContainer implements OnInit {
   constructor(
-    private _dispatcher: AuthoriseContainerDispatcher,
+    private _store: Store<State>,
     private _router: Router) { }
 
   public ngOnInit() {
-    this._dispatcher.completeAuthorisation()
+    this._store.select(getIsAuthenticationCompleteSelector)
+      .filter(Boolean)
       .first()
       .subscribe(() => this._router.navigateByUrl('/dashboard'));
   }
