@@ -10,7 +10,7 @@ import { TableDataSource } from '../../../core/service/table-data-source';
 export class ClassesSummaryTableComponent implements OnInit, OnChanges {
   @Input() public model: ClassSummaryModel[];
 
-  public displayedColumns = ['name', 'attendenceNumber', 'date'];
+  public displayedColumns = ['name', 'attendenceNumber', 'date', 'actions'];
   public dataSource: TableDataSource<ClassSummaryModel>;
 
   public ngOnInit() {

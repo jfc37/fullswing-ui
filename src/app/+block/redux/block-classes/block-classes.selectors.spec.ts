@@ -119,6 +119,13 @@ describe('Block Classes Selectors', () => {
         const model = getClassSummariesModel(blockClassesState, classesState);
         expect(model.classes[0].attendenceNumber).toBe(3);
       });
+
+      it(`should map check in route`, () => {
+        classesState.classes[classId].id = classId;
+
+        const model = getClassSummariesModel(blockClassesState, classesState);
+        expect(model.classes[0].checkInRoute).toBe(`/check-in/class/${classId}`);
+      });
     });
   });
 });

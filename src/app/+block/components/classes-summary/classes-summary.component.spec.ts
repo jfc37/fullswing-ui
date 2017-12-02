@@ -32,7 +32,7 @@ describe('ClassesSummaryComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ClassesSummaryComponent);
     component = fixture.componentInstance;
-    component.model = ineeda<ClassesSummaryModel>({classes: []});
+    component.model = ineeda<ClassesSummaryModel>({ classes: [] });
     fixture.detectChanges();
   });
 
@@ -120,6 +120,16 @@ describe('ClassesSummaryComponent', () => {
 
       const classDate = getElementInnerHtml(fixture.debugElement, 'class-attendence-number');
       expect(classDate).toBe(String(expectedAttendenceNumber));
+    });
+
+    it(`should have link for class list`, () => {
+      const expectedRoute = 'xxx';
+      component.model.classes[0].checkInRoute = expectedRoute;
+
+      fixture.detectChanges();
+
+      const element = getElement(fixture.debugElement, 'check-in-button');
+      expect(element).toBeTruthy();
     });
   });
 });
