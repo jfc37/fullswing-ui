@@ -3,8 +3,9 @@ import { BlockListPage } from '../poms/block-list.po';
 import { LoginPage } from '../poms/login.po';
 import { teardown } from '../common/common';
 import { UpdateBlockPage } from '../poms/update-block.po';
+import { browser } from 'protractor';
 
-describe('Blocks', () => {
+fdescribe('Blocks', () => {
   let blockListPage: BlockListPage;
   let createBlockPage: CreateBlockPage;
   let updateBlockPage: UpdateBlockPage;
@@ -17,12 +18,13 @@ describe('Blocks', () => {
     blockListPage.navigateTo();
     new LoginPage().login();
 
-    blockListPage.navigateTo();
   });
 
   afterEach(teardown);
 
   function create(name: string) {
+    blockListPage.navigateTo();
+    browser.wait(blockListPage.isOnPage(), null, `Did not navigate to block list page`);
     blockListPage.clickCreateButton();
     expect(createBlockPage.isOnPage()).toBe(true, `Clicking the create button didn't move to the create page`);
 
