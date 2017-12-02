@@ -23,4 +23,9 @@ export const ROUTES: Routes = [
     canActivate: [AuthenticatedGuard],
     loadChildren: './+enrol/enrol.module#EnrolModule',
   },
+  {
+    path: 'check-in',
+    canActivate: [AuthenticatedGuard, TeacherGuard],
+    loadChildren: './+check-in/check-in.module#CheckInModule',
+  },
 ];
