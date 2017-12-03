@@ -3,7 +3,7 @@ import { Class } from '../../../shared/state-models/class';
 import { StudentsState } from '../students/students.state';
 import { ClassesState } from './classes.state';
 import { ineeda } from 'ineeda';
-import { getRegisteredStudentsModel, getAttendingStudents } from './classes.selectors';
+import { getRegisteredStudentsModel, getAttendingStudentsModel } from './classes.selectors';
 describe('Classes Selectors', () => {
   describe('getRegisteredStudentsModel', () => {
     let studentsState: StudentsState;
@@ -89,35 +89,37 @@ describe('Classes Selectors', () => {
     it(`should be null when classess state is null`, () => {
       classesState = null;
 
-      const registeredStudents = getAttendingStudents(classesState, studentsState);
+      const model = getAttendingStudentsModel(classesState, studentsState);
 
-      expect(registeredStudents).toBeNull();
+      expect(model).toBeNull();
     });
 
     it(`should be null when students state is null`, () => {
       studentsState = null;
 
-      const registeredStudents = getAttendingStudents(classesState, studentsState);
+      const model = getAttendingStudentsModel(classesState, studentsState);
 
-      expect(registeredStudents).toBeNull();
+      expect(model).toBeNull();
     });
 
     it(`should be empty when no attending students`, () => {
       classesState.classes[1].registeredStudentIds = [];
 
-      const registeredStudents = getAttendingStudents(classesState, studentsState);
+      const model = getAttendingStudentsModel(classesState, studentsState);
 
-      expect(registeredStudents).toEqual([]);
+      expect(model.students).toEqual([]);
     });
 
     it(`should be include attending students`, () => {
-      const expectedStudent = ineeda<User>({id: 2});
+      const expectedStudent = ineeda<User>({id: 2, fullName: 'full name'});
       studentsState.students[2] = expectedStudent;
       classesState.classes[1].actualStudentIds = [2];
 
-      const registeredStudents = getAttendingStudents(classesState, studentsState);
+      const model = getAttendingStudentsModel(classesState, studentsState);
 
-      expect(registeredStudents).toEqual([expectedStudent]);
+      expect(model.students.length).toBe(1);
+      expect(model.students[0].id).toBe(expectedStudent.id);
+      expect(model.students[0].name).toBe(expectedStudent.fullName);
     });
   });
 });

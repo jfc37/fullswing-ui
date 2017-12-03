@@ -4,10 +4,9 @@
   <fs-registered-students data-test-id="registered-students"
     [model]="registeredStudentsModel$ | async"
     (checkInStudent)="checkIn($event)"></fs-registered-students>
-  <div>
 
+  <fs-attending-students data-test-id="attending-students"
+    [model]="attendingStudentsModel$ | async"
+    (removeStudent)="remove($event)"></fs-attending-students>
   <div>
-    <h3 class="mat-display-3">Attending students</h3>
-    <pre>{{attendingStudents$ | async | json}}</pre>
-  </div>
 </div>

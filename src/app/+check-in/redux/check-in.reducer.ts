@@ -2,7 +2,7 @@ import { classesReducer } from './classes/classes.reducer';
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 import { CheckInState } from './check-in.state';
 import {
-  getAttendingStudents,
+  getAttendingStudentsModel,
   getRegisteredStudentsModel,
   getSelectedClass,
   getSelectedClassId,
@@ -48,8 +48,8 @@ export const getRegisteredStudentsModelSelector = createSelector(
   getRegisteredStudentsModel
 );
 
-export const getAttendingStudentsSelector = createSelector(
+export const getAttendingStudentsModelSelector = createSelector(
   getClassesState,
   getStudentsState,
-  getAttendingStudents
+  getAttendingStudentsModel
 );

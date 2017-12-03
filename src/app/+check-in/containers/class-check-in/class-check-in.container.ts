@@ -1,5 +1,5 @@
 import { User } from '../../../shared/state-models/teacher';
-import { getSelectedClassNameSelector, getRegisteredStudentsModelSelector, getAttendingStudentsSelector } from '../../redux/check-in.reducer';
+import { getSelectedClassNameSelector, getRegisteredStudentsModelSelector, getAttendingStudentsModelSelector } from '../../redux/check-in.reducer';
 import { CheckInRequest, SetSelectedClassId } from '../../redux/classes/classes.actions';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ReplaySubject } from 'rxjs';
@@ -8,6 +8,7 @@ import { CheckInState } from '../../redux/check-in.state';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import { RegisteredStudentsModel } from '../../components/registered-students/registered-students.component.model';
+import { AttendingStudentsModel } from '../../components/attending-students/attending-students.component.model';
 
 @Component({
   selector: 'fs-class-check-in',
@@ -17,7 +18,7 @@ import { RegisteredStudentsModel } from '../../components/registered-students/re
 export class ClassCheckInContainer implements OnInit, OnDestroy {
   public name$: Observable<string>;
   public registeredStudentsModel$: Observable<RegisteredStudentsModel>;
-  public attendingStudents$: Observable<User[]>;
+  public attendingStudentsModel$: Observable<AttendingStudentsModel>;
 
   private _destroy$ = new ReplaySubject<void>();
   constructor(
@@ -35,7 +36,7 @@ export class ClassCheckInContainer implements OnInit, OnDestroy {
 
     this.name$ = this._store.select(getSelectedClassNameSelector);
     this.registeredStudentsModel$ = this._store.select(getRegisteredStudentsModelSelector);
-    this.attendingStudents$ = this._store.select(getAttendingStudentsSelector);
+    this.attendingStudentsModel$ = this._store.select(getAttendingStudentsModelSelector);
   }
 
   public ngOnDestroy(): void {

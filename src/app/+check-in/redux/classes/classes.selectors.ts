@@ -5,6 +5,7 @@ import {
 import { Class } from '../../../shared/state-models/class';
 import { ClassesState } from './classes.state';
 import { StudentsState } from '../students/students.state';
+import { AttendingStudentsModel } from '../../components/attending-students/attending-students.component.model';
 
 export const getSelectedClassId = (state: ClassesState) =>
   !!state && state.selectedId;
@@ -29,14 +30,14 @@ export const getRegisteredStudentsModel = (classesState: ClassesState, studentsS
   const registeredStudents = selectedClass.registeredStudentIds
     .filter(id => !selectedClass.actualStudentIds.includes(id))
     .map(id => students[id])
-    .map(student => ({id: student.id, name: student.fullName} as StudentModel));
+    .map(student => ({ id: student.id, name: student.fullName } as StudentModel));
 
   return {
     students: registeredStudents
   } as RegisteredStudentsModel;
 };
 
-export const getAttendingStudents = (classesState: ClassesState, studentsState: StudentsState) => {
+export const getAttendingStudentsModel = (classesState: ClassesState, studentsState: StudentsState) => {
   const selectedClass = getSelectedClass(classesState);
   const students = getStudents(studentsState);
 
@@ -44,6 +45,11 @@ export const getAttendingStudents = (classesState: ClassesState, studentsState: 
     return null;
   }
 
-  return selectedClass.actualStudentIds
-    .map(id => students[id]);
+  const attendingStudents = selectedClass.actualStudentIds
+    .map(id => students[id])
+    .map(student => ({ id: student.id, name: student.fullName } as StudentModel));
+
+  return {
+    students: attendingStudents
+  } as AttendingStudentsModel;
 };
