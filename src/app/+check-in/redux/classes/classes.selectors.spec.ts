@@ -3,9 +3,9 @@ import { Class } from '../../../shared/state-models/class';
 import { StudentsState } from '../students/students.state';
 import { ClassesState } from './classes.state';
 import { ineeda } from 'ineeda';
-import { getUnattendingRegisteredStudents, getAttendingStudents } from './classes.selectors';
+import { getRegisteredStudentsModel, getAttendingStudents } from './classes.selectors';
 describe('Classes Selectors', () => {
-  describe('getUnattendingRegisteredStudents', () => {
+  describe('getRegisteredStudentsModel', () => {
     let studentsState: StudentsState;
     let classesState: ClassesState;
 
@@ -25,7 +25,7 @@ describe('Classes Selectors', () => {
     it(`should be null when classess state is null`, () => {
       classesState = null;
 
-      const registeredStudents = getUnattendingRegisteredStudents(classesState, studentsState);
+      const registeredStudents = getRegisteredStudentsModel(classesState, studentsState);
 
       expect(registeredStudents).toBeNull();
     });
@@ -33,7 +33,7 @@ describe('Classes Selectors', () => {
     it(`should be null when students state is null`, () => {
       studentsState = null;
 
-      const registeredStudents = getUnattendingRegisteredStudents(classesState, studentsState);
+      const registeredStudents = getRegisteredStudentsModel(classesState, studentsState);
 
       expect(registeredStudents).toBeNull();
     });
@@ -41,19 +41,21 @@ describe('Classes Selectors', () => {
     it(`should be empty when no registered students`, () => {
       classesState.classes[1].registeredStudentIds = [];
 
-      const registeredStudents = getUnattendingRegisteredStudents(classesState, studentsState);
+      const model = getRegisteredStudentsModel(classesState, studentsState);
 
-      expect(registeredStudents).toEqual([]);
+      expect(model.students).toEqual([]);
     });
 
     it(`should be include registered students`, () => {
-      const expectedStudent = ineeda<User>({id: 2});
+      const expectedStudent = ineeda<User>({id: 2, fullName: 'name'});
       studentsState.students[2] = expectedStudent;
       classesState.classes[1].registeredStudentIds = [2];
 
-      const registeredStudents = getUnattendingRegisteredStudents(classesState, studentsState);
+      const model = getRegisteredStudentsModel(classesState, studentsState);
 
-      expect(registeredStudents).toEqual([expectedStudent]);
+      expect(model.students.length).toBe(1);
+      expect(model.students[0].id).toBe(expectedStudent.id);
+      expect(model.students[0].name).toBe(expectedStudent.fullName);
     });
 
     it(`should be exclude registered students marked as attending`, () => {
@@ -62,8 +64,8 @@ describe('Classes Selectors', () => {
       classesState.classes[1].registeredStudentIds = [2];
       classesState.classes[1].actualStudentIds = [2];
 
-      const registeredStudents = getUnattendingRegisteredStudents(classesState, studentsState);
-      expect(registeredStudents).toEqual([]);
+      const model = getRegisteredStudentsModel(classesState, studentsState);
+      expect(model.students).toEqual([]);
     });
   });
 

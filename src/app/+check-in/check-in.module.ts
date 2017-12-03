@@ -8,6 +8,7 @@ import { SharedModule } from '../shared/shared.module';
 import { StoreModule } from '@ngrx/store';
 import { checkInReducer } from './redux/check-in.reducer';
 import { EffectsModule } from '@ngrx/effects';
+import { RegisteredStudentsComponent } from './components/registered-students/registered-students.component';
 
 console.log('`Check In` bundle loaded asynchronously');
 
@@ -21,6 +22,6 @@ console.log('`Check In` bundle loaded asynchronously');
       ClassesEffects,
     ]),
   ],
-  declarations: [ClassCheckInContainer]
+  declarations: [ClassCheckInContainer, RegisteredStudentsComponent]
 })
 export class CheckInModule { }
