@@ -1,7 +1,13 @@
 import { classesReducer } from './classes/classes.reducer';
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 import { CheckInState } from './check-in.state';
-import { getSelectedClass, getSelectedClassName, getRegisteredStudentsModel, getAttendingStudents } from './classes/classes.selectors';
+import {
+  getAttendingStudents,
+  getRegisteredStudentsModel,
+  getSelectedClass,
+  getSelectedClassId,
+  getSelectedClassName,
+} from './classes/classes.selectors';
 import { studentsReducer } from './students/students.reducer';
 
 export const checkInReducer = {
@@ -19,6 +25,11 @@ export const getClassesState = createSelector(
 export const getStudentsState = createSelector(
   getCheckInState,
   state => state.students
+);
+
+export const getSelectedClassIdSelector = createSelector(
+  getClassesState,
+  getSelectedClassId
 );
 
 export const getSelectedClassSelector = createSelector(

@@ -7,6 +7,7 @@ import {
 import { ClassesState } from './classes.state';
 import {
   Actions,
+  CHECK_IN_SUCCESS,
   LOAD_CLASS_FAILURE,
   LOAD_CLASS_REQUEST,
   LOAD_CLASS_SUCCESS,
@@ -41,6 +42,21 @@ export function classesReducer(state = getInitialState(), action: Actions): Clas
 
     case LOAD_CLASS_FAILURE:
       return getLoadFailureState(state, action.error);
+
+    case CHECK_IN_SUCCESS:
+      const currentClass = state.classes[state.selectedId];
+      const updatedClass = {
+        ...currentClass,
+        actualStudentIds: [
+          ...currentClass.actualStudentIds,
+          action.studentId,
+        ]
+      };
+      return Object.assign(
+        {},
+        { ...state },
+        { classes: { ...state.classes, [state.selectedId]: updatedClass } }
+      );
 
     default:
       return state;

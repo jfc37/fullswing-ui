@@ -1,6 +1,6 @@
 import { User } from '../../../shared/state-models/teacher';
 import { getSelectedClassNameSelector, getRegisteredStudentsModelSelector, getAttendingStudentsSelector } from '../../redux/check-in.reducer';
-import { SetSelectedClassId } from '../../redux/classes/classes.actions';
+import { CheckInRequest, SetSelectedClassId } from '../../redux/classes/classes.actions';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ReplaySubject } from 'rxjs';
 import { Store } from '@ngrx/store';
@@ -44,6 +44,6 @@ export class ClassCheckInContainer implements OnInit, OnDestroy {
   }
 
   public checkIn(id: number): void {
-    console.error('xxx check in', id);
+    this._store.dispatch(new CheckInRequest(id));
   }
 }

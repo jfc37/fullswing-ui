@@ -1,3 +1,4 @@
+import { CheckInRepository } from '../../repositories/check-in.repository';
 import { SetStudents } from '../students/students.actions';
 import { Injectable } from '@angular/core';
 import { Actions, Effect } from '@ngrx/effects';
@@ -6,7 +7,7 @@ import { Observable } from 'rxjs/Observable';
 
 import * as stateActions from './classes.actions';
 import { CheckInState } from '../check-in.state';
-import { getSelectedClassSelector } from '../check-in.reducer';
+import { getSelectedClassSelector, getSelectedClassIdSelector } from '../check-in.reducer';
 import { ClassRepository } from '../../../shared/repositories/class.repository';
 
 @Injectable()
@@ -24,7 +25,7 @@ export class ClassesEffects {
   public load$: Observable<Action> = this.actions$
     .ofType<stateActions.LoadClassRequest>(stateActions.LOAD_CLASS_REQUEST)
     .map(action => action.id)
-    .switchMap(id => this.repository.getById(id)
+    .switchMap(id => this.classRepository.getById(id)
       .mergeMap(response => Observable.merge([
         new SetStudents(response.students),
         new stateActions.LoadClassSuccess(response.class),
@@ -32,9 +33,21 @@ export class ClassesEffects {
       .catch(() => Observable.of(new stateActions.LoadClassFailure(`Failed getting class`)))
     );
 
+  @Effect()
+  public checkIn$: Observable<Action> = this.actions$
+    .ofType<stateActions.CheckInRequest>(stateActions.CHECK_IN_REQUEST)
+    .withLatestFrom(this.store.select(getSelectedClassIdSelector))
+    .map(([action, classId]) => ({studentId: action.studentId, classId}))
+    .switchMap(({classId, studentId}) => this.checkInRepository.checkInToClass(classId, studentId)
+      .map(() => new stateActions.CheckInSuccess(studentId))
+      .catch(() => Observable.of(new stateActions.CheckInFailure(`Failed checking student in`)))
+    );
+
+
   constructor(
     private actions$: Actions,
-    private repository: ClassRepository,
+    private classRepository: ClassRepository,
+    private checkInRepository: CheckInRepository,
     private store: Store<CheckInState>,
   ) { }
 }

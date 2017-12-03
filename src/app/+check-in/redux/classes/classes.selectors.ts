@@ -6,6 +6,9 @@ import { Class } from '../../../shared/state-models/class';
 import { ClassesState } from './classes.state';
 import { StudentsState } from '../students/students.state';
 
+export const getSelectedClassId = (state: ClassesState) =>
+  !!state && state.selectedId;
+
 export const getSelectedClass = (state: ClassesState) =>
   !!state && state.classes[state.selectedId];
 

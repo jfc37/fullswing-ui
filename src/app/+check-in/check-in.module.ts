@@ -9,6 +9,7 @@ import { StoreModule } from '@ngrx/store';
 import { checkInReducer } from './redux/check-in.reducer';
 import { EffectsModule } from '@ngrx/effects';
 import { RegisteredStudentsComponent } from './components/registered-students/registered-students.component';
+import { CheckInRepository } from './repositories/check-in.repository';
 
 console.log('`Check In` bundle loaded asynchronously');
 
@@ -22,6 +23,9 @@ console.log('`Check In` bundle loaded asynchronously');
       ClassesEffects,
     ]),
   ],
-  declarations: [ClassCheckInContainer, RegisteredStudentsComponent]
+  declarations: [ClassCheckInContainer, RegisteredStudentsComponent],
+  providers: [
+    CheckInRepository
+  ]
 })
 export class CheckInModule { }
