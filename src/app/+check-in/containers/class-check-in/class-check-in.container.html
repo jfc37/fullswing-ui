@@ -1,3 +1,13 @@
-<p>
-  class-check-in works!
-</p>
+<div data-test-id="class-check-in-container">
+  <h1 class="mat-display-1">{{name$ | async}}</h1>
+
+  <div>
+    <h3 class="mat-display-3">Registered students</h3>
+    <pre>{{registeredStudents$ | async | json}}</pre>
+  </div>
+
+  <div>
+    <h3 class="mat-display-3">Attending students</h3>
+    <pre>{{attendingStudents$ | async | json}}</pre>
+  </div>
+</div>
