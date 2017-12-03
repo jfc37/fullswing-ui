@@ -12,6 +12,10 @@ export const CHECK_IN_REQUEST = '[Check In Class] Check In Request';
 export const CHECK_IN_SUCCESS = '[Check In Class] Check In Success';
 export const CHECK_IN_FAILURE = '[Check In Class] Check In Failure';
 
+export const REMOVE_STUDENT_REQUEST = '[Check In Class] Remove Student Request';
+export const REMOVE_STUDENT_SUCCESS = '[Check In Class] Remove Student Success';
+export const REMOVE_STUDENT_FAILURE = '[Check In Class] Remove Student Failure';
+
 export class ResetClass implements Action {
   public readonly type = RESET_CLASSES;
 }
@@ -54,12 +58,35 @@ export class CheckInFailure implements Action {
   constructor(public error: string) { }
 }
 
+export class RemoveStudentRequest implements Action {
+  public readonly type = REMOVE_STUDENT_REQUEST;
+  constructor(public studentId: number) { }
+}
+
+export class RemoveStudentSuccess implements Action {
+  public readonly type = REMOVE_STUDENT_SUCCESS;
+  constructor(public studentId: number) { }
+}
+
+export class RemoveStudentFailure implements Action {
+  public readonly type = REMOVE_STUDENT_FAILURE;
+
+  constructor(public error: string) { }
+}
+
 export type Actions
 = ResetClass
+
 | SetSelectedClassId
+
 | LoadClassRequest
 | LoadClassSuccess
 | LoadClassFailure
+
 | CheckInRequest
 | CheckInSuccess
-| CheckInFailure;
+| CheckInFailure
+
+| RemoveStudentRequest
+| RemoveStudentSuccess
+| RemoveStudentFailure;

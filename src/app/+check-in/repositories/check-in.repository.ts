@@ -12,4 +12,9 @@ export class CheckInRepository {
     return this._http.post(`${environment.apiUrl}/api/classes/${classId}/attendance/${studentId}`, {})
       .mapTo(true);
   }
+
+  public removeFromClass(classId: number, studentId: number): Observable<boolean> {
+    return this._http.delete(`${environment.apiUrl}/api/classes/${classId}/attendance/${studentId}`)
+      .mapTo(true);
+  }
 }

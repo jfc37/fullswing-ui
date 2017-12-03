@@ -43,6 +43,16 @@ export class ClassesEffects {
       .catch(() => Observable.of(new stateActions.CheckInFailure(`Failed checking student in`)))
     );
 
+  @Effect()
+  public removeFromClass$: Observable<Action> = this.actions$
+    .ofType<stateActions.RemoveStudentRequest>(stateActions.REMOVE_STUDENT_REQUEST)
+    .withLatestFrom(this.store.select(getSelectedClassIdSelector))
+    .map(([action, classId]) => ({studentId: action.studentId, classId}))
+    .switchMap(({classId, studentId}) => this.checkInRepository.removeFromClass(classId, studentId)
+      .map(() => new stateActions.RemoveStudentSuccess(studentId))
+      .catch(() => Observable.of(new stateActions.RemoveStudentFailure(`Failed removing student from class`)))
+    );
+
 
   constructor(
     private actions$: Actions,
