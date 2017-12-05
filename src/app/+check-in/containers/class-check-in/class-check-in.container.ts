@@ -1,5 +1,11 @@
 import { User } from '../../../shared/state-models/teacher';
-import { getSelectedClassNameSelector, getRegisteredStudentsModelSelector, getAttendingStudentsModelSelector } from '../../redux/check-in.reducer';
+import {
+  getAttendingStudentsModelSelector,
+  getPassesForStudentSelector,
+  getRegisteredStudentsModelSelector,
+  getSelectedClassNameSelector,
+  getHasStudentGotValidPassSelector,
+} from '../../redux/check-in.reducer';
 import { CheckInRequest, SetSelectedClassId, RemoveStudentRequest } from '../../redux/classes/classes.actions';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ReplaySubject } from 'rxjs';
@@ -9,6 +15,8 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import { RegisteredStudentsModel } from '../../components/registered-students/registered-students.component.model';
 import { AttendingStudentsModel } from '../../components/attending-students/attending-students.component.model';
+import { InitialiseForStudent } from '../../redux/passes/passes.actions';
+import { SetCurrentStudent } from '../../redux/current-student/current-student.actions';
 
 @Component({
   selector: 'fs-class-check-in',
@@ -45,7 +53,20 @@ export class ClassCheckInContainer implements OnInit, OnDestroy {
   }
 
   public checkIn(id: number): void {
-    this._store.dispatch(new CheckInRequest(id));
+    this._store.dispatch(new SetCurrentStudent(id));
+    this._store.dispatch(new InitialiseForStudent(id));
+
+    this._store.select(getPassesForStudentSelector)
+      .filter(Boolean)
+      .switchMapTo(this._store.select(getHasStudentGotValidPassSelector))
+      .first()
+      .subscribe(hasValidPass => {
+        if (hasValidPass) {
+          this._store.dispatch(new CheckInRequest(id));
+        } else {
+          alert('Student has no valid passes');
+        }
+      });
   }
 
   public remove(id: number): void {

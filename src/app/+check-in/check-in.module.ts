@@ -1,3 +1,4 @@
+import { PassesEffects } from './redux/passes/passes.effects';
 import { ClassesEffects } from './redux/classes/classes.effects';
 import { ClassCheckInContainer } from './containers/class-check-in/class-check-in.container';
 import { NgModule } from '@angular/core';
@@ -22,6 +23,7 @@ console.log('`Check In` bundle loaded asynchronously');
     StoreModule.forFeature('checkIn', checkInReducer),
     EffectsModule.forFeature([
       ClassesEffects,
+      PassesEffects,
     ]),
   ],
   declarations: [ClassCheckInContainer, RegisteredStudentsComponent, AttendingStudentsComponent],

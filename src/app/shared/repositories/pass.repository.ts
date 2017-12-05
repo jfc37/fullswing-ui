@@ -19,4 +19,11 @@ export class PassRepository {
       .do(dtos => dtos.forEach(validateDtoPass))
       .map(dtos => dtos.map(dtoToPass));
   }
+
+  public getForStudent(studentId: number): Observable<Pass[]> {
+    return this._http.get(`${environment.apiUrl}/api/users/${studentId}/passes`)
+      .map(response => response.json() as PassDto[])
+      .do(dtos => dtos.forEach(validateDtoPass))
+      .map(dtos => dtos.map(dtoToPass));
+  }
 }
