@@ -13,12 +13,15 @@ import {
 import { studentsReducer } from './students/students.reducer';
 import { getPassesForStudent, getHasStudentGotValidPass } from './passes/passes.selectors';
 import { getCurrentStudentId } from './current-student/current-student.selectors';
+import { passTemplatesReducer } from './pass-templates/pass-templates.reducer';
+import { getHasLoaded } from '../../shared/redux/loadable/loadable.selectors';
 
 export const checkInReducer = {
   classes: classesReducer,
   students: studentsReducer,
   passes: passesReducer,
   currentStudent: currentStudentReducer,
+  passTemplates: passTemplatesReducer,
 };
 
 export const getCheckInState = createFeatureSelector<CheckInState>('checkIn');
@@ -41,6 +44,11 @@ export const getPassesState = createSelector(
 export const getCurrentStudentState = createSelector(
   getCheckInState,
   state => state.currentStudent
+);
+
+export const getPassTemplatesState = createSelector(
+  getCheckInState,
+  state => state.passTemplates
 );
 
 export const getSelectedClassIdSelector = createSelector(
@@ -85,5 +93,10 @@ export const getHasStudentGotValidPassSelector = createSelector(
   getPassesState,
   getCurrentStudentIdSelector,
   getHasStudentGotValidPass
+);
+
+export const getHasLoadedPassTemplatesSelector = createSelector(
+  getPassTemplatesState,
+  getHasLoaded
 );
 

@@ -17,6 +17,7 @@ import { RegisteredStudentsModel } from '../../components/registered-students/re
 import { AttendingStudentsModel } from '../../components/attending-students/attending-students.component.model';
 import { InitialiseForStudent } from '../../redux/passes/passes.actions';
 import { SetCurrentStudent } from '../../redux/current-student/current-student.actions';
+import { InitialisePassTemplates } from '../../redux/pass-templates/pass-templates.actions';
 
 @Component({
   selector: 'fs-class-check-in',
@@ -64,7 +65,8 @@ export class ClassCheckInContainer implements OnInit, OnDestroy {
         if (hasValidPass) {
           this._store.dispatch(new CheckInRequest(id));
         } else {
-          alert('Student has no valid passes');
+          this._store.dispatch(new InitialisePassTemplates());
+          console.error('Student has no valid passes');
         }
       });
   }
