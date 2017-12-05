@@ -37,20 +37,14 @@ describe('passTemplateReducer', () => {
   });
 
   describe('Load Success', () => {
-    const expected = ineeda<PassTemplateSummary[]>();
     beforeEach(() => {
-      action = new LoadPassTemplatesSuccess(expected);
+      action = new LoadPassTemplatesSuccess([]);
     });
 
     it('should set state according to loading state', () => {
       const newState = reduce();
       const expectedState = getLoadSuccessState(null);
       Object.keys(expectedState).forEach(k => expect(newState[k]).toBe(expectedState[k]));
-    });
-
-    it('should set passTemplates', () => {
-      const newState = reduce();
-      expect(newState.passTemplates).toBe(expected);
     });
   });
 
