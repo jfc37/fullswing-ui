@@ -6,6 +6,8 @@ import { Store } from '@ngrx/store';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
+import { DialogService } from '../../services/dialog.service';
+import { InitialisePassTemplates } from '../../redux/pass-templates/pass-templates.actions';
 
 describe('ClassCheckInContainer', () => {
   let component: ClassCheckInContainer;
@@ -14,6 +16,7 @@ describe('ClassCheckInContainer', () => {
   let store: Store<CheckInState>;
   let activatedRoute: ActivatedRoute;
   let router: Router;
+  let dialogService: DialogService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -25,6 +28,7 @@ describe('ClassCheckInContainer', () => {
         { provide: Store, useValue: {} },
         { provide: ActivatedRoute, useValue: {} },
         { provide: Router, useValue: {} },
+        { provide: DialogService, useValue: {} },
       ]
     })
       .compileComponents();
@@ -43,6 +47,8 @@ describe('ClassCheckInContainer', () => {
 
     router = TestBed.get(Router);
     router.navigate = jasmine.createSpy('navigate');
+
+    dialogService = TestBed.get(DialogService);
 
     fixture.detectChanges();
   });

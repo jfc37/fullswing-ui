@@ -1,3 +1,4 @@
+import { PurchasePassPreambleModel } from '../components/purchase-pass-preamble/purchase-pass-preamble.component.model';
 import { currentStudentReducer } from './current-student/current-student.reducer';
 import { passesReducer } from './passes/passes.reducer';
 import { classesReducer } from './classes/classes.reducer';
@@ -100,3 +101,13 @@ export const getHasLoadedPassTemplatesSelector = createSelector(
   getHasLoaded
 );
 
+export const getStudentNameSelector = createSelector(
+  getStudentsState,
+  getCurrentStudentIdSelector,
+  (studentState, studentId) => !!studentState && studentState.students[studentId] && studentState.students[studentId].fullName
+);
+
+export const getPurchasePassPreambleModelSelector = createSelector(
+  getStudentNameSelector,
+  studentName => ({ studentName} as PurchasePassPreambleModel)
+);

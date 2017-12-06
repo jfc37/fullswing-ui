@@ -1,3 +1,4 @@
+import { DialogService } from './services/dialog.service';
 import { PassesEffects } from './redux/passes/passes.effects';
 import { ClassesEffects } from './redux/classes/classes.effects';
 import { ClassCheckInContainer } from './containers/class-check-in/class-check-in.container';
@@ -13,6 +14,8 @@ import { RegisteredStudentsComponent } from './components/registered-students/re
 import { CheckInRepository } from './repositories/check-in.repository';
 import { AttendingStudentsComponent } from './components/attending-students/attending-students.component';
 import { PassTemplatesEffects } from './redux/pass-templates/pass-templates.effects';
+import { PurchasePassContainer } from './containers/purchase-pass/purchase-pass.container';
+import { PurchasePassPreambleComponent } from './components/purchase-pass-preamble/purchase-pass-preamble.component';
 
 console.log('`Check In` bundle loaded asynchronously');
 
@@ -28,9 +31,19 @@ console.log('`Check In` bundle loaded asynchronously');
       PassTemplatesEffects,
     ]),
   ],
-  declarations: [ClassCheckInContainer, RegisteredStudentsComponent, AttendingStudentsComponent],
+  declarations: [
+    ClassCheckInContainer,
+    RegisteredStudentsComponent,
+    AttendingStudentsComponent,
+    PurchasePassContainer,
+    PurchasePassPreambleComponent,
+  ],
+  entryComponents: [
+    PurchasePassContainer,
+  ],
   providers: [
-    CheckInRepository
+    CheckInRepository,
+    DialogService,
   ]
 })
 export class CheckInModule { }

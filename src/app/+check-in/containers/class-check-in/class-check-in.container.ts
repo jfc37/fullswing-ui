@@ -18,6 +18,8 @@ import { AttendingStudentsModel } from '../../components/attending-students/atte
 import { InitialiseForStudent } from '../../redux/passes/passes.actions';
 import { SetCurrentStudent } from '../../redux/current-student/current-student.actions';
 import { InitialisePassTemplates } from '../../redux/pass-templates/pass-templates.actions';
+import { PurchasePassContainer } from '../purchase-pass/purchase-pass.container';
+import { DialogService } from '../../services/dialog.service';
 
 @Component({
   selector: 'fs-class-check-in',
@@ -33,7 +35,8 @@ export class ClassCheckInContainer implements OnInit, OnDestroy {
   constructor(
     private _store: Store<CheckInState>,
     private _router: Router,
-    private _activatedRoute: ActivatedRoute) { }
+    private _activatedRoute: ActivatedRoute,
+    public _dialogService: DialogService) { }
 
   public ngOnInit(): void {
     this._activatedRoute.params
@@ -65,8 +68,10 @@ export class ClassCheckInContainer implements OnInit, OnDestroy {
         if (hasValidPass) {
           this._store.dispatch(new CheckInRequest(id));
         } else {
-          this._store.dispatch(new InitialisePassTemplates());
-          console.error('Student has no valid passes');
+          this._dialogService.openPassPurchase()
+            .subscribe(result => {
+              console.log('The dialog was closed', result);
+            });
         }
       });
   }

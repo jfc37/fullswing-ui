@@ -21,7 +21,7 @@ export class UserClaimsEffects {
     .ofType<stateActions.LoadClaimsRequest>(stateActions.LOAD_CLAIMS_REQUEST)
     .switchMap(() => this._repository.getClaims()
       .map(claims => new stateActions.LoadClaimsSuccess(claims))
-      .catch(() => Observable.of(new stateActions.LoadClaimsFailure(`Failed getting claims`)))
+      .catch((err) => console.error('xxx USER CLAIMS ERROR', err) || Observable.of(new stateActions.LoadClaimsFailure(`Failed getting claims`)))
     );
 
   constructor(
