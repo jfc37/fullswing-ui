@@ -16,6 +16,7 @@ import { AttendingStudentsComponent } from './components/attending-students/atte
 import { PassTemplatesEffects } from './redux/pass-templates/pass-templates.effects';
 import { PurchasePassContainer } from './containers/purchase-pass/purchase-pass.container';
 import { PurchasePassPreambleComponent } from './components/purchase-pass-preamble/purchase-pass-preamble.component';
+import { PassSelectionComponent } from './components/pass-selection/pass-selection.component';
 
 console.log('`Check In` bundle loaded asynchronously');
 
@@ -37,6 +38,7 @@ console.log('`Check In` bundle loaded asynchronously');
     AttendingStudentsComponent,
     PurchasePassContainer,
     PurchasePassPreambleComponent,
+    PassSelectionComponent,
   ],
   entryComponents: [
     PurchasePassContainer,

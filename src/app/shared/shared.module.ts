@@ -24,6 +24,7 @@ import {
   MatSelectModule,
   MatChipsModule,
   MatDialogModule,
+  MatRadioModule,
   MAT_DATE_LOCALE,
 } from '@angular/material';
 import { PassTemplateRepository } from './repositories/pass-template.repository';
@@ -69,6 +70,7 @@ console.log('`Shared` bundle loaded synchronously');
     MatSelectModule,
     MatChipsModule,
     MatDialogModule,
+    MatRadioModule,
   ],
 })
 export class SharedModule { }
