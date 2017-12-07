@@ -27,4 +27,8 @@ export class PurchasePassContainer implements OnInit {
     this.preambleModel$ = this._store.select(getPurchasePassPreambleModelSelector);
     this.passSelectionModel$ = this._store.select(getPassSelectionModelSelector);
   }
+
+  public passOptionChanged(id: number): void {
+    console.error('xxx', id);
+  }
 }

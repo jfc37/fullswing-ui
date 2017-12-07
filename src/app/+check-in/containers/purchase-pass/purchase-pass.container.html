@@ -3,5 +3,6 @@
 
   <fs-purchase-pass-preamble [model]="preambleModel$ | async"></fs-purchase-pass-preamble>
 
-  <fs-pass-selection [model]="passSelectionModel$ | async"></fs-pass-selection>
+  <fs-pass-selection [model]="passSelectionModel$ | async"
+    (passOptionChanged)="passOptionChanged($event)"></fs-pass-selection>
 </div>

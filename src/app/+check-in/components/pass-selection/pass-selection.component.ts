@@ -1,5 +1,5 @@
 import { PassSelectionModel } from './pass-selection.component.model';
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'fs-pass-selection',
@@ -8,4 +8,10 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class PassSelectionComponent {
   @Input() public model: PassSelectionModel;
+
+  @Output() public passOptionChanged = new EventEmitter<number>();
+
+  public selectedPassOptionChanged(id: number): void {
+    this.passOptionChanged.emit(id);
+  }
 }

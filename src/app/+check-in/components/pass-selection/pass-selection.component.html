@@ -1,11 +1,13 @@
-<div *ngIf="model"
-  data-test-id="pass-selection">
+<fs-loadable *ngIf="model"
+  data-test-id="pass-selection"
+  [model]="model">
   <mat-radio-group>
     <mat-radio-button *ngFor="let pass of model.passes"
       data-test-id="pass-option"
       [attr.data-test-name]="pass.description"
-      [value]="pass.id">
+      [value]="pass.id"
+      (change)="selectedPassOptionChanged(pass.id)">
       {{pass.description}} - {{pass.cost | currency}}
     </mat-radio-button>
   </mat-radio-group>
-</div>
+</fs-loadable>
