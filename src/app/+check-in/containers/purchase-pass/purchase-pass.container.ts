@@ -7,6 +7,7 @@ import { Store } from '@ngrx/store';
 import { InitialisePassTemplates } from '../../redux/pass-templates/pass-templates.actions';
 import { Observable } from 'rxjs/Observable';
 import { getPassSelectionModelSelector, getPurchasePassPreambleModelSelector } from '../../redux/check-in.reducer';
+import { Reset, SetPass } from '../../redux/pass-purchase/pass-purchase.actions';
 
 @Component({
   selector: 'fs-purchase-pass',
@@ -23,12 +24,13 @@ export class PurchasePassContainer implements OnInit {
 
   public ngOnInit(): void {
     this._store.dispatch(new InitialisePassTemplates());
+    this._store.dispatch(new Reset());
 
     this.preambleModel$ = this._store.select(getPurchasePassPreambleModelSelector);
     this.passSelectionModel$ = this._store.select(getPassSelectionModelSelector);
   }
 
   public passOptionChanged(id: number): void {
-    console.error('xxx', id);
+    this._store.dispatch(new SetPass(id));
   }
 }

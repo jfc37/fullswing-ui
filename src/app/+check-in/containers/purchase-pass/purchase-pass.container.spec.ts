@@ -5,6 +5,7 @@ import { Store } from '@ngrx/store';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { CheckInState } from '../../redux/check-in.state';
 import { InitialisePassTemplates } from '../../redux/pass-templates/pass-templates.actions';
+import { Reset } from '../../redux/pass-purchase/pass-purchase.actions';
 
 describe('PurchasePassContainer', () => {
   let component: PurchasePassContainer;
@@ -42,5 +43,9 @@ describe('PurchasePassContainer', () => {
 
   it(`should initialise pass templates`, () => {
     expect(store.dispatch).toHaveBeenCalledWith(new InitialisePassTemplates());
+  });
+
+  it(`should reset pass purchase`, () => {
+    expect(store.dispatch).toHaveBeenCalledWith(new Reset());
   });
 });
