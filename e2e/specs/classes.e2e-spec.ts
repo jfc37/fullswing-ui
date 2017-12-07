@@ -14,7 +14,6 @@ describe('Classes', () => {
     blockListPage = new BlockListPage();
     classListPage = new ClassListPage();
 
-    blockListPage.navigateTo();
     new LoginPage().login();
   });
 
@@ -22,7 +21,6 @@ describe('Classes', () => {
 
   it(`user should be able to browse classes for block`, () => {
     blockListPage.navigateTo();
-    browser.wait(blockListPage.isOnPage(), null, `Did not navigate to block list page`);
     blockListPage.clickFirstClassListButton();
     expect(classListPage.isOnPage()).toBe(true);
   });

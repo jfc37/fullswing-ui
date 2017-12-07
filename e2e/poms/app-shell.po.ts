@@ -21,8 +21,13 @@ export abstract class AppShell {
     return element.all(by.css(`[data-test-id="${this.pageIdentifer}"]`)).isPresent();
   }
 
-  public navigateTo() {
+  public attemptToNavigateTo() {
     return browser.get(`/${this.route}`);
+  }
+
+  public navigateTo() {
+    this.attemptToNavigateTo();
+    return browser.wait(this.isOnPage(), null, `Tried to navigate to ${this.pageIdentifer}, but never landed on it`);
   }
 
   public logout() {

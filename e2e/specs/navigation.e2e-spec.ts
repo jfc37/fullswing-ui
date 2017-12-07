@@ -16,7 +16,6 @@ describe('Side navigation', () => {
     blocksPage = new BlockListPage();
     blockEnrolmentPage = new BlockEnrolmentPage();
 
-    dashboardPage.navigateTo();
     new LoginPage().login();
   });
 

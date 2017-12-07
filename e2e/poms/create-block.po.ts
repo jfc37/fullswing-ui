@@ -32,7 +32,6 @@ export class CreateBlockPage extends AppShell {
 
   public createFromScratch(name: string) {
     this.navigateTo();
-    expect(this.isOnPage()).toBe(true, `Clicking the create button didn't move to the create page`);
 
     this.fillFormInCorrectly();
     this.setName(name);
