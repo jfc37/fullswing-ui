@@ -11,6 +11,7 @@ import { marbles } from 'rxjs-marbles';
 import { ineeda } from 'ineeda';
 import { Profile } from './user.state';
 import { Router } from '@angular/router';
+import { authorisationChecks } from './user.selectors';
 
 export class TestActions extends Actions {
   constructor() {
@@ -24,6 +25,16 @@ export class TestActions extends Actions {
 
 export function getActions() {
   return new TestActions();
+}
+
+function makeTokenExpired() {
+  authorisationChecks.tokenNotExpired = jasmine.createSpy('expired')
+    .and.returnValue(false);
+}
+
+function makeTokenValid() {
+  authorisationChecks.tokenNotExpired = jasmine.createSpy('expired')
+    .and.returnValue(true);
 }
 
 describe('UserEffects', () => {
@@ -48,6 +59,8 @@ describe('UserEffects', () => {
     router = TestBed.get(Router);
     actions$ = TestBed.get(Actions);
 
+    makeTokenValid();
+
     localStorageService.getIdToken = jasmine.createSpy('get')
       .and.returnValue(null);
     localStorageService.getAccessToken = jasmine.createSpy('getAccessToken')
@@ -69,10 +82,25 @@ describe('UserEffects', () => {
       const expectedAccessToken = 'aaa';
       localStorageService.getIdToken = jasmine.createSpy('get')
         .and.returnValue(expectedIdToken);
-        localStorageService.getAccessToken = jasmine.createSpy('get')
+      localStorageService.getAccessToken = jasmine.createSpy('get')
         .and.returnValue(expectedAccessToken);
 
       const completion = new SetAuthorisation(expectedIdToken, expectedAccessToken);
+      const expected = m.cold('(b|)', { b: completion });
+
+      m.expect(sut.initialiseAuthorisation$).toBeObservable(expected);
+    }));
+
+    it(`should emit 'Logout' when id and access token in local storage are expired`, marbles((m) => {
+      makeTokenExpired();
+      const expectedIdToken = 'aaa';
+      const expectedAccessToken = 'aaa';
+      localStorageService.getIdToken = jasmine.createSpy('get')
+        .and.returnValue(expectedIdToken);
+      localStorageService.getAccessToken = jasmine.createSpy('get')
+        .and.returnValue(expectedAccessToken);
+
+      const completion = new Logout();
       const expected = m.cold('(b|)', { b: completion });
 
       m.expect(sut.initialiseAuthorisation$).toBeObservable(expected);
