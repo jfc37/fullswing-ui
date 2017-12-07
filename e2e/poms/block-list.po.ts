@@ -24,6 +24,8 @@ export class BlockListPage extends AppShell {
   }
 
   public clickFirstClassListButton() {
+    browser.wait(element(by.css(CLASS_LIST_BUTTONS)).isPresent(), null, `Class list didn't appear`);
+
     return element(by.css(CLASS_LIST_BUTTONS)).click();
   }
 
