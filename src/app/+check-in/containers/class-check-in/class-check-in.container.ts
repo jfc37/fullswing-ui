@@ -16,7 +16,7 @@ import { Observable } from 'rxjs/Observable';
 import { RegisteredStudentsModel } from '../../components/registered-students/registered-students.component.model';
 import { AttendingStudentsModel } from '../../components/attending-students/attending-students.component.model';
 import { InitialiseForStudent } from '../../redux/passes/passes.actions';
-import { SetCurrentStudent } from '../../redux/current-student/current-student.actions';
+import { SetStudent } from '../../redux/pass-purchase/pass-purchase.actions';
 import { InitialisePassTemplates } from '../../redux/pass-templates/pass-templates.actions';
 import { PurchasePassContainer } from '../purchase-pass/purchase-pass.container';
 import { DialogService } from '../../services/dialog.service';
@@ -57,7 +57,7 @@ export class ClassCheckInContainer implements OnInit, OnDestroy {
   }
 
   public checkIn(id: number): void {
-    this._store.dispatch(new SetCurrentStudent(id));
+    this._store.dispatch(new SetStudent(id));
     this._store.dispatch(new InitialiseForStudent(id));
 
     this._store.select(getPassesForStudentSelector)

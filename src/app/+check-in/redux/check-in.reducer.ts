@@ -1,6 +1,6 @@
 import { getPassSelectionModel } from './pass-templates/pass-templates.selectors';
 import { PurchasePassPreambleModel } from '../components/purchase-pass-preamble/purchase-pass-preamble.component.model';
-import { currentStudentReducer } from './current-student/current-student.reducer';
+import { passPurchaseReducer } from './pass-purchase/pass-purchase.reducer';
 import { passesReducer } from './passes/passes.reducer';
 import { classesReducer } from './classes/classes.reducer';
 import { createFeatureSelector, createSelector } from '@ngrx/store';
@@ -14,7 +14,7 @@ import {
 } from './classes/classes.selectors';
 import { studentsReducer } from './students/students.reducer';
 import { getPassesForStudent, getHasStudentGotValidPass } from './passes/passes.selectors';
-import { getCurrentStudentId } from './current-student/current-student.selectors';
+import { getStudentId } from './pass-purchase/pass-purchase.selectors';
 import { passTemplatesReducer } from './pass-templates/pass-templates.reducer';
 import { getHasLoaded } from '../../shared/redux/loadable/loadable.selectors';
 
@@ -22,7 +22,7 @@ export const checkInReducer = {
   classes: classesReducer,
   students: studentsReducer,
   passes: passesReducer,
-  currentStudent: currentStudentReducer,
+  passPurchase: passPurchaseReducer,
   passTemplates: passTemplatesReducer,
 };
 
@@ -43,9 +43,9 @@ export const getPassesState = createSelector(
   state => state.passes
 );
 
-export const getCurrentStudentState = createSelector(
+export const getPassPurcaseState = createSelector(
   getCheckInState,
-  state => state.currentStudent
+  state => state.passPurchase
 );
 
 export const getPassTemplatesState = createSelector(
@@ -80,20 +80,20 @@ export const getAttendingStudentsModelSelector = createSelector(
   getAttendingStudentsModel
 );
 
-export const getCurrentStudentIdSelector = createSelector(
-  getCurrentStudentState,
-  getCurrentStudentId,
+export const getPassPurchaseStudentIdSelector = createSelector(
+  getPassPurcaseState,
+  getStudentId,
 );
 
 export const getPassesForStudentSelector = createSelector(
   getPassesState,
-  getCurrentStudentIdSelector,
+  getPassPurchaseStudentIdSelector,
   getPassesForStudent
 );
 
 export const getHasStudentGotValidPassSelector = createSelector(
   getPassesState,
-  getCurrentStudentIdSelector,
+  getPassPurchaseStudentIdSelector,
   getHasStudentGotValidPass
 );
 
@@ -104,7 +104,7 @@ export const getHasLoadedPassTemplatesSelector = createSelector(
 
 export const getStudentNameSelector = createSelector(
   getStudentsState,
-  getCurrentStudentIdSelector,
+  getPassPurchaseStudentIdSelector,
   (studentState, studentId) => !!studentState && studentState.students[studentId] && studentState.students[studentId].fullName
 );
 
