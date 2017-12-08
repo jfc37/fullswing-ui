@@ -41,4 +41,8 @@ export class PurchasePassContainer implements OnInit {
   public passOptionChanged(id: number): void {
     this._store.dispatch(new SetPassForPurchase(id));
   }
+
+  public purchase(): void {
+    console.error('xxx purchase');
+  }
 }
