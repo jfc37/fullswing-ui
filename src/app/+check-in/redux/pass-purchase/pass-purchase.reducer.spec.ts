@@ -1,6 +1,6 @@
 import { PassPurchaseState } from './pass-purchase.state';
 import { ineeda } from 'ineeda';
-import { Actions, Reset, SetStudent, SetPass } from './pass-purchase.actions';
+import { Actions, ResetPassPurchase, SetStudentForPassPurchase, SetPassForPurchase } from './pass-purchase.actions';
 import { passPurchaseReducer } from './pass-purchase.reducer';
 
 describe('passPurchaseReducer', () => {
@@ -13,7 +13,7 @@ describe('passPurchaseReducer', () => {
 
   describe('Reset', () => {
     beforeEach(() => {
-      action = new Reset();
+      action = new ResetPassPurchase();
     });
 
     it('should set student id to null', () => {
@@ -31,7 +31,7 @@ describe('passPurchaseReducer', () => {
     const studentId = 6743;
 
     beforeEach(() => {
-      action = new SetStudent(studentId);
+      action = new SetStudentForPassPurchase(studentId);
     });
 
     it('should set student id', () => {
@@ -44,7 +44,7 @@ describe('passPurchaseReducer', () => {
     const passId = 984;
 
     beforeEach(() => {
-      action = new SetPass(passId);
+      action = new SetPassForPurchase(passId);
     });
 
     it('should set pass id', () => {

@@ -14,7 +14,7 @@ export class PassesEffects {
 
   @Effect()
   public intialiseForStudent$: Observable<Action> = this.actions$
-    .ofType<stateActions.InitialiseForStudent>(stateActions.INITIALISE_FOR_STUDENT)
+    .ofType<stateActions.InitialisePassesForStudent>(stateActions.INITIALISE_FOR_STUDENT)
     .map(action => action.studentId)
     .withLatestFrom(this.store.select(getPassesForStudentSelector))
     .filter(([studentId, passes]) => !passes)

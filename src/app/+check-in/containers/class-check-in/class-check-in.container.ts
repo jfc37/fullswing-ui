@@ -15,11 +15,11 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import { RegisteredStudentsModel } from '../../components/registered-students/registered-students.component.model';
 import { AttendingStudentsModel } from '../../components/attending-students/attending-students.component.model';
-import { InitialiseForStudent } from '../../redux/passes/passes.actions';
-import { SetStudent } from '../../redux/pass-purchase/pass-purchase.actions';
+import { InitialisePassesForStudent } from '../../redux/passes/passes.actions';
 import { InitialisePassTemplates } from '../../redux/pass-templates/pass-templates.actions';
 import { PurchasePassContainer } from '../purchase-pass/purchase-pass.container';
 import { DialogService } from '../../services/dialog.service';
+import { SetStudentForCheckIn } from '../../redux/student-check-in/student-check-in.actions';
 
 @Component({
   selector: 'fs-class-check-in',
@@ -57,8 +57,8 @@ export class ClassCheckInContainer implements OnInit, OnDestroy {
   }
 
   public checkIn(id: number): void {
-    this._store.dispatch(new SetStudent(id));
-    this._store.dispatch(new InitialiseForStudent(id));
+    this._store.dispatch(new InitialisePassesForStudent(id));
+    this._store.dispatch(new SetStudentForCheckIn(id));
 
     this._store.select(getPassesForStudentSelector)
       .filter(Boolean)

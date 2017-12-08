@@ -8,6 +8,9 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import { DialogService } from '../../services/dialog.service';
 import { InitialisePassTemplates } from '../../redux/pass-templates/pass-templates.actions';
+import { InitialisePassesForStudent } from '../../redux/passes/passes.actions';
+import { SetStudentForCheckIn } from '../../redux/student-check-in/student-check-in.actions';
+import { CheckInRequest } from '../../redux/classes/classes.actions';
 
 describe('ClassCheckInContainer', () => {
   let component: ClassCheckInContainer;
@@ -55,5 +58,35 @@ describe('ClassCheckInContainer', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  describe(`when student is checked in`, () => {
+    const studentId = 62;
+
+    beforeEach(() => {
+      store.select = jasmine.createSpy()
+        .and.returnValue(Observable.of(true));
+      component.checkIn(studentId);
+    });
+
+    it(`should initialise passes for student`, () => {
+      expect(store.dispatch).toHaveBeenCalledWith(new InitialisePassesForStudent(studentId));
+    });
+
+    it(`should set student check in`, () => {
+      expect(store.dispatch).toHaveBeenCalledWith(new SetStudentForCheckIn(studentId));
+    });
+
+    describe(`when student has valid pass`, () => {
+      beforeEach(() => {
+        store.select = jasmine.createSpy()
+          .and.returnValue(Observable.of(true));
+        component.checkIn(studentId);
+      });
+
+      it(`should check student in`, () => {
+        expect(store.dispatch).toHaveBeenCalledWith(new CheckInRequest(studentId));
+      });
+    });
   });
 });

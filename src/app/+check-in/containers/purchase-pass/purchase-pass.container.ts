@@ -6,8 +6,8 @@ import { MAT_DIALOG_DATA } from '@angular/material';
 import { Store } from '@ngrx/store';
 import { InitialisePassTemplates } from '../../redux/pass-templates/pass-templates.actions';
 import { Observable } from 'rxjs/Observable';
-import { getPassSelectionModelSelector, getPurchasePassPreambleModelSelector } from '../../redux/check-in.reducer';
-import { Reset, SetPass } from '../../redux/pass-purchase/pass-purchase.actions';
+import { getPassSelectionModelSelector, getPurchasePassPreambleModelSelector, getDisablePurchasePassButtonSelector } from '../../redux/check-in.reducer';
+import { ResetPassPurchase, SetPassForPurchase } from '../../redux/pass-purchase/pass-purchase.actions';
 
 @Component({
   selector: 'fs-purchase-pass',
@@ -17,6 +17,7 @@ import { Reset, SetPass } from '../../redux/pass-purchase/pass-purchase.actions'
 export class PurchasePassContainer implements OnInit {
   public preambleModel$: Observable<PurchasePassPreambleModel>;
   public passSelectionModel$: Observable<PassSelectionModel>;
+  public disablePurchaseButton$: Observable<boolean>;
 
   constructor (
     private _store: Store<CheckInState>,
@@ -24,13 +25,14 @@ export class PurchasePassContainer implements OnInit {
 
   public ngOnInit(): void {
     this._store.dispatch(new InitialisePassTemplates());
-    this._store.dispatch(new Reset());
+    this._store.dispatch(new ResetPassPurchase());
 
     this.preambleModel$ = this._store.select(getPurchasePassPreambleModelSelector);
     this.passSelectionModel$ = this._store.select(getPassSelectionModelSelector);
+    this.disablePurchaseButton$ = this._store.select(getDisablePurchasePassButtonSelector);
   }
 
   public passOptionChanged(id: number): void {
-    this._store.dispatch(new SetPass(id));
+    this._store.dispatch(new SetPassForPurchase(id));
   }
 }

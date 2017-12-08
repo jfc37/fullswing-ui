@@ -1,3 +1,4 @@
+import { studentCheckInReducer } from './student-check-in/student-check-in.reducer';
 import { getPassSelectionModel } from './pass-templates/pass-templates.selectors';
 import { PurchasePassPreambleModel } from '../components/purchase-pass-preamble/purchase-pass-preamble.component.model';
 import { passPurchaseReducer } from './pass-purchase/pass-purchase.reducer';
@@ -14,7 +15,7 @@ import {
 } from './classes/classes.selectors';
 import { studentsReducer } from './students/students.reducer';
 import { getPassesForStudent, getHasStudentGotValidPass } from './passes/passes.selectors';
-import { getStudentId } from './pass-purchase/pass-purchase.selectors';
+import { getPassId, getStudentId } from './pass-purchase/pass-purchase.selectors';
 import { passTemplatesReducer } from './pass-templates/pass-templates.reducer';
 import { getHasLoaded } from '../../shared/redux/loadable/loadable.selectors';
 
@@ -22,6 +23,7 @@ export const checkInReducer = {
   classes: classesReducer,
   students: studentsReducer,
   passes: passesReducer,
+  studentCheckIn: studentCheckInReducer,
   passPurchase: passPurchaseReducer,
   passTemplates: passTemplatesReducer,
 };
@@ -41,6 +43,11 @@ export const getStudentsState = createSelector(
 export const getPassesState = createSelector(
   getCheckInState,
   state => state.passes
+);
+
+export const getStudentCheckInState = createSelector(
+  getCheckInState,
+  state => state.studentCheckIn
 );
 
 export const getPassPurcaseState = createSelector(
@@ -83,6 +90,16 @@ export const getAttendingStudentsModelSelector = createSelector(
 export const getPassPurchaseStudentIdSelector = createSelector(
   getPassPurcaseState,
   getStudentId,
+);
+
+export const getPassPurchasePassIdSelector = createSelector(
+  getPassPurcaseState,
+  getPassId,
+);
+
+export const getDisablePurchasePassButtonSelector = createSelector(
+  getPassPurchasePassIdSelector,
+  passId => !passId,
 );
 
 export const getPassesForStudentSelector = createSelector(
