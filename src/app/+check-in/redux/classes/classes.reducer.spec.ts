@@ -2,7 +2,7 @@ import { Class } from '../../../shared/state-models/class';
 import { ineeda } from 'ineeda';
 import { getLoadingState, getLoadSuccessState, getLoadFailureState } from '../../../shared/redux/loadable/loadable.reducer';
 import { ClassesState } from './classes.state';
-import { Actions, LoadClassRequest, SetSelectedClassId, LoadClassSuccess, LoadClassFailure } from './classes.actions';
+import { Actions, LoadClassRequest, LoadClassSuccess, LoadClassFailure } from './classes.actions';
 import { classesReducer } from './classes.reducer';
 
 describe('classesReducer', () => {
@@ -15,24 +15,12 @@ describe('classesReducer', () => {
 
   describe('initial state', () => {
     beforeEach(() => {
-      action = new SetSelectedClassId(122);
+      action = new LoadClassRequest(122);
     });
 
     it(`should set classes to empty object`, () => {
       const newState = classesReducer(undefined, action);
       expect(newState.classes).toEqual({});
-    });
-  });
-
-  describe('Set Selected Class Id', () => {
-    const expectedId = 122;
-    beforeEach(() => {
-      action = new SetSelectedClassId(expectedId);
-    });
-
-    it('should set selected id', () => {
-      const newState = reduce();
-      expect(newState.selectedId).toBe(expectedId);
     });
   });
 

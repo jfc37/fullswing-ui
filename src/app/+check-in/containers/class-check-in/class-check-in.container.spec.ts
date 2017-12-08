@@ -9,8 +9,7 @@ import { Observable } from 'rxjs/Observable';
 import { DialogService } from '../../services/dialog.service';
 import { InitialisePassTemplates } from '../../redux/pass-templates/pass-templates.actions';
 import { InitialisePassesForStudent } from '../../redux/passes/passes.actions';
-import { SetStudentForCheckIn } from '../../redux/student-check-in/student-check-in.actions';
-import { CheckInRequest } from '../../redux/classes/classes.actions';
+import { SetStudentForCheckIn, CheckInRequest } from '../../redux/student-check-in/student-check-in.actions';
 
 describe('ClassCheckInContainer', () => {
   let component: ClassCheckInContainer;
@@ -43,7 +42,8 @@ describe('ClassCheckInContainer', () => {
 
     store = TestBed.get(Store);
     store.dispatch = jasmine.createSpy('dispatch');
-    store.select = jasmine.createSpy('select');
+    store.select = jasmine.createSpy('select')
+      .and.returnValue(Observable.of(false));
 
     activatedRoute = TestBed.get(ActivatedRoute);
     activatedRoute.params = Observable.empty();
@@ -85,7 +85,7 @@ describe('ClassCheckInContainer', () => {
       });
 
       it(`should check student in`, () => {
-        expect(store.dispatch).toHaveBeenCalledWith(new CheckInRequest(studentId));
+        expect(store.dispatch).toHaveBeenCalledWith(new CheckInRequest());
       });
     });
   });

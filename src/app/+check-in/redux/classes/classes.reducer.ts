@@ -7,17 +7,15 @@ import {
 import { ClassesState } from './classes.state';
 import {
   Actions,
-  CHECK_IN_SUCCESS,
+  ADD_STUDENT_TO_ATTENDANCE,
   LOAD_CLASS_FAILURE,
   LOAD_CLASS_REQUEST,
   LOAD_CLASS_SUCCESS,
-  REMOVE_STUDENT_SUCCESS,
-  SET_SELECTED_CLASS_ID,
+  REMOVE_STUDENT_FROM_ATTENDANCE,
 } from './classes.actions';
 
 function getInitialState(): ClassesState {
   return {
-    selectedId: null,
     classes: {},
     ...getInitialLoadableState()
   };
@@ -25,12 +23,6 @@ function getInitialState(): ClassesState {
 
 export function classesReducer(state = getInitialState(), action: Actions): ClassesState {
   switch (action.type) {
-    case SET_SELECTED_CLASS_ID:
-      return {
-        ...state,
-        selectedId: action.id
-      };
-
     case LOAD_CLASS_REQUEST:
       return getLoadingState(state);
 
@@ -44,8 +36,8 @@ export function classesReducer(state = getInitialState(), action: Actions): Clas
     case LOAD_CLASS_FAILURE:
       return getLoadFailureState(state, action.error);
 
-    case CHECK_IN_SUCCESS: {
-      const currentClass = state.classes[state.selectedId];
+    case ADD_STUDENT_TO_ATTENDANCE: {
+      const currentClass = state.classes[action.classId];
       const updatedClass = {
         ...currentClass,
         actualStudentIds: [
@@ -56,12 +48,12 @@ export function classesReducer(state = getInitialState(), action: Actions): Clas
       return Object.assign(
         {},
         { ...state },
-        { classes: { ...state.classes, [state.selectedId]: updatedClass } }
+        { classes: { ...state.classes, [action.classId]: updatedClass } }
       );
     }
 
-    case REMOVE_STUDENT_SUCCESS: {
-      const currentClass = state.classes[state.selectedId];
+    case REMOVE_STUDENT_FROM_ATTENDANCE: {
+      const currentClass = state.classes[action.classId];
       const updatedClass = {
         ...currentClass,
         actualStudentIds: currentClass.actualStudentIds.filter(id => id !== action.studentId)
@@ -69,7 +61,7 @@ export function classesReducer(state = getInitialState(), action: Actions): Clas
       return Object.assign(
         {},
         { ...state },
-        { classes: { ...state.classes, [state.selectedId]: updatedClass } }
+        { classes: { ...state.classes, [action.classId]: updatedClass } }
       );
     }
 

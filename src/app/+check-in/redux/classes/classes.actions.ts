@@ -2,27 +2,17 @@ import { Action } from '@ngrx/store';
 import { Class } from '../../../shared/state-models/class';
 
 export const RESET_CLASSES = '[Check In Class] Reset';
-export const SET_SELECTED_CLASS_ID = '[Check In Class] Set Selected Id';
 
 export const LOAD_CLASS_REQUEST = '[Check In Class] Load Request';
 export const LOAD_CLASS_SUCCESS = '[Check In Class] Load Success';
 export const LOAD_CLASS_FAILURE = '[Check In Class] Load Failure';
 
-export const CHECK_IN_REQUEST = '[Check In Class] Check In Request';
-export const CHECK_IN_SUCCESS = '[Check In Class] Check In Success';
-export const CHECK_IN_FAILURE = '[Check In Class] Check In Failure';
 
-export const REMOVE_STUDENT_REQUEST = '[Check In Class] Remove Student Request';
-export const REMOVE_STUDENT_SUCCESS = '[Check In Class] Remove Student Success';
-export const REMOVE_STUDENT_FAILURE = '[Check In Class] Remove Student Failure';
+export const ADD_STUDENT_TO_ATTENDANCE = '[Check In Class] Add Student To Attendance';
+export const REMOVE_STUDENT_FROM_ATTENDANCE = '[Check In Class] Remove Student From Attendance';
 
 export class ResetClass implements Action {
   public readonly type = RESET_CLASSES;
-}
-
-export class SetSelectedClassId implements Action {
-  public readonly type = SET_SELECTED_CLASS_ID;
-  constructor(public id: number) { }
 }
 
 export class LoadClassRequest implements Action {
@@ -42,51 +32,26 @@ export class LoadClassFailure implements Action {
   constructor(public error: string) { }
 }
 
-export class CheckInRequest implements Action {
-  public readonly type = CHECK_IN_REQUEST;
-  constructor(public studentId: number) { }
+
+export class AddStudentToAttendance implements Action {
+  public readonly type = ADD_STUDENT_TO_ATTENDANCE;
+
+  constructor(public classId: number, public studentId: number) { }
 }
 
-export class CheckInSuccess implements Action {
-  public readonly type = CHECK_IN_SUCCESS;
-  constructor(public studentId: number) { }
+export class RemoveStudentFromAttendance implements Action {
+  public readonly type = REMOVE_STUDENT_FROM_ATTENDANCE;
+
+  constructor(public classId: number, public studentId: number) { }
 }
 
-export class CheckInFailure implements Action {
-  public readonly type = CHECK_IN_FAILURE;
-
-  constructor(public error: string) { }
-}
-
-export class RemoveStudentRequest implements Action {
-  public readonly type = REMOVE_STUDENT_REQUEST;
-  constructor(public studentId: number) { }
-}
-
-export class RemoveStudentSuccess implements Action {
-  public readonly type = REMOVE_STUDENT_SUCCESS;
-  constructor(public studentId: number) { }
-}
-
-export class RemoveStudentFailure implements Action {
-  public readonly type = REMOVE_STUDENT_FAILURE;
-
-  constructor(public error: string) { }
-}
 
 export type Actions
-= ResetClass
+  = ResetClass
 
-| SetSelectedClassId
+  | LoadClassRequest
+  | LoadClassSuccess
+  | LoadClassFailure
 
-| LoadClassRequest
-| LoadClassSuccess
-| LoadClassFailure
-
-| CheckInRequest
-| CheckInSuccess
-| CheckInFailure
-
-| RemoveStudentRequest
-| RemoveStudentSuccess
-| RemoveStudentFailure;
+  | AddStudentToAttendance
+  | RemoveStudentFromAttendance;

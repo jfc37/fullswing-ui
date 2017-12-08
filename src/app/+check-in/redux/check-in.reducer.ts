@@ -10,8 +10,6 @@ import {
   getAttendingStudentsModel,
   getRegisteredStudentsModel,
   getSelectedClass,
-  getSelectedClassId,
-  getSelectedClassName,
 } from './classes/classes.selectors';
 import { studentsReducer } from './students/students.reducer';
 import { getPassesForStudent, getHasStudentGotValidPass } from './passes/passes.selectors';
@@ -28,8 +26,10 @@ export const checkInReducer = {
   passTemplates: passTemplatesReducer,
 };
 
+// Feature selector
 export const getCheckInState = createFeatureSelector<CheckInState>('checkIn');
 
+// Slice selectors
 export const getClassesState = createSelector(
   getCheckInState,
   state => state.classes
@@ -60,29 +60,38 @@ export const getPassTemplatesState = createSelector(
   state => state.passTemplates
 );
 
-export const getSelectedClassIdSelector = createSelector(
-  getClassesState,
-  getSelectedClassId
+// Student class check in selectors
+export const getCheckInClassId = createSelector(
+  getStudentCheckInState,
+  state => !!state && state.classId
 );
+
+export const getCheckInStudentId = createSelector(
+  getStudentCheckInState,
+  state => !!state && state.studentId
+);
+
+// Classes selectors
 
 export const getSelectedClassSelector = createSelector(
   getClassesState,
+  getCheckInClassId,
   getSelectedClass
 );
 
 export const getSelectedClassNameSelector = createSelector(
-  getClassesState,
-  getSelectedClassName
+  getSelectedClassSelector,
+  selectedClass => !!selectedClass && selectedClass.name
 );
 
 export const getRegisteredStudentsModelSelector = createSelector(
-  getClassesState,
+  getSelectedClassSelector,
   getStudentsState,
   getRegisteredStudentsModel
 );
 
 export const getAttendingStudentsModelSelector = createSelector(
-  getClassesState,
+  getSelectedClassSelector,
   getStudentsState,
   getAttendingStudentsModel
 );
@@ -104,13 +113,13 @@ export const getDisablePurchasePassButtonSelector = createSelector(
 
 export const getPassesForStudentSelector = createSelector(
   getPassesState,
-  getPassPurchaseStudentIdSelector,
+  getCheckInStudentId,
   getPassesForStudent
 );
 
 export const getHasStudentGotValidPassSelector = createSelector(
   getPassesState,
-  getPassPurchaseStudentIdSelector,
+  getCheckInStudentId,
   getHasStudentGotValidPass
 );
 

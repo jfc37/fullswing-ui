@@ -6,7 +6,6 @@ import {
   getSelectedClassNameSelector,
   getHasStudentGotValidPassSelector,
 } from '../../redux/check-in.reducer';
-import { CheckInRequest, SetSelectedClassId, RemoveStudentRequest } from '../../redux/classes/classes.actions';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ReplaySubject } from 'rxjs';
 import { Store } from '@ngrx/store';
@@ -19,7 +18,7 @@ import { InitialisePassesForStudent } from '../../redux/passes/passes.actions';
 import { InitialisePassTemplates } from '../../redux/pass-templates/pass-templates.actions';
 import { PurchasePassContainer } from '../purchase-pass/purchase-pass.container';
 import { DialogService } from '../../services/dialog.service';
-import { SetStudentForCheckIn } from '../../redux/student-check-in/student-check-in.actions';
+import { SetClassForCheckIn, SetStudentForCheckIn, CheckInRequest, RemoveStudentRequest } from '../../redux/student-check-in/student-check-in.actions';
 
 @Component({
   selector: 'fs-class-check-in',
@@ -43,10 +42,11 @@ export class ClassCheckInContainer implements OnInit, OnDestroy {
       .takeUntil(this._destroy$)
       .map(params => +params['id'])
       .subscribe(id => {
-        this._store.dispatch(new SetSelectedClassId(id));
+        this._store.dispatch(new SetClassForCheckIn(id));
       });
 
-    this.name$ = this._store.select(getSelectedClassNameSelector);
+    this.name$ = this._store.select(getSelectedClassNameSelector)
+      .filter(Boolean);
     this.registeredStudentsModel$ = this._store.select(getRegisteredStudentsModelSelector);
     this.attendingStudentsModel$ = this._store.select(getAttendingStudentsModelSelector);
   }
@@ -66,7 +66,7 @@ export class ClassCheckInContainer implements OnInit, OnDestroy {
       .first()
       .subscribe(hasValidPass => {
         if (hasValidPass) {
-          this._store.dispatch(new CheckInRequest(id));
+          this._store.dispatch(new CheckInRequest());
         } else {
           this._dialogService.openPassPurchase()
             .subscribe(result => {
@@ -77,6 +77,7 @@ export class ClassCheckInContainer implements OnInit, OnDestroy {
   }
 
   public remove(id: number): void {
-    this._store.dispatch(new RemoveStudentRequest(id));
+    this._store.dispatch(new SetStudentForCheckIn(id));
+    this._store.dispatch(new RemoveStudentRequest());
   }
 }

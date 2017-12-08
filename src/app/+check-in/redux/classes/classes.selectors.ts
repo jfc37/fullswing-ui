@@ -7,20 +7,13 @@ import { ClassesState } from './classes.state';
 import { StudentsState } from '../students/students.state';
 import { AttendingStudentsModel } from '../../components/attending-students/attending-students.component.model';
 
-export const getSelectedClassId = (state: ClassesState) =>
-  !!state && state.selectedId;
-
-export const getSelectedClass = (state: ClassesState) =>
-  !!state && state.classes[state.selectedId];
+export const getSelectedClass = (state: ClassesState, classId: number) =>
+  !!state && state.classes[classId];
 
 export const getStudents = (state: StudentsState) => !!state && state.students;
 
-export const getSelectedClassName = (state: ClassesState) =>
-  (getSelectedClass(state) || {} as Class).name;
 
-
-export const getRegisteredStudentsModel = (classesState: ClassesState, studentsState: StudentsState) => {
-  const selectedClass = getSelectedClass(classesState);
+export const getRegisteredStudentsModel = (selectedClass: Class, studentsState: StudentsState) => {
   const students = getStudents(studentsState);
 
   if (!selectedClass || !students) {
@@ -37,8 +30,7 @@ export const getRegisteredStudentsModel = (classesState: ClassesState, studentsS
   } as RegisteredStudentsModel;
 };
 
-export const getAttendingStudentsModel = (classesState: ClassesState, studentsState: StudentsState) => {
-  const selectedClass = getSelectedClass(classesState);
+export const getAttendingStudentsModel = (selectedClass: Class, studentsState: StudentsState) => {
   const students = getStudents(studentsState);
 
   if (!selectedClass || !students) {

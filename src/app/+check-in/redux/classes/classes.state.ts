@@ -4,6 +4,4 @@ export interface ClassesState extends LoadableState {
   classes: {
     [id: string]: Class
   };
-
-  selectedId?: number;
 }
