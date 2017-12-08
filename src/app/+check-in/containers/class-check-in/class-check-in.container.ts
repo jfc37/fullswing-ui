@@ -19,6 +19,7 @@ import { InitialisePassTemplates } from '../../redux/pass-templates/pass-templat
 import { PurchasePassContainer } from '../purchase-pass/purchase-pass.container';
 import { DialogService } from '../../services/dialog.service';
 import { SetClassForCheckIn, SetStudentForCheckIn, CheckInRequest, RemoveStudentRequest } from '../../redux/student-check-in/student-check-in.actions';
+import { SetStudentForPassPurchase } from '../../redux/pass-purchase/pass-purchase.actions';
 
 @Component({
   selector: 'fs-class-check-in',
@@ -68,7 +69,7 @@ export class ClassCheckInContainer implements OnInit, OnDestroy {
         if (hasValidPass) {
           this._store.dispatch(new CheckInRequest());
         } else {
-          this._dialogService.openPassPurchase()
+          this._dialogService.openPassPurchase(id)
             .subscribe(result => {
               console.log('The dialog was closed', result);
             });

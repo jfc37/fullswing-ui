@@ -12,10 +12,11 @@ export class DialogService {
     private _store: Store<CheckInState>,
   ) { }
 
-  public openPassPurchase(): Observable<boolean> {
+  public openPassPurchase(studentId: number): Observable<boolean> {
     const dialogRef = this._dialog.open(PurchasePassContainer, {
       height: '400px',
       width: '600px',
+      data: { studentId },
     });
 
     return dialogRef.afterClosed();

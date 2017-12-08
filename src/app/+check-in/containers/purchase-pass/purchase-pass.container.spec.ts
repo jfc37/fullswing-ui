@@ -5,13 +5,15 @@ import { Store } from '@ngrx/store';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { CheckInState } from '../../redux/check-in.state';
 import { InitialisePassTemplates } from '../../redux/pass-templates/pass-templates.actions';
-import { ResetPassPurchase } from '../../redux/pass-purchase/pass-purchase.actions';
+import { ResetPassPurchase, SetStudentForPassPurchase } from '../../redux/pass-purchase/pass-purchase.actions';
+import { MAT_DIALOG_DATA } from '@angular/material';
 
 describe('PurchasePassContainer', () => {
   let component: PurchasePassContainer;
   let fixture: ComponentFixture<PurchasePassContainer>;
 
   let store: Store<CheckInState>;
+  const studentId = 62332;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -21,6 +23,7 @@ describe('PurchasePassContainer', () => {
       ],
       providers: [
         { provide: Store, useValue: {} },
+        { provide: MAT_DIALOG_DATA, useValue: { studentId } },
       ]
     })
       .compileComponents();
@@ -47,5 +50,9 @@ describe('PurchasePassContainer', () => {
 
   it(`should reset pass purchase`, () => {
     expect(store.dispatch).toHaveBeenCalledWith(new ResetPassPurchase());
+  });
+
+  it(`should set student for pass purchase`, () => {
+    expect(store.dispatch).toHaveBeenCalledWith(new SetStudentForPassPurchase(studentId));
   });
 });
