@@ -4,7 +4,7 @@ import { Action, Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 
 import { PassRepository } from '../../../shared/repositories/pass.repository';
-import { LoadPassesFailure, LoadPassesSuccess } from './passes.actions';
+import { LoadPassesFailure, LoadPassesSuccess, SetPassesForStudent } from './passes.actions';
 import * as stateActions from './passes.actions';
 import { CheckInState } from '../check-in.state';
 import { getPassesForStudentSelector } from '../check-in.reducer';
@@ -25,7 +25,10 @@ export class PassesEffects {
     .ofType<stateActions.LoadPassesRequest>(stateActions.LOAD_PASSES_REQUEST)
     .map(action => action.studentId)
     .switchMap(studentId => this.repository.getForStudent(studentId)
-      .map(passes => new LoadPassesSuccess(studentId, passes))
+      .mergeMap(passes => [
+        new LoadPassesSuccess(),
+        new SetPassesForStudent(studentId, passes)
+      ])
       .catch(() => Observable.of(new LoadPassesFailure(`Failed getting passes for student`)))
     );
 

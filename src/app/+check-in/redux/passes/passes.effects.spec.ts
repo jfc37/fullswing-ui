@@ -6,7 +6,7 @@ import { Observable } from 'rxjs/Observable';
 import { empty } from 'rxjs/observable/empty';
 
 import { PassRepository } from '../../../shared/repositories/pass.repository';
-import { LoadPassesFailure, LoadPassesRequest, LoadPassesSuccess } from './passes.actions';
+import { LoadPassesFailure, LoadPassesRequest, LoadPassesSuccess, SetPassesForStudent } from './passes.actions';
 import { PassesEffects } from './passes.effects';
 import { Store } from '@ngrx/store';
 import { CheckInState } from '../check-in.state';
@@ -69,7 +69,10 @@ describe('PassesEffects', () => {
     it(`should emit success when passes are retrieved`, marbles((m) => {
       const response = [];
       const repositoryObservable = m.cold('---(a|)', {a: response});
-      const expected = m.hot('----a', {a: new LoadPassesSuccess(studentId, response)});
+      const expected = m.hot('----(ab)', {
+        a: new LoadPassesSuccess(),
+        b: new SetPassesForStudent(studentId, response)
+      });
 
       assertMables(repositoryObservable, expected, m);
     }));

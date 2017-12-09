@@ -7,6 +7,8 @@ export const LOAD_PASSES_REQUEST = '[Student Passes] Load Request';
 export const LOAD_PASSES_SUCCESS = '[Student Passes] Load Success';
 export const LOAD_PASSES_FAILURE = '[Student Passes] Load Failure';
 
+export const SET_PASSES_FOR_STUDENT = '[Student Passes] Set Passes For Student';
+
 export class InitialisePassesForStudent implements Action {
   public readonly type = INITIALISE_FOR_STUDENT;
 
@@ -21,8 +23,6 @@ export class LoadPassesRequest implements Action {
 
 export class LoadPassesSuccess implements Action {
   public readonly type = LOAD_PASSES_SUCCESS;
-
-  constructor(public studentId, public passes: Pass[]) { }
 }
 
 export class LoadPassesFailure implements Action {
@@ -31,8 +31,18 @@ export class LoadPassesFailure implements Action {
   constructor(public error: string) { }
 }
 
+
+export class SetPassesForStudent implements Action {
+  public readonly type = SET_PASSES_FOR_STUDENT;
+
+  constructor(public studentId, public passes: Pass[]) { }
+}
+
 export type Actions
   = InitialisePassesForStudent
+
   | LoadPassesRequest
   | LoadPassesSuccess
-  | LoadPassesFailure;
+  | LoadPassesFailure
+
+  | SetPassesForStudent;

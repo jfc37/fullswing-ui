@@ -50,7 +50,7 @@ export const getStudentCheckInState = createSelector(
   state => state.studentCheckIn
 );
 
-export const getPassPurcaseState = createSelector(
+export const getPassPurchaseState = createSelector(
   getCheckInState,
   state => state.passPurchase
 );
@@ -97,18 +97,31 @@ export const getAttendingStudentsModelSelector = createSelector(
 );
 
 export const getPassPurchaseStudentIdSelector = createSelector(
-  getPassPurcaseState,
+  getPassPurchaseState,
   getStudentId,
 );
 
 export const getPassPurchasePassIdSelector = createSelector(
-  getPassPurcaseState,
+  getPassPurchaseState,
   getPassId,
 );
 
+export const getIsPurchasingPassSelector = createSelector(
+  getPassPurchaseState,
+  state => state.isPurchasing,
+);
+
+export const getHasPurchasedSelector = createSelector(
+  getPassPurchaseState,
+  state => state.hasPurchased,
+);
+
+
+
 export const getDisablePurchasePassButtonSelector = createSelector(
   getPassPurchasePassIdSelector,
-  passId => !passId,
+  getIsPurchasingPassSelector,
+  (passId, isPurchasing) => !passId || isPurchasing,
 );
 
 export const getPassesForStudentSelector = createSelector(

@@ -71,6 +71,9 @@ export class ClassCheckInContainer implements OnInit, OnDestroy {
         } else {
           this._dialogService.openPassPurchase(id)
             .subscribe(result => {
+              if (result) {
+                this._store.dispatch(new CheckInRequest());
+              }
               console.log('The dialog was closed', result);
             });
         }

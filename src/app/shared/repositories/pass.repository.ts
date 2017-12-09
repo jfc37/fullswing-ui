@@ -26,4 +26,11 @@ export class PassRepository {
       .do(dtos => dtos.forEach(validateDtoPass))
       .map(dtos => dtos.map(dtoToPass));
   }
+
+  public purchaseForStudent(studentId: number, passTemplateId: number): Observable<Pass[]> {
+    return this._http.post(`${environment.apiUrl}/api/users/${studentId}/pass-templates/${passTemplateId}`, { paymentStatus: 'paid' })
+      .map(response => response.json().actionResult.passes as PassDto[])
+      .do(dtos => dtos.forEach(validateDtoPass))
+      .map(dtos => dtos.map(dtoToPass));
+  }
 }
