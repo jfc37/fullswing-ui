@@ -5,7 +5,7 @@ import { Store } from '@ngrx/store';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { CheckInState } from '../../redux/check-in.state';
 import { InitialisePassTemplates } from '../../redux/pass-templates/pass-templates.actions';
-import { ResetPassPurchase, SetStudentForPassPurchase } from '../../redux/pass-purchase/pass-purchase.actions';
+import { ResetPassPurchase, SetStudentForPassPurchase, PurchasePassRequest } from '../../redux/pass-purchase/pass-purchase.actions';
 import { MAT_DIALOG_DATA } from '@angular/material';
 
 describe('PurchasePassContainer', () => {
@@ -54,5 +54,15 @@ describe('PurchasePassContainer', () => {
 
   it(`should set student for pass purchase`, () => {
     expect(store.dispatch).toHaveBeenCalledWith(new SetStudentForPassPurchase(studentId));
+  });
+
+  describe(`when purchase is clicked`, () => {
+    beforeEach(() => {
+      component.purchase();
+    });
+
+    it(`should dispatch purchase action`, () => {
+      expect(store.dispatch).toHaveBeenCalledWith(new PurchasePassRequest());
+    });
   });
 });

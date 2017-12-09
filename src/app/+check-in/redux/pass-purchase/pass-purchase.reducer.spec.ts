@@ -1,6 +1,6 @@
 import { PassPurchaseState } from './pass-purchase.state';
 import { ineeda } from 'ineeda';
-import { Actions, ResetPassPurchase, SetStudentForPassPurchase, SetPassForPurchase } from './pass-purchase.actions';
+import { Actions, ResetPassPurchase, SetStudentForPassPurchase, SetPassForPurchase, PurchasePassRequest, PurchasePassSuccess, PurchasePassFailure } from './pass-purchase.actions';
 import { passPurchaseReducer } from './pass-purchase.reducer';
 
 describe('passPurchaseReducer', () => {
@@ -24,6 +24,24 @@ describe('passPurchaseReducer', () => {
     it('should set pass id to null', () => {
       const newState = passPurchaseReducer(state, action);
       expect(newState.passId).toBeNull();
+    });
+
+    it('should set isPurchasing to false', () => {
+      state.isPurchasing = true;
+      const newState = passPurchaseReducer(state, action);
+      expect(newState.isPurchasing).toBe(false);
+    });
+
+    it('should set hasPurchased to false', () => {
+      state.hasPurchased = true;
+      const newState = passPurchaseReducer(state, action);
+      expect(newState.hasPurchased).toBe(false);
+    });
+
+    it('should set purchaseError to null', () => {
+      state.purchaseError = 'ERROR';
+      const newState = passPurchaseReducer(state, action);
+      expect(newState.purchaseError).toBeNull();
     });
   });
 
@@ -50,6 +68,67 @@ describe('passPurchaseReducer', () => {
     it('should set pass id', () => {
       const newState = passPurchaseReducer(state, action);
       expect(newState.passId).toBe(passId);
+    });
+  });
+
+  describe('Purchase Pass Request', () => {
+    beforeEach(() => {
+      action = new PurchasePassRequest();
+    });
+
+    it('should set isPurchasing to true', () => {
+      state.isPurchasing = false;
+      const newState = passPurchaseReducer(state, action);
+      expect(newState.isPurchasing).toBe(true);
+    });
+
+    it('should set purchaseError to null', () => {
+      state.purchaseError = 'ERROR';
+      const newState = passPurchaseReducer(state, action);
+      expect(newState.purchaseError).toBeNull();
+    });
+  });
+
+  describe('Purchase Pass Success', () => {
+    beforeEach(() => {
+      action = new PurchasePassSuccess();
+    });
+
+    it('should set isPurchasing to false', () => {
+      state.isPurchasing = true;
+      const newState = passPurchaseReducer(state, action);
+      expect(newState.isPurchasing).toBe(false);
+    });
+
+    it('should set hasPurchased to true', () => {
+      state.hasPurchased = false;
+      const newState = passPurchaseReducer(state, action);
+      expect(newState.hasPurchased).toBe(true);
+    });
+
+    it('should set purchaseError to null', () => {
+      state.purchaseError = 'ERROR';
+      const newState = passPurchaseReducer(state, action);
+      expect(newState.purchaseError).toBeNull();
+    });
+  });
+
+  describe('Purchase Pass Failure', () => {
+    beforeEach(() => {
+      action = new PurchasePassFailure('ERROR');
+    });
+
+    it('should set isPurchasing to false', () => {
+      state.isPurchasing = true;
+      const newState = passPurchaseReducer(state, action);
+      expect(newState.isPurchasing).toBe(false);
+    });
+
+
+    it('should set purchaseError', () => {
+      state.purchaseError = null;
+      const newState = passPurchaseReducer(state, action);
+      expect(newState.purchaseError).toBe('ERROR');
     });
   });
 });

@@ -11,6 +11,7 @@ import {
   ResetPassPurchase,
   SetPassForPurchase,
   SetStudentForPassPurchase,
+  PurchasePassRequest,
 } from '../../redux/pass-purchase/pass-purchase.actions';
 
 @Component({
@@ -43,6 +44,6 @@ export class PurchasePassContainer implements OnInit {
   }
 
   public purchase(): void {
-    console.error('xxx purchase');
+    this._store.dispatch(new PurchasePassRequest());
   }
 }
