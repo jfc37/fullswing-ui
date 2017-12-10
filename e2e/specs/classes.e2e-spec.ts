@@ -15,13 +15,12 @@ describe('Classes', () => {
 
     blockListPage.navigateTo();
     new LoginPage().login();
-
-    blockListPage.navigateTo();
   });
 
   afterEach(teardown);
 
   it(`user should be able to browse classes for block`, () => {
+    blockListPage.navigateTo();
     blockListPage.clickFirstClassListButton();
     expect(classListPage.isOnPage()).toBe(true);
   });
