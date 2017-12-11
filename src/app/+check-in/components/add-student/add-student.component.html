@@ -1,0 +1,21 @@
+<mat-card>
+  <mat-card-title data-test-id="title">Add student</mat-card-title>
+  <mat-card-content>
+    <form>
+      <mat-form-field>
+        <input type="text"
+          matInput
+          [formControl]="searchControl"
+          [matAutocomplete]="auto">
+      </mat-form-field>
+
+      <mat-autocomplete #auto="matAutocomplete"
+        [displayWith]="displayFn">
+        <mat-option *ngFor="let student of model.matchingStudents"
+          [value]="student.id">
+          {{ student.name }}
+        </mat-option>
+      </mat-autocomplete>
+    </form>
+  </mat-card-content>
+</mat-card>

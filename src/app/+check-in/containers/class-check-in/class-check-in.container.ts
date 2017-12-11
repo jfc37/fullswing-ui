@@ -20,6 +20,7 @@ import { PurchasePassContainer } from '../purchase-pass/purchase-pass.container'
 import { DialogService } from '../../services/dialog.service';
 import { SetClassForCheckIn, SetStudentForCheckIn, CheckInRequest, RemoveStudentRequest } from '../../redux/student-check-in/student-check-in.actions';
 import { SetStudentForPassPurchase } from '../../redux/pass-purchase/pass-purchase.actions';
+import { AddStudentModel } from '../../components/add-student/add-student.component.model';
 
 @Component({
   selector: 'fs-class-check-in',
@@ -30,6 +31,7 @@ export class ClassCheckInContainer implements OnInit, OnDestroy {
   public name$: Observable<string>;
   public registeredStudentsModel$: Observable<RegisteredStudentsModel>;
   public attendingStudentsModel$: Observable<AttendingStudentsModel>;
+  public addStudentModel$: Observable<AddStudentModel>;
 
   private _destroy$ = new ReplaySubject<void>();
   constructor(
@@ -50,6 +52,12 @@ export class ClassCheckInContainer implements OnInit, OnDestroy {
       .filter(Boolean);
     this.registeredStudentsModel$ = this._store.select(getRegisteredStudentsModelSelector);
     this.attendingStudentsModel$ = this._store.select(getAttendingStudentsModelSelector);
+    this.addStudentModel$ = Observable.of({
+      matchingStudents: [
+        { id: 653, name: 'Adam Johns'},
+        { id: 746, name: 'James Harrison'},
+      ]
+    });
   }
 
   public ngOnDestroy(): void {
@@ -83,5 +91,9 @@ export class ClassCheckInContainer implements OnInit, OnDestroy {
   public remove(id: number): void {
     this._store.dispatch(new SetStudentForCheckIn(id));
     this._store.dispatch(new RemoveStudentRequest());
+  }
+
+  public searchChanged(text: string): void {
+    console.error('xxx', text);
   }
 }
