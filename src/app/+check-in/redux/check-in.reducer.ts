@@ -16,6 +16,8 @@ import { getPassesForStudent, getHasStudentGotValidPass } from './passes/passes.
 import { getPassId, getStudentId } from './pass-purchase/pass-purchase.selectors';
 import { passTemplatesReducer } from './pass-templates/pass-templates.reducer';
 import { getHasLoaded } from '../../shared/redux/loadable/loadable.selectors';
+import { studentSearchReducer } from './student-search/student-search.reducer';
+import { AddStudentModel } from '../components/add-student/add-student.component.model';
 
 export const checkInReducer = {
   classes: classesReducer,
@@ -24,6 +26,7 @@ export const checkInReducer = {
   studentCheckIn: studentCheckInReducer,
   passPurchase: passPurchaseReducer,
   passTemplates: passTemplatesReducer,
+  studentSearch: studentSearchReducer,
 };
 
 // Feature selector
@@ -58,6 +61,11 @@ export const getPassPurchaseState = createSelector(
 export const getPassTemplatesState = createSelector(
   getCheckInState,
   state => state.passTemplates
+);
+
+export const getStudentSearchState = createSelector(
+  getCheckInState,
+  state => state.studentSearch
 );
 
 // Student class check in selectors
@@ -155,4 +163,17 @@ export const getPurchasePassPreambleModelSelector = createSelector(
 export const getPassSelectionModelSelector = createSelector(
   getPassTemplatesState,
   getPassSelectionModel
+);
+
+// Student Search
+export const getStudentSearchTextSelector = createSelector(
+  getStudentSearchState,
+  state => !!state && state.searchText
+);
+
+export const getAddStudentModelSelector = createSelector(
+  getStudentSearchState,
+  state => !!state && ({
+    matchingStudents: state.searchResults.map(s => ({ id: s.id, name: s.fullName }))
+  } as AddStudentModel)
 );

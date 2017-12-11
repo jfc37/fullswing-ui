@@ -5,6 +5,7 @@ import {
   getRegisteredStudentsModelSelector,
   getSelectedClassNameSelector,
   getHasStudentGotValidPassSelector,
+  getAddStudentModelSelector,
 } from '../../redux/check-in.reducer';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ReplaySubject } from 'rxjs';
@@ -21,6 +22,7 @@ import { DialogService } from '../../services/dialog.service';
 import { SetClassForCheckIn, SetStudentForCheckIn, CheckInRequest, RemoveStudentRequest } from '../../redux/student-check-in/student-check-in.actions';
 import { SetStudentForPassPurchase } from '../../redux/pass-purchase/pass-purchase.actions';
 import { AddStudentModel } from '../../components/add-student/add-student.component.model';
+import { ResetStudentSearch, SetStudentSearchText } from '../../redux/student-search/student-search.actions';
 
 @Component({
   selector: 'fs-class-check-in',
@@ -41,6 +43,8 @@ export class ClassCheckInContainer implements OnInit, OnDestroy {
     public _dialogService: DialogService) { }
 
   public ngOnInit(): void {
+    this._store.dispatch(new ResetStudentSearch());
+
     this._activatedRoute.params
       .takeUntil(this._destroy$)
       .map(params => +params['id'])
@@ -52,12 +56,7 @@ export class ClassCheckInContainer implements OnInit, OnDestroy {
       .filter(Boolean);
     this.registeredStudentsModel$ = this._store.select(getRegisteredStudentsModelSelector);
     this.attendingStudentsModel$ = this._store.select(getAttendingStudentsModelSelector);
-    this.addStudentModel$ = Observable.of({
-      matchingStudents: [
-        { id: 653, name: 'Adam Johns'},
-        { id: 746, name: 'James Harrison'},
-      ]
-    });
+    this.addStudentModel$ = this._store.select(getAddStudentModelSelector);
   }
 
   public ngOnDestroy(): void {
@@ -94,6 +93,6 @@ export class ClassCheckInContainer implements OnInit, OnDestroy {
   }
 
   public searchChanged(text: string): void {
-    console.error('xxx', text);
+    this._store.dispatch(new SetStudentSearchText(text));
   }
 }
