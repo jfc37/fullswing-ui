@@ -5,6 +5,7 @@ import { AddStudentModel } from './add-student.component.model';
 import { StudentModel } from '../attending-students/attending-students.component.model';
 import { OnDestroy } from '@angular/core/src/metadata/lifecycle_hooks';
 import { ReplaySubject } from 'rxjs';
+import { MatAutocompleteSelectedEvent } from '@angular/material';
 
 @Component({
   selector: 'fs-add-student',
@@ -33,5 +34,9 @@ export class AddStudentComponent implements OnInit, OnDestroy {
 
   public displayFn(student: StudentModel): string | StudentModel {
     return student ? student.name : student;
+  }
+
+  public optionSelected(selectedOption: MatAutocompleteSelectedEvent): void {
+    console.error('xxx', selectedOption.option.value);
   }
 }

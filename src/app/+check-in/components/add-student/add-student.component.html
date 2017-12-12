@@ -1,4 +1,4 @@
-<mat-card>
+<mat-card *ngIf="model">
   <mat-card-title data-test-id="title">Add student</mat-card-title>
   <mat-card-content>
     <form>
@@ -10,7 +10,8 @@
       </mat-form-field>
 
       <mat-autocomplete #auto="matAutocomplete"
-        [displayWith]="displayFn">
+        [displayWith]="displayFn"
+        (optionSelected)="optionSelected($event)">
         <mat-option *ngFor="let student of model.matchingStudents"
           [value]="student.id">
           {{ student.name }}
