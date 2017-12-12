@@ -7,6 +7,7 @@ import * as stateActions from './student-search.actions';
 import { UserRepository } from '../../../core/repositories/user.repository';
 import { CheckInState } from '../check-in.state';
 import { getStudentSearchTextSelector } from '../check-in.reducer';
+import { SetStudents } from '../students/students.actions';
 
 @Injectable()
 export class StudentSearchEffects {
@@ -14,7 +15,11 @@ export class StudentSearchEffects {
   @Effect()
   public setSearchText$: Observable<Action> = this.actions$
     .ofType<stateActions.SetStudentSearchText>(stateActions.SET_STUDENT_SEARCH_TEXT)
-    .map(() => new stateActions.StudentSearchRequest());
+    .withLatestFrom(this.store.select(getStudentSearchTextSelector))
+    .map(([action, text]) => text)
+    .map(text => !!text
+      ? new stateActions.StudentSearchRequest()
+      : new stateActions.ResetStudentSearch());
 
   @Effect()
   public search$: Observable<Action> = this.actions$
@@ -25,6 +30,7 @@ export class StudentSearchEffects {
       .mergeMap(users => [
         new stateActions.StudentSearchSuccess(),
         new stateActions.SetStudentSearchResults(users),
+        new SetStudents(users),
       ])
       .catch(() => Observable.of(new stateActions.StudentSearchFailure(`Failed getting students`)))
     );

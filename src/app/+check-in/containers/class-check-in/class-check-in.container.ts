@@ -95,4 +95,8 @@ export class ClassCheckInContainer implements OnInit, OnDestroy {
   public searchChanged(text: string): void {
     this._store.dispatch(new SetStudentSearchText(text));
   }
+
+  public studentSelected(studentId: number): void {
+    console.error('studentSelected', studentId);
+  }
 }

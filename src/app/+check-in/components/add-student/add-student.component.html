@@ -13,10 +13,17 @@
         [displayWith]="displayFn"
         (optionSelected)="optionSelected($event)">
         <mat-option *ngFor="let student of model.matchingStudents"
-          [value]="student.id">
+          [value]="student">
           {{ student.name }}
         </mat-option>
       </mat-autocomplete>
+
+      <button mat-button
+        color="primary"
+        data-test-id="add-to-class-button"
+        [disabled]="disableButton()"
+        [ngClass]="{'disabled': disableButton()}"
+        (click)="addToClassClicked()">Add to class</button>
     </form>
   </mat-card-content>
 </mat-card>

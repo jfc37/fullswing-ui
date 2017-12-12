@@ -16,6 +16,9 @@ export class AddStudentComponent implements OnInit, OnDestroy {
   @Input() public model: AddStudentModel;
 
   @Output() public searchChanged = new EventEmitter<string>();
+  @Output() public addToClass = new EventEmitter<number>();
+
+  private _selectedStudentId: number;
 
   public searchControl = new FormControl();
   private _destroy$ = new ReplaySubject<void>();
@@ -37,6 +40,20 @@ export class AddStudentComponent implements OnInit, OnDestroy {
   }
 
   public optionSelected(selectedOption: MatAutocompleteSelectedEvent): void {
-    console.error('xxx', selectedOption.option.value);
+    this._selectedStudentId = selectedOption.option.value.id;
+  }
+
+  public addToClassClicked(): void {
+    this.addToClass.emit(this._selectedStudentId);
+    this.clearSelection();
+  }
+
+  public disableButton(): boolean {
+    return !this._selectedStudentId;
+  }
+
+  private clearSelection(): void {
+    this._selectedStudentId = null;
+    this.searchControl.reset();
   }
 }

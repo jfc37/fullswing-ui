@@ -3,7 +3,8 @@
 
   <fs-add-student data-test-id="add-student"
     [model]="addStudentModel$ | async"
-    (searchChanged)="searchChanged($event)"></fs-add-student>
+    (searchChanged)="searchChanged($event)"
+    (addToClass)="checkIn($event)"></fs-add-student>
 
   <fs-registered-students data-test-id="registered-students"
     [model]="registeredStudentsModel$ | async"
