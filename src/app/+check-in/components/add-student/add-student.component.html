@@ -24,6 +24,13 @@
         [disabled]="disableButton()"
         [ngClass]="{'disabled': disableButton()}"
         (click)="addToClassClicked()">Add to class</button>
+
+      <button mat-button
+        color="secondary"
+        data-test-id="enrol-in-class-button"
+        [disabled]="disableButton()"
+        [ngClass]="{'disabled': disableButton()}"
+        (click)="enrolInClassClicked()">Enrol in class</button>
     </form>
   </mat-card-content>
 </mat-card>

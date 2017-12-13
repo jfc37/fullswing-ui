@@ -96,7 +96,7 @@ export class ClassCheckInContainer implements OnInit, OnDestroy {
     this._store.dispatch(new SetStudentSearchText(text));
   }
 
-  public studentSelected(studentId: number): void {
-    console.error('studentSelected', studentId);
+  public enrolStudent(id: number): void {
+    this.checkIn(id);
   }
 }

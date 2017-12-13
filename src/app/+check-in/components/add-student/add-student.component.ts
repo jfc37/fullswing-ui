@@ -17,6 +17,7 @@ export class AddStudentComponent implements OnInit, OnDestroy {
 
   @Output() public searchChanged = new EventEmitter<string>();
   @Output() public addToClass = new EventEmitter<number>();
+  @Output() public enrolInClass = new EventEmitter<number>();
 
   private _selectedStudentId: number;
 
@@ -27,6 +28,7 @@ export class AddStudentComponent implements OnInit, OnDestroy {
     this.searchControl.valueChanges
       .takeUntil(this._destroy$)
       .debounceTime(300)
+      .filter(value => typeof value === 'string' && value.length > 2)
       .subscribe(value => this.searchChanged.emit(value));
   }
 
@@ -45,6 +47,11 @@ export class AddStudentComponent implements OnInit, OnDestroy {
 
   public addToClassClicked(): void {
     this.addToClass.emit(this._selectedStudentId);
+    this.clearSelection();
+  }
+
+  public enrolInClassClicked(): void {
+    this.enrolInClass.emit(this._selectedStudentId);
     this.clearSelection();
   }
 
