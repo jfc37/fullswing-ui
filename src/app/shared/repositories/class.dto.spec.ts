@@ -1,3 +1,4 @@
+import { BlockDto } from './block.dto';
 import { UserDto } from './user.dto';
 import { ClassDto, dtoToClass } from './class.dto';
 import { ineeda } from 'ineeda';
@@ -73,6 +74,30 @@ describe('ClassDto', () => {
       const theClass = dtoToClass(dto);
 
       expect(theClass.registeredStudentIds).toEqual([1, 2, 3]);
+    });
+
+    it(`should map block id`, () => {
+      const dto = ineeda<ClassDto>({
+        block: ineeda<BlockDto>({id: 4}),
+        actualStudents: [],
+        registeredStudents: []
+      });
+
+      const theClass = dtoToClass(dto);
+
+      expect(theClass.blockId).toEqual(4);
+    });
+
+    it(`should map block id to null when block isn't included`, () => {
+      const dto = ineeda<ClassDto>({
+        block: null,
+        actualStudents: [],
+        registeredStudents: []
+      });
+
+      const theClass = dtoToClass(dto);
+
+      expect(theClass.blockId).toBeFalsy();
     });
   });
 });

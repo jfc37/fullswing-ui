@@ -17,4 +17,11 @@ export class CheckInRepository {
     return this._http.delete(`${environment.apiUrl}/api/classes/${classId}/attendance/${studentId}`)
       .mapTo(true);
   }
+
+    public enrolInBlock(blockId: number, studentId: number): Observable<void> {
+      const dto = {blockIds: [blockId], userId: studentId};
+
+      return this._http.post(`${environment.apiUrl}/api/users/${studentId}/enrolment`, dto)
+        .mapTo(null);
+    }
 }

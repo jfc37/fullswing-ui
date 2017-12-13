@@ -8,6 +8,9 @@ export interface ClassDto {
   endTime: string;
   actualStudents: UserDto[];
   registeredStudents: UserDto[];
+  block: {
+    id: number;
+  };
 }
 
 export function dtoToClass(dto: ClassDto): Class {
@@ -18,6 +21,7 @@ export function dtoToClass(dto: ClassDto): Class {
     startTime: new Date(dto.startTime),
     endTime: new Date(dto.endTime),
     actualStudentIds: (dto.actualStudents || []).map(s => s.id),
-    registeredStudentIds: (dto.registeredStudents || []).map(s => s.id)
+    registeredStudentIds: (dto.registeredStudents || []).map(s => s.id),
+    blockId: dto.block && dto.block.id
   } as Class;
 }

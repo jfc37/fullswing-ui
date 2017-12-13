@@ -3,15 +3,15 @@ import { Action } from '@ngrx/store';
 export const RESET = '[Student Check In] Reset';
 
 export const SET_STUDENT = '[Student Check In] Set Student';
-export const SET_CLASS = '[Student In Class] Set Class';
+export const SET_CLASS = '[Student Check In] Set Class';
 
-export const CHECK_IN_REQUEST = '[Student In Class] Check In Request';
-export const CHECK_IN_SUCCESS = '[Student In Class] Check In Success';
-export const CHECK_IN_FAILURE = '[Student In Class] Check In Failure';
+export const CHECK_IN_REQUEST = '[Student Check In] Check In Request';
+export const CHECK_IN_SUCCESS = '[Student Check In] Check In Success';
+export const CHECK_IN_FAILURE = '[Student Check In] Check In Failure';
 
-export const REMOVE_STUDENT_REQUEST = '[Student In Class] Remove Student Request';
-export const REMOVE_STUDENT_SUCCESS = '[Student In Class] Remove Student Success';
-export const REMOVE_STUDENT_FAILURE = '[Student In Class] Remove Student Failure';
+export const REMOVE_STUDENT_REQUEST = '[Student Check In] Remove Student Request';
+export const REMOVE_STUDENT_SUCCESS = '[Student Check In] Remove Student Success';
+export const REMOVE_STUDENT_FAILURE = '[Student Check In] Remove Student Failure';
 
 export class ResetStudentCheckIn implements Action {
   public readonly type = RESET;

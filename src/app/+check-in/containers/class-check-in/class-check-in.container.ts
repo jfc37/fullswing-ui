@@ -6,6 +6,9 @@ import {
   getSelectedClassNameSelector,
   getHasStudentGotValidPassSelector,
   getAddStudentModelSelector,
+  getCheckInClassId,
+  getSelectedClassBlockIdSelector,
+  getHasEnrolledStudentSelector,
 } from '../../redux/check-in.reducer';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ReplaySubject } from 'rxjs';
@@ -23,6 +26,7 @@ import { SetClassForCheckIn, SetStudentForCheckIn, CheckInRequest, RemoveStudent
 import { SetStudentForPassPurchase } from '../../redux/pass-purchase/pass-purchase.actions';
 import { AddStudentModel } from '../../components/add-student/add-student.component.model';
 import { ResetStudentSearch, SetStudentSearchText } from '../../redux/student-search/student-search.actions';
+import { SetBlockToEnrolIn, SetStudentToEnrol, StudentEnrolRequest, ResetStudentEnrol } from '../../redux/student-enrol/student-enrol.actions';
 
 @Component({
   selector: 'fs-class-check-in',
@@ -50,6 +54,14 @@ export class ClassCheckInContainer implements OnInit, OnDestroy {
       .map(params => +params['id'])
       .subscribe(id => {
         this._store.dispatch(new SetClassForCheckIn(id));
+      });
+
+    this._store.select(getSelectedClassBlockIdSelector)
+      .takeUntil(this._destroy$)
+      .filter(Boolean)
+      .distinctUntilChanged()
+      .subscribe(id => {
+        this._store.dispatch(new SetBlockToEnrolIn(id));
       });
 
     this.name$ = this._store.select(getSelectedClassNameSelector)
@@ -97,6 +109,17 @@ export class ClassCheckInContainer implements OnInit, OnDestroy {
   }
 
   public enrolStudent(id: number): void {
-    this.checkIn(id);
+    this._store.dispatch(new SetStudentToEnrol(id));
+    this._store.dispatch(new StudentEnrolRequest());
+
+    this._store.select(getHasEnrolledStudentSelector)
+      .filter(Boolean)
+      .first()
+      .subscribe(() => {
+        // This is going to clear out block id too. Need an action to just set hasEnrolled to false
+        this._store.dispatch(new ResetStudentEnrol());
+        this.checkIn(id);
+      });
+
   }
 }
