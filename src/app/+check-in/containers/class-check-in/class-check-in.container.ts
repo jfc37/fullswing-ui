@@ -26,7 +26,7 @@ import { SetClassForCheckIn, SetStudentForCheckIn, CheckInRequest, RemoveStudent
 import { SetStudentForPassPurchase } from '../../redux/pass-purchase/pass-purchase.actions';
 import { AddStudentModel } from '../../components/add-student/add-student.component.model';
 import { ResetStudentSearch, SetStudentSearchText } from '../../redux/student-search/student-search.actions';
-import { SetBlockToEnrolIn, SetStudentToEnrol, StudentEnrolRequest, ResetStudentEnrol } from '../../redux/student-enrol/student-enrol.actions';
+import { SetBlockToEnrolIn, SetStudentToEnrol, StudentEnrolRequest, ResetStudentEnrol, StudentEnrolmentComplete } from '../../redux/student-enrol/student-enrol.actions';
 
 @Component({
   selector: 'fs-class-check-in',
@@ -40,6 +40,7 @@ export class ClassCheckInContainer implements OnInit, OnDestroy {
   public addStudentModel$: Observable<AddStudentModel>;
 
   private _destroy$ = new ReplaySubject<void>();
+
   constructor(
     private _store: Store<CheckInState>,
     private _router: Router,
@@ -47,28 +48,8 @@ export class ClassCheckInContainer implements OnInit, OnDestroy {
     public _dialogService: DialogService) { }
 
   public ngOnInit(): void {
-    this._store.dispatch(new ResetStudentSearch());
-
-    this._activatedRoute.params
-      .takeUntil(this._destroy$)
-      .map(params => +params['id'])
-      .subscribe(id => {
-        this._store.dispatch(new SetClassForCheckIn(id));
-      });
-
-    this._store.select(getSelectedClassBlockIdSelector)
-      .takeUntil(this._destroy$)
-      .filter(Boolean)
-      .distinctUntilChanged()
-      .subscribe(id => {
-        this._store.dispatch(new SetBlockToEnrolIn(id));
-      });
-
-    this.name$ = this._store.select(getSelectedClassNameSelector)
-      .filter(Boolean);
-    this.registeredStudentsModel$ = this._store.select(getRegisteredStudentsModelSelector);
-    this.attendingStudentsModel$ = this._store.select(getAttendingStudentsModelSelector);
-    this.addStudentModel$ = this._store.select(getAddStudentModelSelector);
+    this.setupDispatchers();
+    this.setupSelectors();
   }
 
   public ngOnDestroy(): void {
@@ -89,12 +70,8 @@ export class ClassCheckInContainer implements OnInit, OnDestroy {
           this._store.dispatch(new CheckInRequest());
         } else {
           this._dialogService.openPassPurchase(id)
-            .subscribe(result => {
-              if (result) {
-                this._store.dispatch(new CheckInRequest());
-              }
-              console.log('The dialog was closed', result);
-            });
+            .filter(Boolean)
+            .subscribe(() => this._store.dispatch(new CheckInRequest()));
         }
       });
   }
@@ -116,10 +93,33 @@ export class ClassCheckInContainer implements OnInit, OnDestroy {
       .filter(Boolean)
       .first()
       .subscribe(() => {
-        // This is going to clear out block id too. Need an action to just set hasEnrolled to false
-        this._store.dispatch(new ResetStudentEnrol());
+        this._store.dispatch(new StudentEnrolmentComplete());
         this.checkIn(id);
       });
+  }
 
+  private setupDispatchers(): void {
+    this._store.dispatch(new ResetStudentSearch());
+    this._store.dispatch(new ResetStudentEnrol());
+
+    this._activatedRoute.params
+      .takeUntil(this._destroy$)
+      .map(params => +params['id'])
+      .subscribe(id => this._store.dispatch(new SetClassForCheckIn(id)));
+
+    this._store.select(getSelectedClassBlockIdSelector)
+      .takeUntil(this._destroy$)
+      .filter(Boolean)
+      .distinctUntilChanged()
+      .subscribe(id => this._store.dispatch(new SetBlockToEnrolIn(id)));
+  }
+
+  private setupSelectors(): void {
+    this.name$ = this._store.select(getSelectedClassNameSelector)
+      .filter(Boolean);
+
+    this.registeredStudentsModel$ = this._store.select(getRegisteredStudentsModelSelector);
+    this.attendingStudentsModel$ = this._store.select(getAttendingStudentsModelSelector);
+    this.addStudentModel$ = this._store.select(getAddStudentModelSelector);
   }
 }

@@ -111,4 +111,28 @@ describe('studentEnrolReducer', () => {
       expect(newState.hasEnrolled).toBe(false);
     });
   });
+
+  describe('EnrolmentComplete', () => {
+    beforeEach(() => {
+      action = new stateActions.StudentEnrolmentComplete();
+    });
+
+    it('should set hasEnrolled to false', () => {
+      state.hasEnrolled = false;
+      const newState = studentEnrolReducer(state, action);
+      expect(newState.hasEnrolled).toBe(false);
+    });
+
+    it('should clear student', () => {
+      state.studentId = 643;
+      const newState = studentEnrolReducer(state, action);
+      expect(newState.studentId).toBeNull();
+    });
+
+    it('should leave block id', () => {
+      state.blockId = 6321;
+      const newState = studentEnrolReducer(state, action);
+      expect(newState.blockId).toBe(state.blockId);
+    });
+  });
 });

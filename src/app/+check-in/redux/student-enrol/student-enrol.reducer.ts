@@ -57,6 +57,14 @@ export function studentEnrolReducer(state = getInitialState(), action: Actions):
         };
       }
 
+      case stateActions.STUDENT_ENROLMENT_COMPLETE: {
+        return {
+          ...state,
+          hasEnrolled: false,
+          studentId: null,
+        };
+      }
+
     default:
       return state;
   }

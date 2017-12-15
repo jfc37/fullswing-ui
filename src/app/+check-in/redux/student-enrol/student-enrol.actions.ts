@@ -9,6 +9,8 @@ export const STUDENT_ENROL_REQUEST = '[Student Enrol] Enrol Request';
 export const STUDENT_ENROL_SUCCESS = '[Student Enrol] Enrol Success';
 export const STUDENT_ENROL_FAILURE = '[Student Enrol] Enrol Failure';
 
+export const STUDENT_ENROLMENT_COMPLETE = '[Student Enrol] Enrolment Complete';
+
 
 export class ResetStudentEnrol implements Action {
   public readonly type = RESET;
@@ -38,6 +40,11 @@ export class StudentEnrolFailure implements Action {
   constructor(public error: string) { }
 }
 
+
+export class StudentEnrolmentComplete implements Action {
+  public readonly type = STUDENT_ENROLMENT_COMPLETE;
+}
+
 export type Actions
   = ResetStudentEnrol
 
@@ -46,4 +53,6 @@ export type Actions
 
   | StudentEnrolRequest
   | StudentEnrolSuccess
-  | StudentEnrolFailure;
+  | StudentEnrolFailure
+
+  | StudentEnrolmentComplete;
