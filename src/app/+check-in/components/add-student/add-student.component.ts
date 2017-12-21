@@ -18,6 +18,7 @@ export class AddStudentComponent implements OnInit, OnDestroy {
   @Output() public searchChanged = new EventEmitter<string>();
   @Output() public addToClass = new EventEmitter<number>();
   @Output() public enrolInClass = new EventEmitter<number>();
+  @Output() public newStudent = new EventEmitter<void>();
 
   private _selectedStudentId: number;
 
@@ -52,6 +53,11 @@ export class AddStudentComponent implements OnInit, OnDestroy {
 
   public enrolInClassClicked(): void {
     this.enrolInClass.emit(this._selectedStudentId);
+    this.clearSelection();
+  }
+
+  public newStudentClicked(): void {
+    this.newStudent.emit();
     this.clearSelection();
   }
 

@@ -76,6 +76,10 @@ export class ClassCheckInContainer implements OnInit, OnDestroy {
       });
   }
 
+  public newStudent(): void {
+    this._dialogService.openCreateNewStudent();
+  }
+
   public remove(id: number): void {
     this._store.dispatch(new SetStudentForCheckIn(id));
     this._store.dispatch(new RemoveStudentRequest());

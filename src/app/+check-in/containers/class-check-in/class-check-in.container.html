@@ -5,7 +5,8 @@
     [model]="addStudentModel$ | async"
     (searchChanged)="searchChanged($event)"
     (addToClass)="checkIn($event)"
-    (enrolInClass)="enrolStudent($event)"></fs-add-student>
+    (enrolInClass)="enrolStudent($event)"
+    (newStudent)="newStudent()"></fs-add-student>
 
   <fs-registered-students data-test-id="registered-students"
     [model]="registeredStudentsModel$ | async"
