@@ -24,6 +24,18 @@
     </mat-form-field>
   </div>
   <div>
+    <mat-form-field data-test-id="email-group">
+      <input matInput
+        data-test-id="email"
+        placeholder="Email"
+        formControlName="email"
+        name="email">
+      <mat-error *ngIf="form.get('email').hasError('required')">
+        Required field
+      </mat-error>
+    </mat-form-field>
+  </div>
+  <div>
     <mat-form-field data-test-id="password-group">
       <input matInput
         data-test-id="password"
@@ -35,4 +47,10 @@
       </mat-error>
     </mat-form-field>
   </div>
+
+  <button data-test-id="create-student-button"
+    mat-raised-button
+    color="primary"
+    [disabled]="disableCreate$ | async"
+    (click)="create()">Create</button>
 </form>

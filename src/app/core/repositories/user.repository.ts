@@ -16,7 +16,7 @@ export class UserRepository {
   }
 
   public search(text: string): Observable<User[]> {
-    return this._http.get(`${environment.apiUrl}/api//users?q=fullname_cont_${text},orderby_fullname`)
+    return this._http.get(`${environment.apiUrl}/api/users?q=fullname_cont_${text},orderby_fullname`)
       .map(response => response.json() as UserDto[])
       .map(dtos => dtos.map(dtoToUser));
   }

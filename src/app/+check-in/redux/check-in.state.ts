@@ -6,6 +6,7 @@ import { PassPurchaseState } from './pass-purchase/pass-purchase.state';
 import { PassTemplatesState } from './pass-templates/pass-templates.state';
 import { StudentSearchState } from './student-search/student-search.state';
 import { StudentEnrolState } from './student-enrol/student-enrol.state';
+import { NewStudentState } from './new-student/new-student.state';
 
 export interface CheckInState {
   classes: ClassesState;
@@ -16,4 +17,5 @@ export interface CheckInState {
   passTemplates: PassTemplatesState;
   studentSearch: StudentSearchState;
   studentEnrol: StudentEnrolState;
+  newStudent: NewStudentState;
 }

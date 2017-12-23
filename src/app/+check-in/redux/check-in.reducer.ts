@@ -19,6 +19,8 @@ import { getHasLoaded } from '../../shared/redux/loadable/loadable.selectors';
 import { studentSearchReducer } from './student-search/student-search.reducer';
 import { AddStudentModel } from '../components/add-student/add-student.component.model';
 import { studentEnrolReducer } from './student-enrol/student-enrol.reducer';
+import { newStudentReducer } from './new-student/new-student.reducer';
+import { getIsSaving } from '../../shared/redux/savable/savable.selectors';
 
 export const checkInReducer = {
   classes: classesReducer,
@@ -29,6 +31,7 @@ export const checkInReducer = {
   passTemplates: passTemplatesReducer,
   studentSearch: studentSearchReducer,
   studentEnrol: studentEnrolReducer,
+  newStudent: newStudentReducer,
 };
 
 // Feature selector
@@ -73,6 +76,11 @@ export const getStudentSearchState = createSelector(
 export const getStudentEnrolState = createSelector(
   getCheckInState,
   state => state.studentEnrol
+);
+
+export const getNewStudentState = createSelector(
+  getCheckInState,
+  state => state.newStudent
 );
 
 // Student class check in selectors
@@ -194,3 +202,15 @@ export const getHasEnrolledStudentSelector = createSelector(
   getStudentEnrolState,
   state => state && state.hasEnrolled
 );
+
+// New Student
+export const getNewStudentDetailsSelector = createSelector(
+  getNewStudentState,
+  state => !!state && state.student
+);
+
+export const getIsCreatingStudentSelector = createSelector(
+  getNewStudentState,
+  getIsSaving
+);
+

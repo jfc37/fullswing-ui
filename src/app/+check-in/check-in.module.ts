@@ -23,6 +23,7 @@ import { AddStudentComponent } from './components/add-student/add-student.compon
 import { StudentSearchEffects } from './redux/student-search/student-search.effects';
 import { StudentEnrolEffects } from './redux/student-enrol/student-enrol.effects';
 import { CreateNewStudentContainer } from './containers/create-new-student/create-new-student.container';
+import { NewStudentEffects } from './redux/new-student/new-student.effects';
 
 console.log('`Check In` bundle loaded asynchronously');
 
@@ -40,6 +41,7 @@ console.log('`Check In` bundle loaded asynchronously');
       PassPurchaseEffects,
       StudentSearchEffects,
       StudentEnrolEffects,
+      NewStudentEffects,
     ]),
   ],
   declarations: [

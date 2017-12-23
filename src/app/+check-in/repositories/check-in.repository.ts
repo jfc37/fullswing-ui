@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { AuthHttp } from 'angular2-jwt';
 import { environment } from '../../../environments/environment';
+import { StudentDetails } from '../redux/new-student/new-student.state';
 
 @Injectable()
 export class CheckInRepository {
@@ -18,10 +19,16 @@ export class CheckInRepository {
       .mapTo(true);
   }
 
-    public enrolInBlock(blockId: number, studentId: number): Observable<void> {
-      const dto = {blockIds: [blockId], userId: studentId};
+  public enrolInBlock(blockId: number, studentId: number): Observable<void> {
+    const dto = { blockIds: [blockId], userId: studentId };
 
-      return this._http.post(`${environment.apiUrl}/api/users/${studentId}/enrolment`, dto)
-        .mapTo(null);
-    }
+    return this._http.post(`${environment.apiUrl}/api/users/${studentId}/enrolment`, dto)
+      .mapTo(null);
+  }
+
+  public createStudent(student: StudentDetails): Observable<void> {
+
+    return this._http.post(`${environment.apiUrl}/api/users`, student)
+      .mapTo(null);
+  }
 }
