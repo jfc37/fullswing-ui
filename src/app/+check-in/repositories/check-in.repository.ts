@@ -1,3 +1,6 @@
+import { UserDto, dtoToUser } from '../../shared/repositories/user.dto';
+import { ActionResult } from '../../shared/state-models/action-result';
+import { User } from '../../shared/state-models/teacher';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { AuthHttp } from 'angular2-jwt';
@@ -26,9 +29,10 @@ export class CheckInRepository {
       .mapTo(null);
   }
 
-  public createStudent(student: StudentDetails): Observable<void> {
-
+  public createStudent(student: StudentDetails): Observable<User> {
     return this._http.post(`${environment.apiUrl}/api/users`, student)
-      .mapTo(null);
+      .map(response => response.json() as ActionResult<UserDto>)
+      .map(result => result.actionResult)
+      .map(dtoToUser);
   }
 }

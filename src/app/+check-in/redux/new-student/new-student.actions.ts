@@ -26,6 +26,7 @@ export class CreateStudentRequest implements Action {
 
 export class CreateStudentSuccess implements Action {
   public readonly type = CREATE_STUDENT_SUCCESS;
+  constructor(public id: number) { }
 }
 
 export class CreateStudentFailure implements Action {

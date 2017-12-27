@@ -4,7 +4,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { CreateNewStudentContainer } from './create-new-student.container';
 import { ReactiveFormsModule } from '@angular/forms';
-import { MatInputModule, MatFormFieldModule } from '@angular/material';
+import { MatInputModule, MatFormFieldModule, MatCheckboxModule, MatDialogRef } from '@angular/material';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { NO_ERRORS_SCHEMA, DebugElement } from '@angular/core';
 import { Store } from '@ngrx/store';
@@ -15,6 +15,7 @@ describe('CreateNewStudentContainer', () => {
   let component: CreateNewStudentContainer;
   let fixture: ComponentFixture<CreateNewStudentContainer>;
 
+  let dialog: MatDialogRef<CreateNewStudentContainer>;
   let store: Store<CheckInState>;
   let isDisabledReplay: ReplaySubject<boolean>;
 
@@ -23,24 +24,30 @@ describe('CreateNewStudentContainer', () => {
       imports: [
         ReactiveFormsModule,
         MatInputModule,
+        MatCheckboxModule,
         MatFormFieldModule,
         NoopAnimationsModule
       ],
       schemas: [NO_ERRORS_SCHEMA],
       providers: [
-        {provide: Store, useValue: {} }
+        { provide: MatDialogRef, useValue: {} },
+        { provide: Store, useValue: {} }
       ],
-      declarations: [ CreateNewStudentContainer ]
+      declarations: [CreateNewStudentContainer]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(CreateNewStudentContainer);
     component = fixture.componentInstance;
 
+    dialog = TestBed.get(MatDialogRef);
+    dialog.close = jasmine.createSpy();
+
     isDisabledReplay = new ReplaySubject();
     store = TestBed.get(Store);
+    store.dispatch = jasmine.createSpy();
     store.select = jasmine.createSpy()
       .and.returnValue(isDisabledReplay);
 
@@ -66,6 +73,7 @@ describe('CreateNewStudentContainer', () => {
     it(`should be enabled when all fields are filled in`, () => {
       Object.values(component.form.controls)
         .forEach(control => control.setValue('xxx'));
+      component.form.controls['termsAndConditions'].setValue(true);
 
       fixture.detectChanges();
 
@@ -75,6 +83,7 @@ describe('CreateNewStudentContainer', () => {
     it(`should be disabled when saving`, () => {
       Object.values(component.form.controls)
         .forEach(control => control.setValue('xxx'));
+      component.form.controls['termsAndConditions'].setValue(true);
       isDisabledReplay.next(true);
 
       fixture.detectChanges();

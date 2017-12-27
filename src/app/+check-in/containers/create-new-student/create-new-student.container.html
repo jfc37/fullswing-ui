@@ -38,6 +38,7 @@
   <div>
     <mat-form-field data-test-id="password-group">
       <input matInput
+        type="password"
         data-test-id="password"
         placeholder="Password"
         formControlName="password"
@@ -46,6 +47,41 @@
         Required field
       </mat-error>
     </mat-form-field>
+  </div>
+  <div>
+    <mat-form-field data-test-id="confirm-password-group">
+      <input matInput
+        type="password"
+        data-test-id="confirm-password"
+        placeholder="Confirm password"
+        formControlName="confirmPassword"
+        name="confirmPassword">
+      <mat-error *ngIf="form.get('confirmPassword').hasError('required')">
+        Required field
+      </mat-error>
+      <mat-error *ngIf="form.get('confirmPassword').hasError('matchOther')">
+        Password doesn't match
+      </mat-error>
+    </mat-form-field>
+  </div>
+  <p>
+    Before you can use this website, please read and agree to the following terms and conditions:
+  </p>
+  <p>
+    Full Swing may email you for reasons such as (but not limited to):
+  </p>
+  <ul>
+    <li>Confirming registration in classes/events</li>
+    <li>Alerting you of changes or cancellation of classes/events you are registered for</li>
+    <li>Promotion of upcoming classes/events</li>
+  </ul>
+
+  <div>
+    <mat-checkbox formControlName="termsAndConditions"
+      name="termsAndConditions">I agree to the terms and conditions</mat-checkbox>
+    <mat-error *ngIf="form.get('termsAndConditions').hasError('isTrue')">
+      Required field
+    </mat-error>
   </div>
 
   <button data-test-id="create-student-button"

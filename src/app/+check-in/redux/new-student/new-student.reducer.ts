@@ -6,11 +6,13 @@ import { Actions, RESET, SET_STUDENT, CREATE_STUDENT_REQUEST, CREATE_STUDENT_SUC
 function getInitialState(): NewStudentState {
   return {
     ...getInitialSavableState(),
+    createdId: null,
     student: {
       firstName: null,
       surname: null,
       email: null,
       password: null,
+      agreesToTerms: false,
     }
   };
 }
@@ -31,7 +33,10 @@ export function newStudentReducer(state = getInitialState(), action: Actions): N
       return getSavingState(state);
 
     case CREATE_STUDENT_SUCCESS:
-      return getSaveSuccessState(state);
+      return {
+        ...getSaveSuccessState(state),
+        createdId: action.id
+      };
 
     case CREATE_STUDENT_FAILURE:
       return getSaveFailureState(state, action.error);

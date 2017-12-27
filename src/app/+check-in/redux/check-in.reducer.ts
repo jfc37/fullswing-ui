@@ -20,7 +20,7 @@ import { studentSearchReducer } from './student-search/student-search.reducer';
 import { AddStudentModel } from '../components/add-student/add-student.component.model';
 import { studentEnrolReducer } from './student-enrol/student-enrol.reducer';
 import { newStudentReducer } from './new-student/new-student.reducer';
-import { getIsSaving } from '../../shared/redux/savable/savable.selectors';
+import { getHasSaved, getIsSaving } from '../../shared/redux/savable/savable.selectors';
 
 export const checkInReducer = {
   classes: classesReducer,
@@ -212,5 +212,10 @@ export const getNewStudentDetailsSelector = createSelector(
 export const getIsCreatingStudentSelector = createSelector(
   getNewStudentState,
   getIsSaving
+);
+
+export const getCreatedStudentIdSelector = createSelector(
+  getNewStudentState,
+  state => !!state && state.createdId
 );
 
