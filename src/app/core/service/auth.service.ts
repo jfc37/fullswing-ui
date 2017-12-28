@@ -11,9 +11,7 @@ export class AuthService {
   ) {}
 
   public isAuthenticated(): Observable<boolean> {
-    return this._store.select(getAreUserClaimsLoadedSelector)
-      .filter(Boolean)
-      .switchMap(() => this._store.select(getIsUserAuthenticated))
+    return this._store.select(getIsUserAuthenticated)
       .first();
   }
 }
