@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { ReplaySubject } from 'rxjs';
 import { TeacherGuard } from './teacher.guard';
 import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs/Observable';
 
 
 describe('TeacherGuard', () => {
@@ -35,7 +36,7 @@ describe('TeacherGuard', () => {
     beforeEach(() => {
       isTeacherReplay = new ReplaySubject();
       store.select = jasmine.createSpy('select')
-        .and.returnValue(isTeacherReplay);
+        .and.returnValues(Observable.of(true), isTeacherReplay);
 
       router.navigateByUrl = jasmine.createSpy('navigate');
     });
