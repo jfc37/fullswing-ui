@@ -6,7 +6,8 @@ import { Observable } from 'rxjs/Observable';
 
 import * as stateActions from './student-enrol.actions';
 import { CheckInState } from '../check-in.state';
-import { getStudentEnrolState } from '../check-in.reducer';
+import { getStudentEnrolState, getCheckInClassId } from '../check-in.reducer';
+import { AddStudentToRegister } from '../classes/classes.actions';
 
 @Injectable()
 export class StudentEnrolEffects {
@@ -16,9 +17,11 @@ export class StudentEnrolEffects {
     .ofType<stateActions.StudentEnrolRequest>(stateActions.STUDENT_ENROL_REQUEST)
     .withLatestFrom(this.store.select(getStudentEnrolState))
     .map(([action, state]) => state)
-    .switchMap(state => this.checkInRepository.enrolInBlock(state.blockId, state.studentId)
+    .withLatestFrom(this.store.select(getCheckInClassId))
+    .switchMap(([state, classId]) => this.checkInRepository.enrolInBlock(state.blockId, state.studentId)
       .mergeMap(() => [
         new stateActions.StudentEnrolSuccess(),
+        new AddStudentToRegister(classId, state.studentId)
       ])
       .catch(() => Observable.of(new stateActions.StudentEnrolFailure(`Failed enrolling student`)))
     );

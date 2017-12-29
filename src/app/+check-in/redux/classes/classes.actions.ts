@@ -11,6 +11,9 @@ export const LOAD_CLASS_FAILURE = '[Check In Class] Load Failure';
 export const ADD_STUDENT_TO_ATTENDANCE = '[Check In Class] Add Student To Attendance';
 export const REMOVE_STUDENT_FROM_ATTENDANCE = '[Check In Class] Remove Student From Attendance';
 
+
+export const ADD_STUDENT_TO_REGISTER = '[Check In Class] Add Student To Register';
+
 export class ResetClass implements Action {
   public readonly type = RESET_CLASSES;
 }
@@ -46,6 +49,12 @@ export class RemoveStudentFromAttendance implements Action {
 }
 
 
+export class AddStudentToRegister implements Action {
+  public readonly type = ADD_STUDENT_TO_REGISTER;
+
+  constructor(public classId: number, public studentId: number) { }
+}
+
 export type Actions
   = ResetClass
 
@@ -54,4 +63,6 @@ export type Actions
   | LoadClassFailure
 
   | AddStudentToAttendance
-  | RemoveStudentFromAttendance;
+  | RemoveStudentFromAttendance
+
+  | AddStudentToRegister;

@@ -24,7 +24,7 @@
 
       <mat-row *matRowDef="let row; columns: displayedColumns;"
         data-test-id="row"
-        [attr.data-block-name]="row.name"></mat-row>
+        [attr.data-student-name]="row.name"></mat-row>
     </mat-table>
     <ng-template #noStudents>
       <p data-test-id="no-registered-students">No one is registered</p>

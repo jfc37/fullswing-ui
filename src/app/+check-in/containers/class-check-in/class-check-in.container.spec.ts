@@ -65,7 +65,7 @@ describe('ClassCheckInContainer', () => {
 
     beforeEach(() => {
       store.select = jasmine.createSpy()
-        .and.returnValue(Observable.of(true));
+        .and.returnValues(Observable.of(studentId), Observable.of(true), Observable.of(true));
       component.checkIn(studentId);
     });
 
@@ -80,7 +80,7 @@ describe('ClassCheckInContainer', () => {
     describe(`when student has valid pass`, () => {
       beforeEach(() => {
         store.select = jasmine.createSpy()
-          .and.returnValue(Observable.of(true));
+          .and.returnValues(Observable.of(studentId), Observable.of(true), Observable.of(true));
         component.checkIn(studentId);
       });
 

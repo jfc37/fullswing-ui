@@ -9,6 +9,7 @@ import {
   getCheckInClassId,
   getSelectedClassBlockIdSelector,
   getHasEnrolledStudentSelector,
+  getCheckInStudentId,
 } from '../../redux/check-in.reducer';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ReplaySubject } from 'rxjs';
@@ -58,10 +59,12 @@ export class ClassCheckInContainer implements OnInit, OnDestroy {
   }
 
   public checkIn(id: number): void {
-    this._store.dispatch(new InitialisePassesForStudent(id));
     this._store.dispatch(new SetStudentForCheckIn(id));
+    this._store.dispatch(new InitialisePassesForStudent(id));
 
-    this._store.select(getPassesForStudentSelector)
+    this._store.select(getCheckInStudentId)
+      .filter(studentId => studentId === id)
+      .switchMapTo(this._store.select(getPassesForStudentSelector))
       .filter(Boolean)
       .switchMapTo(this._store.select(getHasStudentGotValidPassSelector))
       .first()

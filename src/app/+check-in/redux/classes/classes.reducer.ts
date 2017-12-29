@@ -12,6 +12,7 @@ import {
   LOAD_CLASS_REQUEST,
   LOAD_CLASS_SUCCESS,
   REMOVE_STUDENT_FROM_ATTENDANCE,
+  ADD_STUDENT_TO_REGISTER,
 } from './classes.actions';
 
 function getInitialState(): ClassesState {
@@ -57,6 +58,22 @@ export function classesReducer(state = getInitialState(), action: Actions): Clas
       const updatedClass = {
         ...currentClass,
         actualStudentIds: currentClass.actualStudentIds.filter(id => id !== action.studentId)
+      };
+      return Object.assign(
+        {},
+        { ...state },
+        { classes: { ...state.classes, [action.classId]: updatedClass } }
+      );
+    }
+
+    case ADD_STUDENT_TO_REGISTER: {
+      const currentClass = state.classes[action.classId];
+      const updatedClass = {
+        ...currentClass,
+        registeredStudentIds: [
+          ...currentClass.registeredStudentIds,
+          action.studentId,
+        ]
       };
       return Object.assign(
         {},

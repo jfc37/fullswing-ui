@@ -8,7 +8,6 @@ export class ClassListPage extends AppShell {
   protected pageIdentifer = 'block-classes-container';
 
     public clickFirstCheckInButton() {
-      browser.sleep(10000);
       browser.wait(element(by.css(CLASS_CHECK_IN_BUTTON)).isPresent(), null, `Class check in didn't appear`);
 
       return element(by.css(CLASS_CHECK_IN_BUTTON)).click();
