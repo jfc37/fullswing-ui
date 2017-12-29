@@ -17,6 +17,7 @@ export class ClassCheckInPage extends AppShell {
 
   public addStudentToClass(name: string) {
     this.selectStudent(name);
+    waitForElementToAppear(ADD_TO_CLASS_BUTTON, `Add to class button never appeared`);
     return clickOnElement(ADD_TO_CLASS_BUTTON);
   }
 

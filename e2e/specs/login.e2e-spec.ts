@@ -4,7 +4,7 @@ import { DashboardPage } from '../poms/dashboard.po';
 import { browser } from 'protractor';
 import { teardown } from '../common/common';
 
-describe('Login', () => {
+fdescribe('Login', () => {
   let dashboardPage: DashboardPage;
   let loginPage: LoginPage;
 
