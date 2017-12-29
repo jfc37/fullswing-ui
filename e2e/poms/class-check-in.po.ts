@@ -56,6 +56,7 @@ export class ClassCheckInPage extends AppShell {
 
   private selectStudent(name: string) {
     this.enterValue(STUDENT_SEARCH_INPUT, name);
+    waitForElementToAppear('mat-option', 'Student selection option never appeared');
     return clickOnElement('mat-option');
   }
 
