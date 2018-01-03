@@ -1,0 +1,14 @@
+<div data-test-id="purchase-pass-container">
+  <h1 class="mat-display-1">Purchase pass</h1>
+
+  <fs-purchase-pass-preamble [model]="preambleModel$ | async"></fs-purchase-pass-preamble>
+
+  <fs-pass-selection [model]="passSelectionModel$ | async"
+    (passOptionChanged)="passOptionChanged($event)"></fs-pass-selection>
+
+  <button data-test-id="purchase-button"
+    mat-raised-button
+    color="primary"
+    [disabled]="disablePurchaseButton$ | async"
+    (click)="purchase()">Purchase</button>
+</div>

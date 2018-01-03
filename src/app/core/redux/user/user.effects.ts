@@ -8,6 +8,7 @@ import { LocalStorageService } from '../../service/local-storage.service';
 import * as user from './user.actions';
 import { Router } from '@angular/router';
 import { ROUTER_NAVIGATION } from '@ngrx/router-store';
+import { authorisationChecks } from './user.selectors';
 
 @Injectable()
 export class UserEffects {
@@ -23,7 +24,11 @@ export class UserEffects {
       accessToken: this.localStorageService.getAccessToken(),
       idToken: this.localStorageService.getIdToken(),
     }))
-    .map(({ accessToken, idToken }) => new user.SetAuthorisation(idToken, accessToken));
+    .map(({ accessToken, idToken }) =>
+      authorisationChecks.tokenNotExpired(accessToken, idToken)
+        ? new user.SetAuthorisation(idToken, accessToken)
+        : new user.Logout()
+    );
 
   @Effect()
   public initialiseProfile$: Observable<Action> = this.actions$

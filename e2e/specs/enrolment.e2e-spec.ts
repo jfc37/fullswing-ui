@@ -11,8 +11,6 @@ describe(`Enrolment`, () => {
   const blockName = `BLOCK ENROLMENT E2E TEST`;
 
   beforeEach(() => {
-    const createBlockPage = new CreateBlockPage();
-    createBlockPage.navigateTo();
     new LoginPage().login();
   });
 
@@ -26,7 +24,6 @@ describe(`Enrolment`, () => {
   function createBlock() {
     const createBlockPage = new CreateBlockPage();
     createBlockPage.navigateTo();
-    browser.wait(createBlockPage.isOnPage(), null, `Did not navigate to create block page`);
     createBlockPage.createFromScratch(blockName);
   }
 

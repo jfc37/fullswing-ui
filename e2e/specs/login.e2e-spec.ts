@@ -11,8 +11,6 @@ describe('Login', () => {
   beforeEach(() => {
     dashboardPage = new DashboardPage();
     loginPage = new LoginPage();
-
-    dashboardPage.navigateTo();
   });
 
   afterEach(teardown);

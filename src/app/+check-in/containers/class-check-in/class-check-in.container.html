@@ -1,0 +1,18 @@
+<div data-test-id="class-check-in-container">
+  <h1 class="mat-display-1">{{name$ | async}}</h1>
+
+  <fs-add-student data-test-id="add-student"
+    [model]="addStudentModel$ | async"
+    (searchChanged)="searchChanged($event)"
+    (addToClass)="checkIn($event)"
+    (enrolInClass)="enrolStudent($event)"
+    (newStudent)="newStudent()"></fs-add-student>
+
+  <fs-registered-students data-test-id="registered-students"
+    [model]="registeredStudentsModel$ | async"
+    (checkInStudent)="checkIn($event)"></fs-registered-students>
+
+  <fs-attending-students data-test-id="attending-students"
+    [model]="attendingStudentsModel$ | async"
+    (removeStudent)="remove($event)"></fs-attending-students>
+</div>

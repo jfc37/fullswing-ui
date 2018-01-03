@@ -1,4 +1,4 @@
-import { getIsTeacherSelector } from '../../reducers';
+import { getIsTeacherSelector, getAreUserClaimsLoadedSelector } from '../../reducers';
 import { Injectable } from '@angular/core';
 import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, Router } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
@@ -14,7 +14,9 @@ export class TeacherGuard implements CanActivate {
   ) { }
 
   public canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
-    return this._store.select(getIsTeacherSelector)
+    return this._store.select(getAreUserClaimsLoadedSelector)
+    .filter(Boolean)
+    .switchMap(() => this._store.select(getIsTeacherSelector))
       .first()
       .do(isTeacher => {
         if (!isTeacher) {

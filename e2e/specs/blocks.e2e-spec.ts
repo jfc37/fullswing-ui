@@ -15,7 +15,6 @@ describe('Blocks', () => {
     createBlockPage = new CreateBlockPage();
     updateBlockPage = new UpdateBlockPage();
 
-    blockListPage.navigateTo();
     new LoginPage().login();
 
   });
@@ -24,7 +23,6 @@ describe('Blocks', () => {
 
   function create(name: string) {
     blockListPage.navigateTo();
-    browser.wait(blockListPage.isOnPage(), null, `Did not navigate to block list page`);
     blockListPage.clickCreateButton();
     expect(createBlockPage.isOnPage()).toBe(true, `Clicking the create button didn't move to the create page`);
 

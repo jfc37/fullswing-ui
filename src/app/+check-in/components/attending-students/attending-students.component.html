@@ -1,0 +1,34 @@
+<mat-card *ngIf="model">
+  <mat-card-title data-test-id="title">Attending students</mat-card-title>
+  <mat-card-content>
+    <mat-table *ngIf="hasStudents(); else noStudents"
+      data-test-id="attending-students-table"
+      #table
+      [dataSource]="dataSource">
+      <ng-container matColumnDef="remove">
+        <mat-header-cell *matHeaderCellDef></mat-header-cell>
+        <mat-cell *matCellDef="let student;">
+          <mat-checkbox data-test-id="remove"
+            checked="true"
+            (click)="remove(student.id)"></mat-checkbox>
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="name">
+        <mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
+        <mat-cell *matCellDef="let student;">
+          <span data-test-id="name">{{student.name}}</span>
+        </mat-cell>
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+
+      <mat-row *matRowDef="let row; columns: displayedColumns;"
+        data-test-id="row"
+        [attr.data-student-name]="row.name"></mat-row>
+    </mat-table>
+    <ng-template #noStudents>
+      <p data-test-id="no-attending-students">No one is attending</p>
+    </ng-template>
+  </mat-card-content>
+</mat-card>

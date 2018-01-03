@@ -37,6 +37,7 @@ export const getClassSummariesModel = (blockClassesState: BlockClassesState, cla
       name: c.name,
       attendenceNumber: c.actualStudentIds.length,
       date: moment(c.startTime).format('Do MMMM'),
+      checkInRoute: `/check-in/class/${c.id}`
     } as ClassSummaryModel));
 
   return {

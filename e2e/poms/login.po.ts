@@ -18,6 +18,8 @@ export class LoginPage extends AppShell {
   }
 
   public login() {
+    this.navigateTo();
+
     browser.ignoreSynchronization = true;
     this.waitForWidgetToAppear();
     this.enterValue(EMAIL_SELECTOR, 'placid.joe@gmail.com');

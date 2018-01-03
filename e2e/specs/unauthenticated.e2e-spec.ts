@@ -14,7 +14,7 @@ describe(`Unauthenticated users`, () => {
 
   [dashboardPage, blocksPage].forEach(page => {
     it(`unauthenticated user browsing to ${page.route} should redirects to login screen`, () => {
-      page.navigateTo();
+      page.attemptToNavigateTo();
       expect(loginPage.isOnPage()).toBe(true, `didn't end up on login screen`);
     });
   });
