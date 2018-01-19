@@ -42,9 +42,7 @@ before_script:
   - npm install -g @angular/cli
 
 script:
-  - npm run e2e
-  - npm run check-all
-  - ng build --prod
+  - ng build
 
 after_success:
   - firebase deploy --token $FIREBASE_TOKEN
